@@ -1,0 +1,26 @@
+div.dokuwiki div.include {
+  font-size: 95%;
+  padding: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 0.2em;
+  border: 1px dotted __border__;
+}
+
+div.dokuwiki div.include div.secedit {
+  height: 16px;
+}
+
+div.dokuwiki div.inclmeta {
+  color: __text_neu__;
+  font-size: 80%;
+  line-height: 1.25;
+  margin-bottom: 2em;
+}
+
+div.dokuwiki div.inclmeta div.tags {
+  padding-top: 0;
+  border-top: 0;
+  font-size: 100%;
+  float: right;
+  clear: none;
+}
