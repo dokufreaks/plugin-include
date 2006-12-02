@@ -88,10 +88,11 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
       preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
       $n = count($matches)-1;
       if ($n > -1) $clevel = $matches[$n][1];
-      $include->clevel = $clevel
+      $include->clevel = $clevel;
       
       // close current section
-      if ($clevel && ($type == 'section')) $renderer->doc .= '</div>';
+      if ($clevel && ($type == 'section'))
+        $renderer->doc .= '</div>';
       
       // include the page now
       $renderer->doc .= $include->_include($renderer);
