@@ -21,18 +21,20 @@ class plugin_class_include extends DokuWiki_Plugin {
    * Plugin needs to tell its name. Important for settings and localized strings!
    */
   function getPluginName(){
-    $path = realpath(dirname(__FILE__).'/../');
-    return substr(strrchr($path, '/'), 1);
+    // $path = realpath(dirname(__FILE__).'/../');
+    // echo substr(strrchr($path, '/'), 1);
+    
+    return 'include';
   }
   
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-11-24',
+      'date'   => '2006-12-04',
       'name'   => 'Include Class',
       'desc'   => 'Functions to include another page in a wiki page',
-      'url'    => 'http://www.wikidesign/en/plugin/blog/start',
+      'url'    => 'http://www.wikidesign/en/plugin/include/start',
     );
   }
   
@@ -295,6 +297,12 @@ class plugin_class_include extends DokuWiki_Plugin {
       $ret[] = $renderer->internallink($this->page['id'], $title, '', true);
     }
     
+    // date
+    if ($this->getConf('showdate')){
+      $date  = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
+      $ret[] = date($conf['dformat'], $date);
+    }
+    
     // author
     if ($this->getConf('showuser')){
       $author   = ($this->page['user'] ? $this->page['user'] : $meta['creator']);
@@ -302,12 +310,6 @@ class plugin_class_include extends DokuWiki_Plugin {
         $userpage = cleanID($this->getConf('user_namespace').':'.$author);
         $ret[]    = $renderer->internallink($userpage, $author, '', true);
       }
-    }
-    
-    // date
-    if ($this->getConf('showdate')){
-      $date  = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
-      $ret[] = date($conf['dformat'], $date);
     }
            
     // comments
@@ -324,8 +326,10 @@ class plugin_class_include extends DokuWiki_Plugin {
       }
     }
     
+    // tags
     $ret = $this->page['tags'].implode(' &middot; ', $ret);
     if (!$ret) $ret = '&nbsp;';
+    
     return '<div class="inclmeta">'.$ret.'</div>';
   }
   
