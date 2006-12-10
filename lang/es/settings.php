@@ -7,10 +7,10 @@
  */
  
 // para el gestor de configuraciones (configuration manager)
-$lang['firstseconly']     = 'mostrar solamente la primera sección de las entradas al blog';
-$lang['showlink']         = 'mostrar los enlaces a continuación de las entradas al blog';
-$lang['showdate']         = 'mostrar la fecha a continuación de las entradas al blog';
-$lang['showuser']         = 'mostrar los nombres de usuarios a continuación de las entradas al blog';
-$lang['user_namespace']   = 'namespace para las páginas de usuario';
+$lang['firstseconly']  = 'mostrar solamente la primera sección de las entradas al blog';
+$lang['showlink']      = 'mostrar los enlaces a continuación de las entradas al blog';
+$lang['showdate']      = 'mostrar la fecha a continuación de las entradas al blog';
+$lang['showuser']      = 'mostrar los nombres de usuarios a continuación de las entradas al blog';
+$lang['usernamespace'] = 'namespace para las páginas de usuario';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

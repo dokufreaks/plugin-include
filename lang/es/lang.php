@@ -7,9 +7,6 @@
  */
 
 // frases personalizadas en español para el plugin
-$lang['discussion'] = 'discusión'; // ancho de la sección de discusión
-$lang['comment']    = 'Comentario';
-$lang['comments']   = 'Comentarios';
 $lang['readmore']   = 'Leer más...';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

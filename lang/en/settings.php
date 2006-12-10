@@ -7,11 +7,14 @@
  */
  
 // for the configuration manager
-$lang['firstseconly']       = 'show only the first section of included pages';
-$lang['showtaglogos']       = 'show image for first tag';
-$lang['showlink']           = 'show permalinks below included page';
-$lang['showdate']           = 'show dates below included page';
-$lang['showuser']           = 'show usernames below included page';
-$lang['user_namespace']     = 'namespace for user pages';
+$lang['firstseconly']  = 'show only the first section of included pages';
+$lang['showtaglogos']  = 'show image for first tag';
+$lang['showmetaline']  = 'show info about included page below';
+$lang['showlink']      = 'show permalinks below included page';
+$lang['showdate']      = 'show dates below included page';
+$lang['showuser']      = 'show usernames below included page';
+$lang['showcomments']  = 'show comments below included page';
+$lang['showtags']      = 'show tags below included page';
+$lang['usernamespace'] = 'namespace for user pages';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

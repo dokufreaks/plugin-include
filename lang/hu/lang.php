@@ -7,7 +7,6 @@
  */
 
 // custom language strings for the plugin
-$lang['comments'] = 'hozzászólások';
 $lang['readmore'] = 'tovább...';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

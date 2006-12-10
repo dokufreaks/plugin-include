@@ -7,10 +7,10 @@
  */
  
 // for the configuration manager
-$lang['firstseconly']     = 'Mostra nel blog solo la prima sezione degli articoli';
-$lang['showlink']         = 'Mostra un link all\'articolo sotto le voci del blog';
-$lang['showdate']         = 'Mostra la data sotto le voci del blog';
-$lang['showuser']         = 'Mostra il nome dell\'autore sotto le voci del blog';
-$lang['user_namespace']   = 'Namespace per le pagine degli utenti';
+$lang['firstseconly']  = 'Mostra nel blog solo la prima sezione degli articoli';
+$lang['showlink']      = 'Mostra un link all\'articolo sotto le voci del blog';
+$lang['showdate']      = 'Mostra la data sotto le voci del blog';
+$lang['showuser']      = 'Mostra il nome dell\'autore sotto le voci del blog';
+$lang['usernamespace'] = 'Namespace per le pagine degli utenti';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

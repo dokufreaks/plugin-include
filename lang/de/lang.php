@@ -7,9 +7,6 @@
  */
 
 // custom language strings for the plugin
-$lang['discussion'] = 'diskussion'; // Anker für Diskussionsteil
-$lang['comment']    = 'Kommentar';
-$lang['comments']   = 'Kommentare';
 $lang['readmore']   = '→ Weiter lesen...';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

@@ -30,7 +30,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2006-12-01', 
+      'date'   => '2006-12-08', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -66,20 +66,24 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     $id = $this->_applyMacro($id); 
     resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
     
-    // load the include class
-    require_once(DOKU_PLUGIN.'include/inc/include.php');
-    $include = new plugin_class_include;
+    // check permission
+    $perm = auth_quickaclcheck($id);
+    if ($perm < AUTH_READ) return false;
     
-    $include->type = $type;
-    $include->page = array('id' => $id, 'section' => $section, 'exists' => $exists);
-    if ($include->_inFilechain()) return false; // prevent recursion
+    // load the include class
+    $include =& plugin_load('helper', 'include');
+    
+    $include->setMode($type);
+    $ok = $include->setPage(array(
+      'id'      => $id,
+      'section' => $section,
+      'perm'    => $perm,
+      'exists'  => $exists,
+    ));
+    if (!$ok) return false; // prevent recursion
     
     if ($mode == 'xhtml'){
- 
-      // check for permission 
-      $include->page['perm'] = auth_quickaclcheck($id); 
-      if ($include->page['perm'] < AUTH_READ) return true; 
-         
+          
       // prevent caching to ensure the included page is always fresh 
       $renderer->info['cache'] = FALSE; 
     
@@ -88,20 +92,20 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
       preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
       $n = count($matches)-1;
       if ($n > -1) $clevel = $matches[$n][1];
-      $include->clevel = $clevel;
+      $include->setLevel($clevel);
       
       // close current section
       if ($clevel && ($type == 'section'))
         $renderer->doc .= '</div>';
       
       // include the page now
-      $renderer->doc .= $include->_include($renderer);
+      $renderer->doc .= $include->getXHTML($renderer);
       
       // resume current section
       if ($clevel && ($type == 'section'))
         $renderer->doc .= '<div class="level'.$clevel.'">';
       
-      return $ok;
+      return true;
        
     // for metadata renderer
     } elseif ($mode == 'metadata'){
