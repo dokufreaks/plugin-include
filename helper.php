@@ -25,7 +25,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-09',
+      'date'   => '2006-12-15',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -344,8 +344,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     // date
     if ($this->getConf('showdate')){
-      $date  = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
-      $ret[] = date($conf['dformat'], $date);
+      $date = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
+      if ($date) $ret[] = date($conf['dformat'], $date);
     }
     
     // author
@@ -359,8 +359,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
            
     // comments - let Discussion Plugin do the work for us
     if (!$this->page['section'] && $this->getConf('showcomments')
-      && ($discussion = plugin_load('helper', 'discussion'))){
-      $ret[] = $discussion->td($id);
+      && (!plugin_isdisabled('discussion'))
+      && ($discussion =& plugin_load('helper', 'discussion'))){
+      $disc = $discussion->td($id);
+      if ($disc) $ret[] = $disc;
     }
     
     $ret = implode(' &middot; ', $ret);
