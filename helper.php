@@ -112,12 +112,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     // get instructions and render them on the fly
     $this->page['file'] = wikiFN($this->page['id']);
     $this->ins = p_cached_instructions($this->page['file']);
-    
-    if (empty($this->ins)){
-      array_pop($this->pages); // remove from filechain again
-      return '';
-    }
-    
+        
     // show only a given section?
     if ($this->page['section']) $this->_getSection();
           
