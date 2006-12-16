@@ -30,7 +30,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2006-12-08', 
+      'date'   => '2006-12-16', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -99,7 +99,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
         $renderer->doc .= '</div>';
       
       // include the page now
-      $renderer->doc .= $include->getXHTML($renderer);
+      $include->renderXHTML($renderer);
       
       // resume current section
       if ($clevel && ($type == 'section'))
@@ -110,6 +110,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     // for metadata renderer
     } elseif ($mode == 'metadata'){
       $renderer->meta['relation']['haspart'][$id] = $exists;
+      $include->pages = array(); // clear filechain - important!
 
       return true;
     }

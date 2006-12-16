@@ -13,6 +13,7 @@ if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
+  var $pages     = array();   // filechain of included pages
   var $page      = array();   // associative array with data about the page to include
   var $ins       = array();   // instructions array
   var $doc       = '';        // the final output XHTML string
@@ -25,7 +26,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-15',
+      'date'   => '2006-12-16',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -52,10 +53,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       'return' => array('success' => 'boolean'),
     );
     $result[] = array(
-      'name'   => 'getXHTML',
-      'desc'   => 'generates the XHTML output',
+      'name'   => 'renderXHTML',
+      'desc'   => 'renders the XHTML output of the included page',
       'params' => array('DokuWiki renderer' => 'object'),
-      'return' => array('xhtml' => 'string'),
+      'return' => array('XHTML' => 'string'),
     );
     return $result;
   }
@@ -65,21 +66,20 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function setPage($page){
     global $ID;
-    global $filechain;
-    if (!isset($filechain)) $filechain = array();
-
-    if ($this->page['id'] == $ID) return true; // page can't include itself
     
-    $id = preg_quote($this->page['id'], '/');
-    $section = preg_quote($this->page['section'], '/');
+    $id     = $page['id'];
+    $fullid = $id.'#'.$page['section'];
     
-    $pattern = ($section ? "/^($id#$section|$id#)$/" : "/^$id#/");
-    $match = preg_grep($pattern, $filechain);
-    if (empty($match)){
-      $this->page = $page;
-      return true;
-    }
-    return false;
+    if (!$id) return false;       // no page id given
+    if ($id == $ID) return false; // page can't include itself
+    
+    // prevent include recursion
+    if ((isset($this->pages[$id.'#'])) || (isset($this->pages[$fullid]))) return false;
+    
+    // add the page to the filechain
+    $this->pages[$fullid] = $page;
+    $this->page =& $this->pages[$fullid];
+    return true;
   }
   
   /**
@@ -103,51 +103,46 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /**
    * Builds the XHTML to embed the page to include
    */
-  function getXHTML(&$renderer){ 
-    global $filechain;
-    if (!isset($filechain)) $filechain = array();
+  function renderXHTML(&$renderer){
+    if (!$this->page['id']) return ''; // page must be set first
     
-    $this->doc = '';
-    if (!$this->page['id']) return $this->doc; // page must be set first
-    
-    // add the page to the filechain
-    array_push($filechain, $his->page['id'].'#'.$this->page['section']);
-    
+    $this->doc      = '';
     $this->firstsec = $this->getConf('firstseconly');
      
     // get instructions and render them on the fly
     $this->page['file'] = wikiFN($this->page['id']);
     $this->ins = p_cached_instructions($this->page['file']);
     
-    if (!empty($this->ins)){
-    
-      // show only a given section?
-      if ($this->page['section']) $this->_getSection();
-            
-      // convert relative links
-      $this->_convertInstructions($renderer);
-      
-      // insert a read more link if only first section is shown
-      if ($this->firstsec) $this->_readMore();
-      
-      // render the included page
-      $content = $this->_cleanXHTML(p_render('xhtml', $this->ins, $info));
-      
-      // embed the included page
-      $this->doc .= '<div class="include"'.$this->_showTagLogos().'>'.DOKU_LF;
-      if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
-        $this->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
-      $this->doc .= $content.DOKU_LF.$this->_editButton();
-      if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
-        $this->doc .= '</div>'.DOKU_LF;
-      $this->doc .= '</div>'.DOKU_LF;
-      $this->doc .= $this->_metaLine($renderer);
+    if (empty($this->ins)){
+      array_pop($this->pages); // remove from filechain again
+      return '';
     }
     
-    // remove the page from the filechain again
-    array_pop($filechain);
+    // show only a given section?
+    if ($this->page['section']) $this->_getSection();
+          
+    // convert relative links
+    $this->_convertInstructions($renderer);
     
-    return $this->doc;
+    // insert a read more link if only first section is shown
+    if ($this->firstsec) $this->_readMore();
+    
+    // render the included page
+    $content = $this->_cleanXHTML(p_render('xhtml', $this->ins, $info));
+    
+    // embed the included page
+    $renderer->doc .= '<div class="include"'.$this->_showTagLogos().'>'.DOKU_LF;
+    if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
+      $renderer->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
+    $renderer->doc .= $content.DOKU_LF.$this->_editButton();
+    if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
+      $renderer->doc .= '</div>'.DOKU_LF;
+    $renderer->doc .= '</div>'.DOKU_LF;
+    
+    // output meta line (if wanted) and remove page from filechain
+    $renderer->doc .= $this->_metaLine(array_pop($this->pages), $renderer);
+    
+    return $this->doc;    
   }
   
 /* ---------- Private Methods ---------- */
@@ -325,32 +320,32 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /**
    * Returns the meta line below the included page
    */
-  function _metaLine(&$renderer){
+  function _metaLine($page, &$renderer){
     global $conf;
     
     if (!$this->getConf('showmetaline'))
       return '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
     
-    $id   = $this->page['id'];
+    $id   = $page['id'];
     $meta = p_get_metadata($id);
     $ret  = array();
         
     // permalink
     if ($this->getConf('showlink')){
-      $title = ($this->page['title'] ? $this->page['title'] : $meta['title']);
+      $title = ($page['title'] ? $page['title'] : $meta['title']);
       if (!$title) $title = str_replace('_', ' ', noNS($id));
       $ret[] = $renderer->internallink($id, $title, '', true);
     }
     
     // date
     if ($this->getConf('showdate')){
-      $date = ($this->page['date'] ? $this->page['date'] : $meta['date']['created']);
+      $date = ($page['date'] ? $page['date'] : $meta['date']['created']);
       if ($date) $ret[] = date($conf['dformat'], $date);
     }
     
     // author
     if ($this->getConf('showuser')){
-      $author   = ($this->page['user'] ? $this->page['user'] : $meta['creator']);
+      $author   = ($page['user'] ? $page['user'] : $meta['creator']);
       if ($author){
         $userpage = cleanID($this->getConf('usernamespace').':'.$author);
         $ret[]    = $renderer->internallink($userpage, $author, '', true);
@@ -358,7 +353,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
            
     // comments - let Discussion Plugin do the work for us
-    if (!$this->page['section'] && $this->getConf('showcomments')
+    if (!$page['section'] && $this->getConf('showcomments')
       && (!plugin_isdisabled('discussion'))
       && ($discussion =& plugin_load('helper', 'discussion'))){
       $disc = $discussion->td($id);
@@ -368,7 +363,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $ret = implode(' &middot; ', $ret);
     
     // tags
-    if (($this->getConf('showtags')) && ($this->page['tags'])){
+    if (($this->getConf('showtags')) && ($page['tags'])){
       $ret = $this->page['tags'].$ret;
     }
     
