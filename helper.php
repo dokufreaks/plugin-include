@@ -26,7 +26,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2006-12-16',
+      'date'   => '2006-12-18',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -129,7 +129,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $renderer->doc .= '<div class="include"'.$this->_showTagLogos().'>'.DOKU_LF;
     if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
-    $renderer->doc .= $content.DOKU_LF.$this->_editButton();
+    if ((@file_exists(DOKU_PLUGIN.'editsections/action.php')
+      && (!plugin_isdisabled('editsections')){ // for Edit Section Reorganizer Plugin
+      $renderer->doc .= $this->_editButton().$content.DOKU_LF; 
+    } else { 
+      $renderer->doc .= $content.DOKU_LF.$this->_editButton(); 
+    } 
     if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '</div>'.DOKU_LF;
     $renderer->doc .= '</div>'.DOKU_LF;
