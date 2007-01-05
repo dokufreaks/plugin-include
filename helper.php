@@ -20,7 +20,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $mode      = 'section'; // inclusion mode: 'page' or 'section'
   var $clevel    = 0;         // current section level
   var $firstsec  = 0;         // show first section only
-  var $hasheader = 0;         // included page has header
+  var $header    = array();   // included page / section header
+  var $renderer  = NULL;      // DokuWiki renderer object
   
   function getInfo(){
     return array(
@@ -108,6 +109,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     $this->doc      = '';
     $this->firstsec = $this->getConf('firstseconly');
+    $this->renderer =& $renderer;
      
     // get instructions and render them on the fly
     $this->page['file'] = wikiFN($this->page['id']);
@@ -117,30 +119,37 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($this->page['section']) $this->_getSection();
           
     // convert relative links
-    $this->_convertInstructions($renderer);
+    $this->_convertInstructions();
     
     // insert a read more link if only first section is shown
     if ($this->firstsec) $this->_readMore();
     
     // render the included page
-    $content = $this->_cleanXHTML(p_render('xhtml', $this->ins, $info));
+    if ($this->header) $content = '<h'.$this->header['level'].' class="entry-title">'.
+      '<a name="'.$this->header['hid'].'" id="'.$this->header['hid'].'">'.
+      $this->header['title'].'</a></h'.$this->header['level'].'>'.DOKU_LF;
+    else $content = '';
+    $content .= '<div class="entry-content">'.DOKU_LF.
+      $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
+      '</div>'.DOKU_LF;
     
     // embed the included page
-    $renderer->doc .= '<div class="include"'.$this->_showTagLogos().'>'.DOKU_LF;
-    if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
+    $renderer->doc .= '<div class="include hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
+    if (!$this->header && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
     if ((@file_exists(DOKU_PLUGIN.'editsections/action.php'))
       && (!plugin_isdisabled('editsections'))){ // for Edit Section Reorganizer Plugin
-      $renderer->doc .= $this->_editButton().$content.DOKU_LF; 
+      $renderer->doc .= $this->_editButton().$content; 
     } else { 
-      $renderer->doc .= $content.DOKU_LF.$this->_editButton(); 
+      $renderer->doc .= $content.$this->_editButton();
     } 
-    if (!$this->hasheader && $this->clevel && ($this->mode == 'section'))
+    if (!$this->header && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '</div>'.DOKU_LF;
     $renderer->doc .= '</div>'.DOKU_LF;
     
     // output meta line (if wanted) and remove page from filechain
-    $renderer->doc .= $this->_metaLine(array_pop($this->pages), $renderer);
+    $renderer->doc .= $this->_metaLine(array_pop($this->pages));
+    $this->header = array();
     
     return $this->doc;    
   }
@@ -180,7 +189,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Corrects relative internal links and media and 
    * converts headers of included pages to subheaders of the current page 
    */
-  function _convertInstructions(&$renderer){ 
+  function _convertInstructions(){ 
     global $ID; 
     global $conf; 
   
@@ -218,15 +227,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // add TOC items 
         if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
           $text = $this->ins[$i][1][0]; 
-          $hid  = $renderer->_headerToLink($text, 'true'); 
+          $hid  = $this->renderer->_headerToLink($text, 'true'); 
           $renderer->toc[] = array( 
             'hid'   => $hid, 
             'title' => $text, 
             'type'  => 'ul', 
             'level' => $level - $conf['toptoclevel'] + 1 
           );
-          
-          $this->hasheader = true;
+          if (empty($this->header)){
+            $this->header = array(
+              'hid'   => $hid,
+              'title' => hsc($text),
+              'level' => $level
+            );
+            unset($this->ins[$i]);
+          }
         } 
   
       // the same for sections 
@@ -320,7 +335,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /**
    * Returns the meta line below the included page
    */
-  function _metaLine($page, &$renderer){
+  function _metaLine($page){
     global $conf;
     
     if (!$this->getConf('showmetaline'))
@@ -334,13 +349,24 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($this->getConf('showlink')){
       $title = ($page['title'] ? $page['title'] : $meta['title']);
       if (!$title) $title = str_replace('_', ' ', noNS($id));
-      $ret[] = $renderer->internallink($id, $title, '', true);
+      $link = array(
+        'url'    => wl($id),
+        'title'  => $id,
+        'name'   => hsc($title),
+        'target' => $conf['target']['wiki'],
+        'class'  => 'wikilink1 permalink',
+        'more'   => 'rel="bookmark"',
+      );
+      $ret[] = $this->renderer->_formatLink($link);
     }
     
     // date
     if ($this->getConf('showdate')){
       $date = ($page['date'] ? $page['date'] : $meta['date']['created']);
-      if ($date) $ret[] = date($conf['dformat'], $date);
+      if ($date)
+        $ret[] = '<abbr class="published" title="'.gmdate('Y-m-d\TH:i:s\Z', $date).'">'.
+        date($conf['dformat'], $date).
+        '</abbr>';
     }
     
     // author
@@ -348,7 +374,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       $author   = ($page['user'] ? $page['user'] : $meta['creator']);
       if ($author){
         $userpage = cleanID($this->getConf('usernamespace').':'.$author);
-        $ret[]    = $renderer->internallink($userpage, $author, '', true);
+        resolve_pageid(getNS($ID), $id, $exists);
+        $class = ($exists ? 'wikilink1' : 'wikilink2');
+        $link = array(
+          'url'    => wl($userpage),
+          'title'  => $userpage,
+          'name'   => hsc($author),
+          'target' => $conf['target']['wiki'],
+          'class'  => $class.' url fn',
+          'pre'    => '<span class="vcard author">',
+          'suf'    => '</span>',
+        );
+        $ret[]    = $this->renderer->_formatLink($link);
       }
     }
            
@@ -357,7 +394,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       && (!plugin_isdisabled('discussion'))
       && ($discussion =& plugin_load('helper', 'discussion'))){
       $disc = $discussion->td($id);
-      if ($disc) $ret[] = $disc;
+      if ($disc) $ret[] = '<span class="comment">'.$disc.'</span>';
     }
     
     $ret = implode(' &middot; ', $ret);
@@ -370,7 +407,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if (!$ret) $ret = '&nbsp;';
     return '<div class="inclmeta">'.DOKU_LF.$ret.DOKU_LF.'</div>'.DOKU_LF;
   }
-  
+    
 }
   
 //Setup VIM: ex: et ts=4 enc=utf-8 :

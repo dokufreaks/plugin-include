@@ -1,8 +1,7 @@
 div.dokuwiki div.include {
-  padding: 0.5em;
   margin-top: 1em;
-  margin-bottom: 0.2em;
-  border: 1px dotted __border__;
+  padding-top: 1em;
+  padding-bottom: 0.5em;
 }
 
 div.dokuwiki div.include div.secedit {
@@ -10,16 +9,40 @@ div.dokuwiki div.include div.secedit {
 }
 
 div.dokuwiki div.inclmeta {
+  border-top: 1px dotted __border__;
+  padding-top: 0.2em;
   color: __text_neu__;
   font-size: 80%;
   line-height: 1.25;
   margin-bottom: 2em;
 }
 
+div.dokuwiki div.inclmeta a.permalink {
+  background: transparent url(images/link.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+}
+
+div.dokuwiki div.inclmeta abbr.published {
+  background: transparent url(images/date.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+  border-bottom: 0;
+}
+
+div.dokuwiki div.inclmeta span.author {
+  background: transparent url(images/user.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+}
+
+div.dokuwiki div.inclmeta span.comment {
+  background: transparent url(images/comment.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
+}
+
 div.dokuwiki div.inclmeta div.tags {
-  padding-top: 0;
   border-top: 0;
   font-size: 100%;
   float: right;
   clear: none;
+  background: transparent url(images/tag.gif) 0px 1px no-repeat;
+  padding: 1px 0px 1px 16px;
 }
