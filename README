@@ -1,0 +1,14 @@
+====== Include Plugin for DokuWiki ======
+
+All documentation for the Include Plugin is available online at:
+http://www.wikidesign.ch/en/plugin/include/start
+http://wiki.splitbrain.org/plugin:include
+
+This plugin requires DokuWiki 2006-11-06.
+
+There's a Google Groups mailing list to discuss all issues:
+http://groups-beta.google.com/group/include-plugin/
+
+(c) 2005 - 2007 by Esther Brunner <wikidesign@gmail.com> and Christopher 
+Smith <chris@jalakai.co.uk>
+See COPYING for license info.
