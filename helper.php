@@ -23,6 +23,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
+  /**
+   * Constructor loads config
+   */
+  function helper_plugin_include(){
+    $this->firstsec = $this->getConf('firstseconly');
+  }
+  
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
@@ -107,8 +114,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   function renderXHTML(&$renderer){
     if (!$this->page['id']) return ''; // page must be set first
     
+    // prepare variables
     $this->doc      = '';
-    $this->firstsec = $this->getConf('firstseconly');
     $this->renderer =& $renderer;
      
     // get instructions and render them on the fly
@@ -149,7 +156,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     // output meta line (if wanted) and remove page from filechain
     $renderer->doc .= $this->_metaLine(array_pop($this->pages));
-    $this->header = array();
     
     return $this->doc;    
   }
@@ -191,7 +197,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function _convertInstructions(){ 
     global $ID; 
-    global $conf; 
+    global $conf;
+    
+    $this->header = array();
   
     // check if included page is in same namespace 
     $inclNS = getNS($this->page['id']);
