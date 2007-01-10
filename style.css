@@ -1,9 +1,3 @@
-div.dokuwiki div.include {
-  margin-top: 1em;
-  padding-top: 1em;
-  padding-bottom: 0.5em;
-}
-
 div.dokuwiki div.include div.secedit {
   height: 16px;
 }
@@ -14,6 +8,7 @@ div.dokuwiki div.inclmeta {
   color: __text_neu__;
   font-size: 80%;
   line-height: 1.25;
+  margin-top: 0.5em;
   margin-bottom: 2em;
 }
 
