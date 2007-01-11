@@ -23,45 +23,40 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */ 
 class syntax_plugin_include extends DokuWiki_Syntax_Plugin { 
  
-  /** 
-   * return some info 
-   */ 
   function getInfo(){ 
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2006-12-16', 
+      'date'   => '2007-01-11', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
     ); 
   } 
- 
-  function getType(){ return 'substition'; } 
-  function getSort(){ return 303; } 
-  function getPType(){ return 'block'; } 
-  function connectTo($mode) {  
-    $this->Lexer->addSpecialPattern("{{page>.+?}}",$mode,'plugin_include');  
-    $this->Lexer->addSpecialPattern("{{section>.+?}}",$mode,'plugin_include'); 
+  
+  function getType(){ return 'substition'; }
+  function getSort(){ return 303; }
+  function getPType(){ return 'block'; }
+  
+  function connectTo($mode){  
+    $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include');  
+    $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include'); 
   } 
  
-  /** 
-   * Handle the match 
-   */ 
-  function handle($match, $state, $pos, &$handler){ 
+  function handle($match, $state, $pos, &$handler){
+  
+    $match = substr($match, 2, -2); // strip markup
+    list($match, $flags) = explode('&', $match, 2);
  
-      // break the pattern up into its constituent parts 
-      list($include, $id, $section) = preg_split('/>|#/u',substr($match,2,-2),3); 
-      return array($include, $id, cleanID($section)); 
+    // break the pattern up into its constituent parts 
+    list($include, $id, $section) = preg_split('/>|#/u', $match, 3); 
+    return array($include, $id, cleanID($section), explode('&', $flags)); 
   }     
  
-  /** 
-   * Create output 
-   */ 
-  function render($mode, &$renderer, $data) {
+  function render($mode, &$renderer, $data){
     global $ID;
  
-    list($type, $id, $section) = $data; 
+    list($type, $id, $section, $flags) = $data; 
  
     $id = $this->_applyMacro($id); 
     resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
@@ -74,6 +69,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     $include =& plugin_load('helper', 'include');
     
     $include->setMode($type);
+    $include->setFlags($flags);
     $ok = $include->setPage(array(
       'id'      => $id,
       'section' => $section,
@@ -90,7 +86,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
       // current section level
       $clevel = 0;
       preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
-      $n = count($matches)-1;
+      $n = count($matches) - 1;
       if ($n > -1) $clevel = $matches[$n][1];
       $include->setLevel($clevel);
       

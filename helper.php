@@ -20,21 +20,23 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $mode      = 'section'; // inclusion mode: 'page' or 'section'
   var $clevel    = 0;         // current section level
   var $firstsec  = 0;         // show first section only
+  var $metaline  = 1;         // show metaline below page
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
   /**
-   * Constructor loads config
+   * Constructor loads some config settings
    */
   function helper_plugin_include(){
     $this->firstsec = $this->getConf('firstseconly');
+    $this->metaline = $this->getConf('showmetaline');
   }
   
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-05',
+      'date'   => '2007-01-11',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -59,6 +61,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       'desc'   => 'sets the indention for the current section level',
       'params' => array('level: 0 to 5' => 'integer'),
       'return' => array('success' => 'boolean'),
+    );
+    $result[] = array(
+      'name'   => 'setFlags',
+      'desc'   => 'overrides standard values for showmetaline and firstseconly settings',
+      'params' => array('flags' => 'array'),
     );
     $result[] = array(
       'name'   => 'renderXHTML',
@@ -107,7 +114,29 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
     return false;
   }
-    
+  
+  /**
+   * Overrides standard values for showmetaline and firstseconly settings
+   */
+  function setFlags($flags){
+    foreach ($flags as $flag){
+      switch ($flag){
+      case 'metaline':
+        $this->metaline = 1;
+        break;
+      case 'nometaline':
+        $this->metaline = 0;
+        break;
+      case 'firstseconly':
+        $this->firstsec = 1;
+        break;
+      case 'fullpage':
+        $this->firstsec = 0;
+        break;
+      }
+    }
+  }
+  
   /**
    * Builds the XHTML to embed the page to include
    */
@@ -123,7 +152,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $this->ins = p_cached_instructions($this->page['file']);
         
     // show only a given section?
-    if ($this->page['section']) $this->_getSection();
+    if ($this->page['section'] && $this->page['exists']) $this->_getSection();
           
     // convert relative links
     $this->_convertInstructions();
@@ -149,13 +178,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       $renderer->doc .= $this->_editButton().$content; 
     } else { 
       $renderer->doc .= $content.$this->_editButton();
-    } 
+    }
+    
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
-      $renderer->doc .= '</div>'.DOKU_LF;
-    $renderer->doc .= '</div>'.DOKU_LF;
+      $renderer->doc .= '</div>'.DOKU_LF; // class="level?"
+    $renderer->doc .= '</div>'.DOKU_LF; // class="include hentry"
     
     // output meta line (if wanted) and remove page from filechain
     $renderer->doc .= $this->_metaLine(array_pop($this->pages));
+    $this->helper_plugin_include();
     
     return $this->doc;    
   }
@@ -200,6 +231,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     global $conf;
     
     $this->header = array();
+    $offset = $this->clevel;
   
     // check if included page is in same namespace 
     $inclNS = getNS($this->page['id']);
@@ -227,37 +259,40 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
   
       // set header level to current section level + header level 
-      } elseif ($this->ins[$i][0] == 'header'){ 
-        $level = $this->ins[$i][1][1] + $this->clevel; 
-        if ($level > 5) $level = 5; 
-        $this->ins[$i][1][1] = $level; 
-  
-        // add TOC items 
+      } elseif ($this->ins[$i][0] == 'header'){
+        if (empty($this->header)){
+          $offset = $this->clevel - $this->ins[$i][1][1] + 1;
+          $text   = $this->ins[$i][1][0]; 
+          $hid    = $this->renderer->_headerToLink($text, 'true');
+          $level  = $this->clevel + 1;
+          $this->header = array(
+            'hid'   => $hid,
+            'title' => hsc($text),
+            'level' => $level
+          );
+          unset($this->ins[$i]);
+        } else {
+          $level = $this->ins[$i][1][1] + $offset;
+          if ($level > 5) $level = 5; 
+          $this->ins[$i][1][1] = $level;
+        }
+          
+        // add TOC items
         if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
-          $text = $this->ins[$i][1][0]; 
-          $hid  = $this->renderer->_headerToLink($text, 'true'); 
-          $renderer->toc[] = array( 
+          $this->renderer->toc[] = array( 
             'hid'   => $hid, 
             'title' => $text, 
             'type'  => 'ul', 
             'level' => $level - $conf['toptoclevel'] + 1 
           );
-          if (empty($this->header)){
-            $this->header = array(
-              'hid'   => $hid,
-              'title' => hsc($text),
-              'level' => $level
-            );
-            unset($this->ins[$i]);
-          }
-        } 
-  
+        }        
+
       // the same for sections 
-      } elseif ($this->ins[$i][0] == 'section_open'){ 
-        $level = $this->ins[$i][1][0] + $this->clevel; 
+      } elseif ($this->ins[$i][0] == 'section_open'){
+        $level = $this->ins[$i][1][0] + $offset; 
         if ($level > 5) $level = 5; 
-        $this->ins[$i][1][0] = $level; 
-  
+        $this->ins[$i][1][0] = $level;
+      
       // show only the first section? 
       } elseif ($this->firstsec && ($this->ins[$i][0] == 'section_close')
         && ($this->ins[$i-1][0] != 'section_open')){
@@ -346,8 +381,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   function _metaLine($page){
     global $conf;
     
-    if (!$this->getConf('showmetaline'))
-      return '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
+    if (!$this->metaline) return ''; // '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
     
     $id   = $page['id'];
     $meta = p_get_metadata($id);
@@ -357,12 +391,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($this->getConf('showlink')){
       $title = ($page['title'] ? $page['title'] : $meta['title']);
       if (!$title) $title = str_replace('_', ' ', noNS($id));
+      $class = ($page['exists'] ? 'wikilink1' : 'wikilink2');
       $link = array(
         'url'    => wl($id),
         'title'  => $id,
         'name'   => hsc($title),
         'target' => $conf['target']['wiki'],
-        'class'  => 'wikilink1 permalink',
+        'class'  => $class.' permalink',
         'more'   => 'rel="bookmark"',
       );
       $ret[] = $this->renderer->_formatLink($link);
