@@ -79,9 +79,10 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     if (!$ok) return false; // prevent recursion
     
     if ($mode == 'xhtml'){
-          
+      
+      /* no longer needed thanks to Chris Smith's cache action plugin */
       // prevent caching to ensure the included page is always fresh 
-      $renderer->info['cache'] = FALSE; 
+      // $renderer->info['cache'] = false; 
     
       // current section level
       $clevel = 0;
