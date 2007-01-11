@@ -13,5 +13,4 @@ $lang['showdate']      = 'visa datum under inlägg';
 $lang['showuser']      = 'visa användarnamn under inlägg';
 $lang['usernamespace'] = 'vy för användarsidor';
 
-
 //Setup VIM: ex: et ts=2 enc=utf-8 :

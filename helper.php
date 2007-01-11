@@ -20,7 +20,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $mode      = 'section'; // inclusion mode: 'page' or 'section'
   var $clevel    = 0;         // current section level
   var $firstsec  = 0;         // show first section only
-  var $metaline  = 1;         // show metaline below page
+  var $footer    = 1;         // show metaline below page
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
@@ -29,14 +29,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function helper_plugin_include(){
     $this->firstsec = $this->getConf('firstseconly');
-    $this->metaline = $this->getConf('showmetaline');
+    $this->footer = $this->getConf('showfooter');
   }
   
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-11',
+      'date'   => '2007-01-12',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -64,7 +64,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     );
     $result[] = array(
       'name'   => 'setFlags',
-      'desc'   => 'overrides standard values for showmetaline and firstseconly settings',
+      'desc'   => 'overrides standard values for showfooter and firstseconly settings',
       'params' => array('flags' => 'array'),
     );
     $result[] = array(
@@ -116,16 +116,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   }
   
   /**
-   * Overrides standard values for showmetaline and firstseconly settings
+   * Overrides standard values for showfooter and firstseconly settings
    */
   function setFlags($flags){
     foreach ($flags as $flag){
       switch ($flag){
-      case 'metaline':
-        $this->metaline = 1;
+      case 'footer':
+        $this->footer = 1;
         break;
-      case 'nometaline':
-        $this->metaline = 0;
+      case 'nofooter':
+        $this->footer = 0;
         break;
       case 'firstseconly':
         $this->firstsec = 1;
@@ -185,7 +185,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $renderer->doc .= '</div>'.DOKU_LF; // class="include hentry"
     
     // output meta line (if wanted) and remove page from filechain
-    $renderer->doc .= $this->_metaLine(array_pop($this->pages));
+    $renderer->doc .= $this->_footer(array_pop($this->pages));
     $this->helper_plugin_include();
     
     return $this->doc;    
@@ -378,10 +378,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /**
    * Returns the meta line below the included page
    */
-  function _metaLine($page){
+  function _footer($page){
     global $conf;
     
-    if (!$this->metaline) return ''; // '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
+    if (!$this->footer) return ''; // '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
     
     $id   = $page['id'];
     $meta = p_get_metadata($id);

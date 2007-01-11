@@ -9,7 +9,7 @@
 // for the configuration manager
 $lang['firstseconly']  = 'Nur erster Abschnitt von eingebundenen Seiten';
 $lang['showtaglogos']  = 'Bild für erstes Tag anzeigen';
-$lang['showmetaline']  = 'Infos über eingebundene Seite darunter anzeigen';
+$lang['showfooter']    = 'Infos über eingebundene Seite darunter anzeigen';
 $lang['showlink']      = 'Permalink unter eingebunderer Seite anzeigen';
 $lang['showdate']      = 'Datum unter eingebunderer Seite anzeigen';
 $lang['showuser']      = 'Autorenname unter eingebunderer Seite anzeigen';
