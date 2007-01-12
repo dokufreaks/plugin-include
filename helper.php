@@ -305,7 +305,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
       } 
     } 
-    if ($this->ins[0][0] == 'document_start') $this->ins = array_slice($this->ins, 1, -1);
+    if ($this->ins[0][0] != 'document_start'){
+      array_unshift($this->ins, array('document_start', array(), 0));
+      $this->ins[] = array('document_end', array(), 0);
+    }
     return true;
   } 
   
