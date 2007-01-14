@@ -56,7 +56,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
   function render($mode, &$renderer, $data){
     global $ID;
  
-    list($type, $id, $section, $flags) = $data; 
+    list($type, $raw_id, $section, $flags) = $data; 
  
     $id = $this->_applyMacro($raw_id);
     $flg_macro = ($id != $raw_id);

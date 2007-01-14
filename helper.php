@@ -142,6 +142,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function renderXHTML(&$renderer){
     if (!$this->page['id']) return ''; // page must be set first
+    if (!$this->page['exists'] && ($this->page['perm'] < AUTH_CREATE)) return '';
     
     // prepare variables
     $this->doc      = '';
@@ -232,6 +233,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     $this->header = array();
     $offset = $this->clevel;
+    
+    if (!$this->page['exists']) return false;
   
     // check if included page is in same namespace 
     $inclNS = getNS($this->page['id']);
