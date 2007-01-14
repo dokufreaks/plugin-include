@@ -27,7 +27,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2007-01-11', 
+      'date'   => '2007-01-14', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -51,14 +51,16 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     // break the pattern up into its constituent parts 
     list($include, $id, $section) = preg_split('/>|#/u', $match, 3); 
     return array($include, $id, cleanID($section), explode('&', $flags)); 
-  }     
- 
+  }
+   
   function render($mode, &$renderer, $data){
     global $ID;
  
     list($type, $id, $section, $flags) = $data; 
  
-    $id = $this->_applyMacro($id); 
+    $id = $this->_applyMacro($raw_id);
+    $flg_macro = ($id != $raw_id);
+     
     resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
     
     // check permission
@@ -80,9 +82,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     
     if ($mode == 'xhtml'){
       
-      /* no longer needed thanks to Chris Smith's cache action plugin */
-      // prevent caching to ensure the included page is always fresh 
-      // $renderer->info['cache'] = false; 
+      if ($flg_macro) $renderer->info['cache'] = false; // prevent caching
     
       // current section level
       $clevel = 0;
@@ -106,7 +106,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
        
     // for metadata renderer
     } elseif ($mode == 'metadata'){
-      $renderer->meta['relation']['haspart'][$id] = $exists;
+      if (!$flg_macro) $renderer->meta['relation']['haspart'][$id] = $exists;
       $include->pages = array(); // clear filechain - important!
 
       return true;
