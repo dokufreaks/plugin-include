@@ -14,6 +14,7 @@ $lang['showlink']      = 'show permalinks below included page';
 $lang['showdate']      = 'show dates below included page';
 $lang['showuser']      = 'show usernames below included page';
 $lang['showcomments']  = 'show comments below included page';
+$lang['showlinkbacks'] = 'show linkbacks below included page (Linkback Plugin needed)';
 $lang['showtags']      = 'show tags below included page';
 $lang['usernamespace'] = 'namespace for user pages';
 

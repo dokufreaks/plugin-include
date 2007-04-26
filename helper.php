@@ -446,6 +446,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       if ($disc) $ret[] = '<span class="comment">'.$disc.'</span>';
     }
     
+    // linkbacks - let Linkback Plugin do the work for us
+    if (!$page['section'] && $this->getConf('showlinkbacks')
+      && (!plugin_isdisabled('linkback'))
+      && ($linkback =& plugin_load('helper', 'linkback'))){
+      $link = $linkback->td($id);
+      if ($link) $ret[] = '<span class="linkback">'.$link.'</span>';
+    }
+    
     $ret = implode(' &middot; ', $ret);
     
     // tags

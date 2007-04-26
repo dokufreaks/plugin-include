@@ -14,6 +14,7 @@ $lang['showlink']      = 'Permalink unter eingebunderer Seite anzeigen';
 $lang['showdate']      = 'Datum unter eingebunderer Seite anzeigen';
 $lang['showuser']      = 'Autorenname unter eingebunderer Seite anzeigen';
 $lang['showcomments']  = 'Kommentare unter eingebundener Seite anzeigen';
+$lang['showlinkbacks'] = 'Linkbacks unter eingebundener Seite anzeigen (Linkback Plugin wird benötigt)';
 $lang['showtags']      = 'Tags unter eingebundener Seite anzeigen';
 $lang['usernamespace'] = 'Namensraum für Benutzerseiten';
 

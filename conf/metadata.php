@@ -12,6 +12,7 @@ $meta['showlink']      = array('onoff');
 $meta['showdate']      = array('onoff');
 $meta['showuser']      = array('onoff');
 $meta['showcomments']  = array('onoff');
+$meta['showlinkbacks'] = array('onoff');
 $meta['showtags']      = array('onoff');
 $meta['usernamespace'] = array('string');
 
