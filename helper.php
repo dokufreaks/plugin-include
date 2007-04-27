@@ -171,7 +171,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       '</div>'.DOKU_LF;
     
     // embed the included page
-    $renderer->doc .= '<div class="include hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
+    $class = ($this->page['draft'] ? 'include draft' : 'include');
+    $renderer->doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
     if ((@file_exists(DOKU_PLUGIN.'editsections/action.php'))
