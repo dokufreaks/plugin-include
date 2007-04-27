@@ -365,7 +365,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } elseif ($this->page['perm'] >= AUTH_CREATE){ 
       $action = 'create';
     }
-    if ($this->getConf('showeditbtn'){
+    if ($this->getConf('showeditbtn')){
       return '<div class="secedit">'.DOKU_LF.DOKU_TAB.
         html_btn($action, $this->page['id'], '', array('do' => 'edit'), 'post').DOKU_LF.
         '</div>'.DOKU_LF;
