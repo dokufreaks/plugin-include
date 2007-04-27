@@ -13,9 +13,10 @@ $lang['showfooter']    = 'Infos über eingebundene Seite darunter anzeigen';
 $lang['showlink']      = 'Permalink unter eingebunderer Seite anzeigen';
 $lang['showdate']      = 'Datum unter eingebunderer Seite anzeigen';
 $lang['showuser']      = 'Autorenname unter eingebunderer Seite anzeigen';
-$lang['showcomments']  = 'Kommentare unter eingebundener Seite anzeigen';
+$lang['showcomments']  = 'Kommentare unter eingebundener Seite anzeigen (Discussion Plugin wird benötigt)';
 $lang['showlinkbacks'] = 'Linkbacks unter eingebundener Seite anzeigen (Linkback Plugin wird benötigt)';
-$lang['showtags']      = 'Tags unter eingebundener Seite anzeigen';
+$lang['showtags']      = 'Tags unter eingebundener Seite anzeigen (Tag Plugin wird benötigt)';
+$lang['showeditbtn']   = 'Bearbeiten-Tasten anzeigen';
 $lang['usernamespace'] = 'Namensraum für Benutzerseiten';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

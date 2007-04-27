@@ -36,7 +36,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-01-12',
+      'date'   => '2007-04-27',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -365,9 +365,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } elseif ($this->page['perm'] >= AUTH_CREATE){ 
       $action = 'create';
     }
-    return '<div class="secedit">'.DOKU_LF.DOKU_TAB.
-      html_btn($action, $this->page['id'], '', array('do' => 'edit'), 'post').DOKU_LF.
-      '</div>'.DOKU_LF; 
+    if ($this->getConf('showeditbtn'){
+      return '<div class="secedit">'.DOKU_LF.DOKU_TAB.
+        html_btn($action, $this->page['id'], '', array('do' => 'edit'), 'post').DOKU_LF.
+        '</div>'.DOKU_LF;
+    } else {
+      return '';
+    }
   } 
   
   /**

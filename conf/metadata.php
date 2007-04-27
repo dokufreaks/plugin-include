@@ -14,6 +14,7 @@ $meta['showuser']      = array('onoff');
 $meta['showcomments']  = array('onoff');
 $meta['showlinkbacks'] = array('onoff');
 $meta['showtags']      = array('onoff');
+$meta['showeditbtn']   = array('onoff');
 $meta['usernamespace'] = array('string');
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
