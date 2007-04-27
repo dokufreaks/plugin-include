@@ -264,10 +264,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
       // set header level to current section level + header level 
       } elseif ($this->ins[$i][0] == 'header'){
+        $text   = $this->ins[$i][1][0]; 
+        $hid    = $this->renderer->_headerToLink($text, 'true');
         if (empty($this->header)){
           $offset = $this->clevel - $this->ins[$i][1][1] + 1;
-          $text   = $this->ins[$i][1][0]; 
-          $hid    = $this->renderer->_headerToLink($text, 'true');
           $level  = $this->clevel + 1;
           $this->header = array(
             'hid'   => $hid,
