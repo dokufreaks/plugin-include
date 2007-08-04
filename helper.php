@@ -24,6 +24,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
+  // private variables
+  var $_offset   = NULL;
+  
   /**
    * Constructor loads some config settings
    */
@@ -158,9 +161,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     // convert relative links
     $this->_convertInstructions();
     
-    // insert a read more link if only first section is shown
-    if ($this->firstsec) $this->_readMore();
-    
     // render the included page
     if ($this->header) $content = '<h'.$this->header['level'].' class="entry-title">'.
       '<a name="'.$this->header['hid'].'" id="'.$this->header['hid'].'">'.
@@ -243,78 +243,140 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     else $convert = true; 
   
     $n = count($this->ins);
-    for ($i = 0; $i < $n; $i++){ 
+    for ($i = 0; $i < $n; $i++){
+      $current = $this->ins[$i][0];
   
-      // convert internal links and media from relative to absolute 
-      if ($convert && (substr($this->ins[$i][0], 0, 8) == 'internal')){ 
-  
-        // relative subnamespace 
-        if ($this->ins[$i][1][0]{0} == '.'){
-          // parent namespace
-          if ($this->ins[$i][1][0]{1} == '.')
-            $ithis->ns[$i][1][0] = getNS($inclNS).':'.substr($this->ins[$i][1][0], 2);
-          // current namespace
-          else
-            $this->ins[$i][1][0] = $inclNS.':'.substr($this->ins[$i][1][0], 1);
-  
-        // relative link 
-        } elseif (strpos($this->ins[$i][1][0], ':') === false){
-          $this->ins[$i][1][0] = $inclNS.':'.$this->ins[$i][1][0];
-        }
-  
+      // convert internal links and media from relative to absolute
+      if ($convert && (substr($current, 0, 8) == 'internal')){ 
+        $this->ins[$i][1][0] = $this->_convertInternalLinks($i, $inclNS);
+    
       // set header level to current section level + header level 
-      } elseif ($this->ins[$i][0] == 'header'){
-        $text   = $this->ins[$i][1][0]; 
-        $hid    = $this->renderer->_headerToLink($text, 'true');
-        if (empty($this->header)){
-          $offset = $this->clevel - $this->ins[$i][1][1] + 1;
-          $level  = $this->clevel + 1;
-          $this->header = array(
-            'hid'   => $hid,
-            'title' => hsc($text),
-            'level' => $level
-          );
-          unset($this->ins[$i]);
-        } else {
-          $level = $this->ins[$i][1][1] + $offset;
-          if ($level > 5) $level = 5; 
-          $this->ins[$i][1][1] = $level;
-        }
-          
-        // add TOC items
-        if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
-          $this->renderer->toc[] = array( 
-            'hid'   => $hid, 
-            'title' => $text, 
-            'type'  => 'ul', 
-            'level' => $level - $conf['toptoclevel'] + 1 
-          );
-        }        
+      } elseif ($current == 'header'){
+        $this->_convertHeaders($i);
 
       // the same for sections 
-      } elseif ($this->ins[$i][0] == 'section_open'){
-        $level = $this->ins[$i][1][0] + $offset; 
-        if ($level > 5) $level = 5; 
-        $this->ins[$i][1][0] = $level;
+      } elseif ($current == 'section_open'){
+        $this->ins[$i][1][0] = $this->_convertSectionLevel($this->ins[$i][1][0]);
       
       // show only the first section? 
-      } elseif ($this->firstsec && ($this->ins[$i][0] == 'section_close')
+      } elseif ($this->firstsec && ($current == 'section_close')
         && ($this->ins[$i-1][0] != 'section_open')){
-        if ($this->ins[0][0] == 'document_start'){
-          $this->ins = array_slice($this->ins, 1, $i);
-          return true;
-        } else {
-          $this->ins = array_slice($this->ins, 0, $i);
-          return true;
-        }
+        $this->_readMore($i);
+        return true;
       } 
     } 
+    $this->_finishConvert();
+    return true;
+  }
+  
+  /**
+   * Convert relative internal links and media
+   *
+   * @param    integer $i: counter for current instruction
+   * @param    string  $ns: namespace of included page
+   * @return   string  $link: converted, now absolute link
+   */
+  function _convertInternalLinks($i, $ns){
+  
+    // relative subnamespace 
+    if ($this->ins[$i][1][0]{0} == '.'){
+    
+      // parent namespace
+      if ($this->ins[$i][1][0]{1} == '.')
+        return getNS($ns).':'.substr($this->ins[$i][1][0], 2);
+        
+      // current namespace
+      else
+        return $ns.':'.substr($this->ins[$i][1][0], 1);
+
+    // relative link 
+    } elseif (strpos($this->ins[$i][1][0], ':') === false){
+      return $ns.':'.$this->ins[$i][1][0];
+    }
+  }
+  
+  /**
+   * Convert header level and add header to TOC
+   *
+   * @param    integer $i: counter for current instruction
+   * @return   boolean true
+   */
+  function _convertHeaders($i){
+    $text   = $this->ins[$i][1][0]; 
+    $hid    = $this->renderer->_headerToLink($text, 'true');
+    if (empty($this->header)){
+      $this->_offset = $this->clevel - $this->ins[$i][1][1] + 1;
+      $level  = $this->clevel + 1;
+      $this->header = array(
+        'hid'   => $hid,
+        'title' => hsc($text),
+        'level' => $level
+      );
+      unset($this->ins[$i]);
+    } else {
+      $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
+      $this->ins[$i][1][1] = $level;
+    }
+      
+    // add TOC item
+    if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
+      $this->renderer->toc[] = array( 
+        'hid'   => $hid, 
+        'title' => $text, 
+        'type'  => 'ul', 
+        'level' => $level - $conf['toptoclevel'] + 1 
+      );
+    }
+    return true;
+  }
+  
+  /**
+   * Convert the level of headers and sections
+   *
+   * @param    integer $in: current level
+   * @return   integer $out: converted level
+   */
+  function _convertSectionLevel($in){
+    $out = $in + $this->_offset;
+    if ($out > 5) $out = 5;
+    return $out;
+  }
+  
+  /**
+   * Adds a read more... link at the bottom of the first section
+   *
+   * @param    integer $i: counter for current instruction
+   * @return   boolean true
+   */
+  function _readMore($i){
+    $more = ((is_array($this->ins[$i+1])) && ($this->ins[$i+1][0] != 'document_end'));
+        
+    if ($this->ins[0][0] == 'document_start') $this->ins = array_slice($this->ins, 1, $i);
+    else $this->ins = array_slice($this->ins, 0, $i);
+    
+    if ($more){
+      array_unshift($this->ins, array('document_start', array(), 0));
+      $last = array_pop($this->ins);
+      $this->ins[] = array('p_open', array(), $last[2]);
+      $this->ins[] = array('internallink',array($this->page['id'], $this->getLang('readmore')),$last[2]);
+      $this->ins[] = array('p_close', array(), $last[2]);
+      $this->ins[] = $last;
+      $this->ins[] = array('document_end', array(), $last[2]);
+    } else {
+      $this->_finishConvert();
+    }
+    return true;
+  }
+  
+  /**
+   * Adds 'document_start' and 'document_end' instructions if not already there
+   */
+  function _finishConvert(){
     if ($this->ins[0][0] != 'document_start'){
       array_unshift($this->ins, array('document_start', array(), 0));
       $this->ins[] = array('document_end', array(), 0);
     }
-    return true;
-  } 
+  }
   
   /** 
    * Remove TOC, section edit buttons and tags 
@@ -373,19 +435,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       return '';
     }
   } 
-  
-  /**
-   * Adds a read more... link at the bottom of the first section
-   */
-  function _readMore(){
-    $last    = $this->ins[count($this->ins) - 1];
-    if ($last[0] == 'section_close') $this->ins = array_slice($this->ins, 0, -1);
-    $this->ins[] = array('p_open', array(), $last[2]);
-    $this->ins[] = array('internallink', array($this->page['id'], $this->getLang('readmore')), $last[2]);
-    $this->ins[] = array('p_close', array(), $last[2]);
-    if ($last[0] == 'section_close') $this->ins[] = $last;
-  }
-  
+    
   /**
    * Returns the meta line below the included page
    */
