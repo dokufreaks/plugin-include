@@ -21,6 +21,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $clevel    = 0;         // current section level
   var $firstsec  = 0;         // show first section only
   var $footer    = 1;         // show metaline below page
+  var $noheader  = 0;         // omit header
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
@@ -39,7 +40,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-04-27',
+      'date'   => '2007-08-09',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -81,6 +82,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
   /**
    * Sets the page to include if it is not already included (prevent recursion)
+   * and the current user is allowed to read it
    */
   function setPage($page){
     global $ID;
@@ -93,6 +95,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     // prevent include recursion
     if ((isset($this->pages[$id.'#'])) || (isset($this->pages[$fullid]))) return false;
+    
+    // we need to make sure 'perm', 'file' and 'exists' are set
+    if (!isset($page['perm'])) $page['perm'] = auth_quickaclcheck($page['id']);
+    if (!isset($page['file'])) $page['file'] = wikiFN($page['id']);
+    if (!isset($page['exists'])) $page['exists'] = @file_exists($page['file']);
+      
+    // check permission
+    if ($this->page['perm'] < AUTH_READ) return false;
     
     // add the page to the filechain
     $this->pages[$fullid] = $page;
@@ -136,6 +146,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       case 'fullpage':
         $this->firstsec = 0;
         break;
+      case 'noheader':
+        $this->noheader = 1;
+        break;
       }
     }
   }
@@ -152,7 +165,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $this->renderer =& $renderer;
      
     // get instructions and render them on the fly
-    $this->page['file'] = wikiFN($this->page['id']);
     $this->ins = p_cached_instructions($this->page['file']);
         
     // show only a given section?
@@ -162,11 +174,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $this->_convertInstructions();
     
     // render the included page
-    if ($this->header) $content = '<h'.$this->header['level'].' class="entry-title">'.
-      '<a name="'.$this->header['hid'].'" id="'.$this->header['hid'].'">'.
-      $this->header['title'].'</a></h'.$this->header['level'].'>'.DOKU_LF;
-    else $content = '';
-    $content .= '<div class="entry-content">'.DOKU_LF.
+    $content = '<div class="entry-content">'.DOKU_LF.
       $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
       '</div>'.DOKU_LF;
     
@@ -306,17 +314,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $hid    = $this->renderer->_headerToLink($text, 'true');
     if (empty($this->header)){
       $this->_offset = $this->clevel - $this->ins[$i][1][1] + 1;
-      $level  = $this->clevel + 1;
+      $level = $this->clevel + 1;
       $this->header = array(
         'hid'   => $hid,
         'title' => hsc($text),
         'level' => $level
       );
-      unset($this->ins[$i]);
+      if ($this->noheader){
+        unset($this->ins[$i]);
+        return true;
+      }
     } else {
       $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
-      $this->ins[$i][1][1] = $level;
     }
+    
+    $this->ins[$i][1][1] = $level;
       
     // add TOC item
     if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
@@ -417,10 +429,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /** 
    * Display an edit button for the included page 
    */ 
-  function _editButton(){ 
-    if (!isset($this->page['perm']))
-      $this->page['perm'] = auth_quickaclcheck($this->page['id']);
-    if (@file_exists($this->page['file'])){ 
+  function _editButton(){
+    if ($this->page['exists']){ 
       if (($this->page['perm'] >= AUTH_EDIT) && (is_writable($this->page['file'])))
         $action = 'edit';
       else return '';
