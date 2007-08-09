@@ -27,7 +27,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2007-01-14', 
+      'date'   => '2007-08-09', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -59,13 +59,11 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     list($type, $raw_id, $section, $flags) = $data; 
  
     $id = $this->_applyMacro($raw_id);
-    $flg_macro = ($id != $raw_id);
+    
+    // prevent caching if macros were used or some users are not allowed to read the page
+    $nocache = (($id != $raw_id) || (auth_aclcheck($id, '', array()) < AUTH_READ));
      
     resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
-    
-    // check permission
-    $perm = auth_quickaclcheck($id);
-    if ($perm < AUTH_READ) return false;
     
     // load the include class
     $include =& plugin_load('helper', 'include');
@@ -75,14 +73,12 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     $ok = $include->setPage(array(
       'id'      => $id,
       'section' => $section,
-      'perm'    => $perm,
       'exists'  => $exists,
     ));
     if (!$ok) return false; // prevent recursion
     
     if ($mode == 'xhtml'){
-      
-      if ($flg_macro) $renderer->info['cache'] = false; // prevent caching
+      if ($nocache) $renderer->info['cache'] = false;
     
       // current section level
       $clevel = 0;
