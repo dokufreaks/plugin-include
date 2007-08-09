@@ -102,7 +102,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if (!isset($page['exists'])) $page['exists'] = @file_exists($page['file']);
       
     // check permission
-    if ($this->page['perm'] < AUTH_READ) return false;
+    if ($page['perm'] < AUTH_READ) return false;
     
     // add the page to the filechain
     $this->pages[$fullid] = $page;
@@ -176,7 +176,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     // render the included page
     $content = '<div class="entry-content">'.DOKU_LF.
       $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
-      '</div>'.DOKU_LF;
+      '</div>'.DOKU_LF; // class="entry-content"
     
     // embed the included page
     $class = ($this->page['draft'] ? 'include draft' : 'include');
