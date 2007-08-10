@@ -33,13 +33,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Constructor loads some config settings
    */
   function helper_plugin_include(){
-    $this->clevel   = 0;
     $this->firstsec = $this->getConf('firstseconly');
     $this->editbtn  = $this->getConf('showeditbtn');
     $this->footer   = $this->getConf('showfooter');
     $this->noheader = 0;
     $this->header   = array();
-    $this->_offset  = NULL;
   }
   
   function getInfo(){
@@ -254,9 +252,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if (!$this->page['exists']) return false;
   
     // check if included page is in same namespace 
-    $inclNS = getNS($this->page['id']);
-    if (getNS($ID) == $inclNS) $convert = false; 
-    else $convert = true; 
+    $ns      = getNS($this->page['id']);
+    $convert = (getNS($ID) == $ns ? false : true); 
   
     $n = count($this->ins);
     for ($i = 0; $i < $n; $i++){
@@ -264,14 +261,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
       // convert internal links and media from relative to absolute
       if ($convert && (substr($current, 0, 8) == 'internal')){ 
-        $this->ins[$i][1][0] = $this->_convertInternalLinks($i, $inclNS);
+        $this->ins[$i][1][0] = $this->_convertInternalLink($this->ins[$i][1][0], $ns);
     
       // set header level to current section level + header level 
       } elseif ($current == 'header'){
-        $this->_convertHeaders($i);
+        $this->_convertHeader($i);
 
       // the same for sections 
-      } elseif (($current == 'section_open') && ($this->mode == 'section'){
+      } elseif (($current == 'section_open') && ($this->mode == 'section')){
         $this->ins[$i][1][0] = $this->_convertSectionLevel($this->ins[$i][1][0]);
       
       // show only the first section? 
@@ -292,22 +289,20 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * @param    string  $ns: namespace of included page
    * @return   string  $link: converted, now absolute link
    */
-  function _convertInternalLinks($i, $ns){
+  function _convertInternalLink($link, $ns){
   
     // relative subnamespace 
-    if ($this->ins[$i][1][0]{0} == '.'){
-    
-      // parent namespace
-      if ($this->ins[$i][1][0]{1} == '.')
-        return getNS($ns).':'.substr($this->ins[$i][1][0], 2);
-        
-      // current namespace
-      else
-        return $ns.':'.substr($this->ins[$i][1][0], 1);
+    if ($link{0} == '.'){
+      if ($link{1} == '.') return getNS($ns).':'.substr($link, 2); // parent namespace
+      else return $ns.':'.substr($link, 1);                        // current namespace
 
     // relative link 
-    } elseif (strpos($this->ins[$i][1][0], ':') === false){
-      return $ns.':'.$this->ins[$i][1][0];
+    } elseif (strpos($link, ':') === false){
+      return $ns.':'.$link;
+      
+    // absolute link - don't change
+    } else {
+      return $link;
     }
   }
   
@@ -317,7 +312,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * @param    integer $i: counter for current instruction
    * @return   boolean true
    */
-  function _convertHeaders($i){
+  function _convertHeader($i){
     global $conf;
     
     $text = $this->ins[$i][1][0]; 
