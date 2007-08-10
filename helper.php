@@ -145,6 +145,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->footer = 0;
         break;
       case 'firstseconly':
+      case 'firstsectiononly':
         $this->firstsec = 1;
         break;
       case 'fullpage':
@@ -153,9 +154,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       case 'noheader':
         $this->noheader = 1;
         break;
+      case 'editbtn':
       case 'editbutton':
         $this->editbtn = 1;
         break;
+      case 'noeditbtn':
       case 'noeditbutton':
         $this->editbtn = 0;
         break;
