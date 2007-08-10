@@ -32,15 +32,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Constructor loads some config settings
    */
   function helper_plugin_include(){
+    $this->clevel   = 0;
     $this->firstsec = $this->getConf('firstseconly');
-    $this->footer = $this->getConf('showfooter');
+    $this->footer   = $this->getConf('showfooter');
+    $this->noheader = 0;
+    $this->header   = array();
+    $this->_offset  = NULL;
   }
   
   function getInfo(){
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-09',
+      'date'   => '2007-08-10',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -176,7 +180,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     // render the included page
     $content = '<div class="entry-content">'.DOKU_LF.
       $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
-      '</div>'.DOKU_LF; // class="entry-content"
+      '</div>'.DOKU_LF;
     
     // embed the included page
     $class = ($this->page['draft'] ? 'include draft' : 'include');
@@ -238,11 +242,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function _convertInstructions(){ 
     global $ID; 
-    global $conf;
-    
-    $this->header = array();
-    $offset = $this->clevel;
-    
+        
     if (!$this->page['exists']) return false;
   
     // check if included page is in same namespace 
@@ -310,16 +310,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * @return   boolean true
    */
   function _convertHeaders($i){
-    $text   = $this->ins[$i][1][0]; 
-    $hid    = $this->renderer->_headerToLink($text, 'true');
+    global $conf;
+    
+    $text = $this->ins[$i][1][0]; 
+    $hid  = $this->renderer->_headerToLink($text, 'true');
     if (empty($this->header)){
       $this->_offset = $this->clevel - $this->ins[$i][1][1] + 1;
-      $level = $this->clevel + 1;
-      $this->header = array(
-        'hid'   => $hid,
-        'title' => hsc($text),
-        'level' => $level
-      );
+      $level = $this->_convertSectionLevel(1);
+      $this->header = array('hid' => $hid, 'title' => hsc($text), 'level' => $level);
       if ($this->noheader){
         unset($this->ins[$i]);
         return true;
@@ -327,7 +325,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } else {
       $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
     }
-    
     $this->ins[$i][1][1] = $level;
       
     // add TOC item
@@ -350,7 +347,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function _convertSectionLevel($in){
     $out = $in + $this->_offset;
-    if ($out > 5) $out = 5;
+    if ($out >= 5) return 5;
+    if ($out <= $this->clevel + 1) return $this->clevel + 1;
     return $out;
   }
   
