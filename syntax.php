@@ -27,7 +27,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Esther Brunner', 
       'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2007-08-09', 
+      'date'   => '2007-08-10', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -117,9 +117,10 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
    * Makes user or date dependent includes possible
    */
   function _applyMacro($id){
-    global $INFO;
+    global $INFO, $auth;
     
-    list($group, $rest) = explode(',', $INFO['username']['grps']);
+    $userdata = $auth->getUserData($user);
+    $group = $userdata['grps'][0];
  
     $replace = array( 
       '@USER@'  => cleanID($_SERVER['REMOTE_USER']), 
