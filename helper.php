@@ -117,7 +117,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   }
   
   /**
-   * Sets the inclusion mode
+   * Sets the inclusion mode: 'page' or 'section'
    */
   function setMode($mode){
     $this->mode = $mode;
@@ -155,10 +155,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       case 'noheader':
         $this->noheader = 1;
         break;
-      case 'editbtn':
+      case 'editbutton':
         $this->editbtn = 1;
         break;
-      case 'noeditbtn':
+      case 'noeditbutton':
         $this->editbtn = 0;
         break;
       }
@@ -271,7 +271,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->_convertHeaders($i);
 
       // the same for sections 
-      } elseif ($current == 'section_open'){
+      } elseif (($current == 'section_open') && ($this->mode == 'section'){
         $this->ins[$i][1][0] = $this->_convertSectionLevel($this->ins[$i][1][0]);
       
       // show only the first section? 
@@ -333,7 +333,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } else {
       $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
     }
-    $this->ins[$i][1][1] = $level;
+    if ($this->mode == 'section') $this->ins[$i][1][1] = $level;
       
     // add TOC item
     if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])){ 
