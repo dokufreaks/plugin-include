@@ -20,6 +20,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $mode      = 'section'; // inclusion mode: 'page' or 'section'
   var $clevel    = 0;         // current section level
   var $firstsec  = 0;         // show first section only
+  var $editbtn   = 1;         // show edit button
   var $footer    = 1;         // show metaline below page
   var $noheader  = 0;         // omit header
   var $header    = array();   // included page / section header
@@ -34,6 +35,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   function helper_plugin_include(){
     $this->clevel   = 0;
     $this->firstsec = $this->getConf('firstseconly');
+    $this->editbtn  = $this->getConf('showeditbtn');
     $this->footer   = $this->getConf('showfooter');
     $this->noheader = 0;
     $this->header   = array();
@@ -152,6 +154,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         break;
       case 'noheader':
         $this->noheader = 1;
+        break;
+      case 'editbtn':
+        $this->editbtn = 1;
+        break;
+      case 'noeditbtn':
+        $this->editbtn = 0;
         break;
       }
     }
@@ -435,7 +443,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } elseif ($this->page['perm'] >= AUTH_CREATE){ 
       $action = 'create';
     }
-    if ($this->getConf('showeditbtn')){
+    if ($this->editbtn){
       return '<div class="secedit">'.DOKU_LF.DOKU_TAB.
         html_btn($action, $this->page['id'], '', array('do' => 'edit'), 'post').DOKU_LF.
         '</div>'.DOKU_LF;
