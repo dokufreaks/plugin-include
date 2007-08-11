@@ -202,16 +202,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     } else { 
       $renderer->doc .= $content.$this->_editButton();
     }
+        
+    // output meta line (if wanted) and remove page from filechain
+    $renderer->doc .= $this->_footer(array_pop($this->pages));
     
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
       $renderer->doc .= '</div>'.DOKU_LF; // class="level?"
     $renderer->doc .= '</div>'.DOKU_LF; // class="include hentry"
     
-    // output meta line (if wanted) and remove page from filechain
-    $renderer->doc .= $this->_footer(array_pop($this->pages));
+    // reset defaults
     $this->helper_plugin_include();
     
-    return $this->doc;    
+    // return XHTML
+    return $this->doc;   
   }
   
 /* ---------- Private Methods ---------- */
@@ -523,15 +526,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       if ($link) $ret[] = '<span class="linkback">'.$link.'</span>';
     }
     
-    $ret = implode(' &middot; ', $ret);
+    $ret = implode(DOKU_LF.DOKU_TAB.'&middot; ', $ret);
     
     // tags
     if (($this->getConf('showtags')) && ($page['tags'])){
-      $ret = $this->page['tags'].$ret;
+      $ret = $this->page['tags'].DOKU_LF.DOKU_TAB.$ret;
     }
     
     if (!$ret) $ret = '&nbsp;';
-    return '<div class="inclmeta">'.DOKU_LF.$ret.DOKU_LF.'</div>'.DOKU_LF;
+    $class = 'inclmeta';
+    if ($this->header && $this->clevel && ($this->mode == 'section'))
+      $class .= ' level'.$this->clevel;
+    return '<div class="'.$class.'">'.DOKU_LF.DOKU_TAB.$ret.DOKU_LF.'</div>'.DOKU_LF;
   }
     
 }

@@ -1,5 +1,7 @@
 div.dokuwiki div.include div.secedit {
-  height: 16px;
+  float: right;
+  margin-left: 1em;
+  margin-top: -18px;
 }
 
 div.dokuwiki div.inclmeta {
