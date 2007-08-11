@@ -44,7 +44,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-10',
+      'date'   => '2007-08-11',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
