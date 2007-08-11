@@ -28,6 +28,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
   // private variables
   var $_offset   = NULL;
+  var $_backupID = NULL;
   
   /**
    * Constructor loads some config settings
@@ -109,6 +110,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($page['perm'] < AUTH_READ) return false;
     
     // add the page to the filechain
+    $this->_backupID = $ID;
+    $ID              = $id;
     $this->pages[$fullid] = $page;
     $this->page =& $this->pages[$fullid];
     return true;
@@ -253,13 +256,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * converts headers of included pages to subheaders of the current page 
    */
   function _convertInstructions(){ 
-    global $ID; 
-        
     if (!$this->page['exists']) return false;
   
     // check if included page is in same namespace 
     $ns      = getNS($this->page['id']);
-    $convert = (getNS($ID) == $ns ? false : true); 
+    $convert = (getNS($this->_backupID) == $ns ? false : true); 
   
     $n = count($this->ins);
     for ($i = 0; $i < $n; $i++){
@@ -457,7 +458,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Returns the meta line below the included page
    */
   function _footer($page){
-    global $conf;
+    global $conf, $ID;
+    
+    $ID = $this->_backupID;
     
     if (!$this->footer) return ''; // '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
     
