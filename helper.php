@@ -397,10 +397,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Adds 'document_start' and 'document_end' instructions if not already there
    */
   function _finishConvert(){
-    if ($this->ins[0][0] != 'document_start'){
+    if ($this->ins[0][0] != 'document_start')
       array_unshift($this->ins, array('document_start', array(), 0));
+    $c = count($this->ins) - 1;
+    if ($this->ins[$c][0] != 'document_end')
       $this->ins[] = array('document_end', array(), 0);
-    }
   }
   
   /** 
@@ -414,6 +415,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       '#<!-- SECTION "(.*?)" \[(\d+-\d*)\] -->#e' => '', // remove section edit buttons 
       '!<div class="tags">.*?(</div>)!s'          => '', // remove category tags 
     );
+    if ($this->clevel)
+      $replace['#<div class="footnotes">#s'] = '<div class="footnotes level'.$this->clevel.'">';
     $xhtml  = preg_replace(array_keys($replace), array_values($replace), $xhtml); 
     return $xhtml; 
   }
