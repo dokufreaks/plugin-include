@@ -28,7 +28,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
   // private variables
   var $_offset   = NULL;
-  var $_backupID = NULL;
   
   /**
    * Constructor loads some config settings
@@ -110,8 +109,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($page['perm'] < AUTH_READ) return false;
     
     // add the page to the filechain
-    $this->_backupID = $ID;
-    $ID              = $id;
     $this->pages[$fullid] = $page;
     $this->page =& $this->pages[$fullid];
     return true;
@@ -173,6 +170,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Builds the XHTML to embed the page to include
    */
   function renderXHTML(&$renderer){
+    global $ID;
+    
     if (!$this->page['id']) return ''; // page must be set first
     if (!$this->page['exists'] && ($this->page['perm'] < AUTH_CREATE)) return '';
     
@@ -190,33 +189,37 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     $this->_convertInstructions();
     
     // render the included page
+    $backupID = $ID;               // store the current ID
+    $ID       = $this->page['id']; // change ID to the included page
     $content = '<div class="entry-content">'.DOKU_LF.
       $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
       '</div>'.DOKU_LF;
+    $ID = $backupID;               // restore ID
     
     // embed the included page
     $class = ($this->page['draft'] ? 'include draft' : 'include');
-    $renderer->doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
+    $this->doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
-      $renderer->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
+      $this->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
     if ((@file_exists(DOKU_PLUGIN.'editsections/action.php'))
       && (!plugin_isdisabled('editsections'))){ // for Edit Section Reorganizer Plugin
-      $renderer->doc .= $this->_editButton().$content; 
+      $this->doc .= $this->_editButton().$content; 
     } else { 
-      $renderer->doc .= $content.$this->_editButton();
+      $this->doc .= $content.$this->_editButton();
     }
         
     // output meta line (if wanted) and remove page from filechain
-    $renderer->doc .= $this->_footer(array_pop($this->pages));
+    $this->doc .= $this->_footer(array_pop($this->pages));
     
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
-      $renderer->doc .= '</div>'.DOKU_LF; // class="level?"
-    $renderer->doc .= '</div>'.DOKU_LF; // class="include hentry"
+      $this->doc .= '</div>'.DOKU_LF; // class="level?"
+    $this->doc .= '</div>'.DOKU_LF; // class="include hentry"
     
     // reset defaults
     $this->helper_plugin_include();
     
     // return XHTML
+    $renderer->doc .= $this->doc;
     return $this->doc;   
   }
   
@@ -255,12 +258,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Corrects relative internal links and media and 
    * converts headers of included pages to subheaders of the current page 
    */
-  function _convertInstructions(){ 
+  function _convertInstructions(){
+    global $ID;
+    
     if (!$this->page['exists']) return false;
   
     // check if included page is in same namespace 
     $ns      = getNS($this->page['id']);
-    $convert = (getNS($this->_backupID) == $ns ? false : true); 
+    $convert = (getNS($ID) == $ns ? false : true); 
   
     $n = count($this->ins);
     for ($i = 0; $i < $n; $i++){
@@ -459,9 +464,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    */
   function _footer($page){
     global $conf, $ID;
-    
-    $ID = $this->_backupID;
-    
+        
     if (!$this->footer) return ''; // '<div class="inclmeta">&nbsp;</div>'.DOKU_LF;
     
     $id   = $page['id'];
@@ -498,7 +501,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
       $author   = ($page['user'] ? $page['user'] : $meta['creator']);
       if ($author){
         $userpage = cleanID($this->getConf('usernamespace').':'.$author);
-        resolve_pageid(getNS($ID), $id, $exists);
+        resolve_pageid(getNS($ID), $userpage, $exists);
         $class = ($exists ? 'wikilink1' : 'wikilink2');
         $link = array(
           'url'    => wl($userpage),
