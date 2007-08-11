@@ -119,11 +119,12 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
   function _applyMacro($id){
     global $INFO, $auth;
     
+    $user     = $_SERVER['REMOTE_USER'];
     $userdata = $auth->getUserData($user);
-    $group = $userdata['grps'][0];
+    $group    = $userdata['grps'][0];
  
     $replace = array( 
-      '@USER@'  => cleanID($_SERVER['REMOTE_USER']), 
+      '@USER@'  => cleanID($user), 
       '@NAME@'  => cleanID($INFO['userinfo']['name']),
       '@GROUP@' => cleanID($group),
       '@YEAR@'  => date('Y'), 
