@@ -44,7 +44,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return array(
       'author' => 'Esther Brunner',
       'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-11',
+      'date'   => '2007-08-22',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://www.wikidesign/en/plugin/include/start',
@@ -408,8 +408,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Remove TOC, section edit buttons and tags 
    */ 
   function _cleanXHTML($xhtml){
-    preg_match('!<div class="tags">.*?</div>!s', $xhtml, $match);
-    $this->page['tags'] = $match[0];
     $replace = array( 
       '!<div class="toc">.*?(</div>\n</div>)!s'   => '', // remove toc 
       '#<!-- SECTION "(.*?)" \[(\d+-\d*)\] -->#e' => '', // remove section edit buttons 
@@ -425,19 +423,26 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
    * Optionally display logo for the first tag found in the included page
    */
   function _showTagLogos(){
-    if (!$this->getConf('showtaglogos')) return '';
+    if ((!$this->getConf('showtaglogos'))
+      || (plugin_isdisabled('tag'))
+      || (!$taghelper =& plugin_load('helper', 'tag')))
+      return '';
     
-    preg_match_all('/<a [^>]*title="(.*?)" rel="tag"[^>]*>([^<]*)</', $this->page['tags'], $tag);
-    $logoID  = getNS($tag[1][0]).':'.$tag[2][0];
+    $subject = p_get_metadata($this->page['id'], 'subject');
+    if (is_array($subject)) $tag = $subject[0];
+    else list($tag, $rest) = explode(' ', $subject, 2);
+    $title = str_replace('_', ' ', noNS($tag));
+    resolve_pageid($taghelper->namespace, $tag, $exists); // resolve shortcuts
+    
     $logosrc = mediaFN($logoID);
     $types = array('.png', '.jpg', '.gif'); // auto-detect filetype
     foreach ($types as $type){
       if (!@file_exists($logosrc.$type)) continue;
-      $logoID  .= $type;
+      $logoID   = $tag.$type;
       $logosrc .= $type;
       list($w, $h, $t, $a) = getimagesize($logosrc);
       return ' style="min-height: '.$h.'px">'.
-        '<img class="mediaright" src="'.ml($logoID).'" alt="'.$tag[2][0].'"/';
+        '<img class="mediaright" src="'.ml($logoID).'" alt="'.$title.'"/';
     }
     return '';
   }
@@ -537,9 +542,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     $ret = implode(DOKU_LF.DOKU_TAB.'&middot; ', $ret);
     
-    // tags
-    if (($this->getConf('showtags')) && ($page['tags'])){
-      $ret = $this->page['tags'].DOKU_LF.DOKU_TAB.$ret;
+    // tags - let Tag Plugin do the work for us
+    if (!$page['section'] && $this->getConf('showtags')
+      && (!plugin_isdisabled('tag'))
+      && ($tag =& plugin_load('helper', 'tag'))){
+      $page['tags'] = '<div class="tags"><span>'.DOKU_LF.
+        DOKU_TAB.$tag->td($id).DOKU_LF.
+        DOKU_TAB.'</span></div>'.DOKU_LF;
+      $ret = $page['tags'].DOKU_TAB.$ret;
     }
     
     if (!$ret) $ret = '&nbsp;';
