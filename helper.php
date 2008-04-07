@@ -42,12 +42,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   
   function getInfo(){
     return array(
-      'author' => 'Esther Brunner',
-      'email'  => 'wikidesign@gmail.com',
-      'date'   => '2007-08-22',
+      'author' => 'Gina Häussge, Michael Klier, Esther Brunner',
+      'email'  => 'dokuwiki@freelists.org',
+      'date'   => '2008-04-07',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
-      'url'    => 'http://www.wikidesign/en/plugin/include/start',
+      'url'    => 'http://wiki.splitbrain.org/plugin:include',
     );
   }
   
@@ -563,6 +563,37 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     return '<div class="'.$class.'">'.DOKU_LF.DOKU_TAB.$ret.DOKU_LF.'</div>'.DOKU_LF;
   }
     
+  /**
+   * Builds the ODT to embed the page to include
+   */
+  function renderODT(&$renderer){
+    global $ID;
+    
+    if (!$this->page['id']) return ''; // page must be set first
+    if (!$this->page['exists'] && ($this->page['perm'] < AUTH_CREATE)) return '';
+    
+    // prepare variable
+    $this->renderer =& $renderer;
+     
+    // get instructions and render them on the fly
+    $this->ins = p_cached_instructions($this->page['file']);
+        
+    // show only a given section?
+    if ($this->page['section'] && $this->page['exists']) $this->_getSection();
+          
+    // convert relative links
+    $this->_convertInstructions();
+      
+    // render the included page
+    $backupID = $ID;               // store the current ID
+    $ID       = $this->page['id']; // change ID to the included page
+    // remove document_start and document_end to avoid zipping
+    $this->ins = array_slice($this->ins, 1, -1);
+    p_render('odt', $this->ins, $info);
+    $ID = $backupID;               // restore ID
+    // reset defaults
+    $this->helper_plugin_include();
+  }
 }
   
 //Setup VIM: ex: et ts=4 enc=utf-8 :

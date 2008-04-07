@@ -99,7 +99,22 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
         $renderer->doc .= '<div class="level'.$clevel.'">';
       
       return true;
-       
+
+    } elseif ($mode == 'odt'){
+      if ($nocache) $renderer->info['cache'] = false;
+
+      // current section level
+      $clevel = 0;
+      preg_match_all('|<text:h text:style-name="Heading_20_\d" text:outline-level="(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
+      $n = count($matches) - 1;
+      if ($n > -1) $clevel = $matches[$n][1];
+      $include->setLevel($clevel);
+      
+      // include the page now
+      $include->renderODT($renderer);
+      
+      return true;
+     
     // for metadata renderer
     } elseif ($mode == 'metadata'){
       if (!$flg_macro) $renderer->meta['relation']['haspart'][$id] = $exists;
