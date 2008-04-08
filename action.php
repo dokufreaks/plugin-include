@@ -86,11 +86,11 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * - to establish proper cache name, its dependent on the read status of included pages
      * - to establish file dependencies, the included raw wiki pages
      *
-		 * @param   string    $id         wiki page name
-		 * @param   string    $key        (reference) cache key
-		 * @param   array     $depends    array of include file dependencies
-		 *
-		 * @return  bool                  expire the cache
+     * @param   string    $id         wiki page name
+     * @param   string    $key        (reference) cache key
+     * @param   array     $depends    array of include file dependencies
+     *
+     * @return  bool                  expire the cache
      */
     function _inclusion_check($id, &$key, &$depends) {
       $hasPart = p_get_metadata($id, 'relation haspart');
@@ -101,7 +101,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         // ensure its a wiki page
         if (strpos($page,'/') ||  cleanID($page) != $page) continue;
  
+        // recursive includes aren't allowed and there is no need to do the same page twice
         $file = wikiFN($page);
+        if (in_array($file, $depends)) continue;
  
         // file existence state is different from state recorded in metadata
         if (@file_exists($file) != $exists) {

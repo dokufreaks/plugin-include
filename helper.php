@@ -26,6 +26,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   var $header    = array();   // included page / section header
   var $renderer  = NULL;      // DokuWiki renderer object
   
+  var $INCLUDE_LIMIT = 12;
+  
   // private variables
   var $_offset   = NULL;
   
@@ -98,7 +100,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($id == $ID) return false; // page can't include itself
     
     // prevent include recursion
-    if ((isset($this->pages[$id.'#'])) || (isset($this->pages[$fullid]))) return false;
+    if ($this->_in_filechain($id,$page['section']) || (count($this->pages) >= $this->INCLUDE_LIMIT)) return false;
     
     // we need to make sure 'perm', 'file' and 'exists' are set
     if (!isset($page['perm'])) $page['perm'] = auth_quickaclcheck($page['id']);
@@ -109,11 +111,30 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if ($page['perm'] < AUTH_READ) return false;
     
     // add the page to the filechain
-    $this->pages[$fullid] = $page;
-    $this->page =& $this->pages[$fullid];
+    $this->page = $page;
     return true;
   }
   
+  function _push_page($id,$section) {
+    global $ID;
+    if (empty($this->pages)) array_push($this->pages, $ID.'#');
+    array_push($this->pages, $id.'#'.$section);    
+  }
+
+  function _pop_page() {
+    $page = array_pop($this->pages);
+    if (count($this->pages=1)) $this->pages = array();
+
+    return $page;    
+  }
+
+  function _in_filechain($id,$section) {     
+    $pattern = $section ? "/^($id#$section|$id#)$/" : "/^$id#/"; 
+    $match = preg_grep($pattern, $this->pages);
+
+    return (!empty($match)); 
+  } 
+
   /**
    * Sets the inclusion mode: 'page' or 'section'
    */
@@ -169,15 +190,23 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   /**
    * Builds the XHTML to embed the page to include
    */
-  function renderXHTML(&$renderer){
+  function renderXHTML(&$renderer, &$info) {
     global $ID;
     
     if (!$this->page['id']) return ''; // page must be set first
     if (!$this->page['exists'] && ($this->page['perm'] < AUTH_CREATE)) return '';
     
+    $this->_push_page($this->page['id'],$this->page['section']);
+    
     // prepare variables
+    $rdoc  = $renderer->doc;
+    $doc = '';
     $this->renderer =& $renderer;
      
+    $page = $this->page;
+    $clevel = $this->clevel;
+    $mode = $this->mode;
+
     // exchange page ID for included one
     $backupID = $ID;               // store the current ID
     $ID       = $this->page['id']; // change ID to the included page
@@ -191,39 +220,51 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     // convert relative links
     $this->_convertInstructions();
     
+    $xhtml = p_render('xhtml', $this->ins, $info);
+    $ID = $backupID;               // restore ID
+    
+    $this->mode = $mode;
+    $this->clevel = $clevel;
+    $this->page = $page;
+   
     // render the included page
     $content = '<div class="entry-content">'.DOKU_LF.
-      $this->_cleanXHTML(p_render('xhtml', $this->ins, $info)).DOKU_LF.
-      '</div>'.DOKU_LF;
+      $this->_cleanXHTML($xhtml).DOKU_LF.
+      '</div><!-- .entry-content -->'.DOKU_LF;
     
     // restore ID
     $ID = $backupID;
     
     // embed the included page
     $class = ($this->page['draft'] ? 'include draft' : 'include');
-    $this->doc = '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
+    
+    $doc .= DOKU_LF.'<!-- including '.$this->page['id'].' // '.$this->page['file'].' -->'.DOKU_LF;
+    $doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
-      $this->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
+      $doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
+
     if ((@file_exists(DOKU_PLUGIN.'editsections/action.php'))
       && (!plugin_isdisabled('editsections'))){ // for Edit Section Reorganizer Plugin
-      $this->doc .= $this->_editButton().$content; 
+      $doc .= $this->_editButton().$content; 
     } else { 
-      $this->doc .= $content.$this->_editButton();
+      $doc .= $content.$this->_editButton();
     }
         
     // output meta line (if wanted) and remove page from filechain
-    $this->doc .= $this->_footer(array_pop($this->pages));
+    $doc .= $this->_footer($this->page);
     
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
-      $this->doc .= '</div>'.DOKU_LF; // class="level?"
-    $this->doc .= '</div>'.DOKU_LF; // class="include hentry"
+      $doc .= '</div>'.DOKU_LF; // class="level?"
+    $doc .= '</div>'.DOKU_LF; // class="include hentry"
+    $doc .= DOKU_LF.'<!-- /including '.$this->page['id'].' -->'.DOKU_LF;
     
     // reset defaults
     $this->helper_plugin_include();
+    $this->_pop_page();
     
     // return XHTML
-    $renderer->doc .= $this->doc;
-    return $this->doc;   
+    $renderer->doc = $rdoc.$doc;
+    return $doc;   
   }
   
 /* ---------- Private Methods ---------- */
