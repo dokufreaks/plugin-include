@@ -176,7 +176,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     if (!$this->page['exists'] && ($this->page['perm'] < AUTH_CREATE)) return '';
     
     // prepare variables
-    $this->doc      = '';
     $this->renderer =& $renderer;
      
     // exchange page ID for included one
@@ -202,7 +201,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     
     // embed the included page
     $class = ($this->page['draft'] ? 'include draft' : 'include');
-    $this->doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
+    $this->doc = '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
     if (!$this->header && $this->clevel && ($this->mode == 'section'))
       $this->doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
     if ((@file_exists(DOKU_PLUGIN.'editsections/action.php'))
