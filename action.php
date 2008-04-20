@@ -25,9 +25,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function getInfo(){
       return array(
-        'author' => 'Christopher Smith',
-        'email'  => 'chris@jalakai.co.uk',
-        'date'   => '2006-09-20',
+        'author' => 'Gina Häußge, Michael Klier, Christopher Smith',
+        'email'  => 'dokuwiki@chimeric.de',
+        'date'   => '2008-04-20',
         'name'   => 'Include Plugin',
         'desc'   => 'Improved cache handling for included pages',
         'url'    => 'http://wiki.splitbrain.org/plugin:include',

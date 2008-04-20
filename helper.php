@@ -2,6 +2,8 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <wikidesign@gmail.com>
+ * @author     Christopher Smith <chris@jalakai.co.uk>
+ * @author     Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
  */
 
 // must be run within Dokuwiki
@@ -45,8 +47,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
   function getInfo(){
     return array(
       'author' => 'Gina Häussge, Michael Klier, Esther Brunner',
-      'email'  => 'dokuwiki@freelists.org',
-      'date'   => '2008-04-07',
+      'email'  => 'dokuwiki@chimeric.de',
+      'date'   => '2008-04-20',
       'name'   => 'Include Plugin (helper class)',
       'desc'   => 'Functions to include another page in a wiki page',
       'url'    => 'http://wiki.splitbrain.org/plugin:include',

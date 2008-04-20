@@ -11,6 +11,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html) 
  * @author     Esther Brunner <wikidesign@gmail.com>
  * @author     Christopher Smith <chris@jalakai.co.uk>
+ * @author     Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
  */ 
  
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/'); 
@@ -25,9 +26,9 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
  
   function getInfo(){ 
     return array( 
-      'author' => 'Esther Brunner', 
-      'email'  => 'wikidesign@gmail.com', 
-      'date'   => '2007-08-10', 
+      'author' => 'Gina Häußge, Michael Klier, Esther Brunner', 
+      'email'  => 'dokuwiki@chimeric.de', 
+      'date'   => '2008-04-20', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
