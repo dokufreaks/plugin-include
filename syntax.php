@@ -28,7 +28,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     return array( 
       'author' => 'Gina Häußge, Michael Klier, Esther Brunner', 
       'email'  => 'dokuwiki@chimeric.de', 
-      'date'   => '2008-04-20', 
+      'date'   => '2008-06-06', 
       'name'   => 'Include Plugin', 
       'desc'   => 'Displays a wiki page (or a section thereof) within another', 
       'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
@@ -67,20 +67,17 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     $include->setMode($type);
     $include->setFlags($flags);
 
+    if ($nocache) $renderer->info['cache'] = false;                 // prevent caching
+    if (AUTH_READ > auth_quickaclcheck($id)) return true;           // check for permission 
+    if (!$include->setPage(compact('type','id','section','exists'))) return false;
+      
     //  initiate inclusion of external content for those renderer formats which require it
     //  - currently only 'xhtml'
     if (in_array($format, array('xhtml'))) {
 
-      if ($nocache) $renderer->info['cache'] = false;                 // prevent caching
-      if (AUTH_READ > auth_quickaclcheck($id)) return true;             // check for permission 
- 
-      if (!$include->setPage(compact('type','id','section','exists'))) return false;
-      
-
       $ok = $this->_include($include, $format, $renderer, $type, $id, $section, $flags, $nocache);
 
     } else if (in_array($format, array('odt'))) {
-      if ($nocache) $renderer->info['cache'] = false;
 
       // current section level
       $clevel = 0;
