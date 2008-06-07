@@ -23,7 +23,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * return some info
      */
-    function getInfo(){
+    function getInfo() {
       return array(
         'author' => 'Gina Häußge, Michael Klier, Christopher Smith',
         'email'  => 'dokuwiki@chimeric.de',
@@ -39,7 +39,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function register(&$controller) {
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
-#     $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
+#      $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
     }
  
     /**
@@ -56,8 +56,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $depends = array();    
       $expire = $this->_inclusion_check($cache->page, $key, $depends);
  
-#global $debug;
-#$debug[] = compact('key','expire','depends','cache');
+#      global $debug;
+#      $debug[] = compact('key','expire','depends','cache');
  
       // empty $key implies no includes, so nothing to do
       if (empty($key)) return;
@@ -135,10 +135,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $cache =& $event->data;
       if (empty($cache->include)) return;
  
-#global $debug;
-#$debug['cache_result'][] = $event->result ? 'true' : 'false';
+#      global $debug;
+#      $debug['cache_result'][] = $event->result ? 'true' : 'false';
     }
  
 }
- 
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+//vim:ts=4:sw=4:et:enc=utf-8: 
