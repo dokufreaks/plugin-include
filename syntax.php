@@ -28,7 +28,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
         return array( 
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner', 
                 'email'  => 'dokuwiki@chimeric.de', 
-                'date'   => '2008-06-06', 
+                'date'   => '2008-06-15',
                 'name'   => 'Include Plugin', 
                 'desc'   => 'Displays a wiki page (or a section thereof) within another', 
                 'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
