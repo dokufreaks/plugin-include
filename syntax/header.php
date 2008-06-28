@@ -48,7 +48,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $indata) {
         global $ID;
-        list($text, $level, $pos) = $indata;
+        list($text, $level) = $indata;
         
         if ($mode == 'xhtml') {
 	        $hid = $renderer->_headerToLink($text,true);

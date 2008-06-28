@@ -391,15 +391,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 unset($this->ins[$i]);
                 return true;
             } else if ($this->permalink){
-                $this->ins[$i] = $this->_permalinkHeader($text, $level, $pos);
+                $this->ins[$i] = $this->_permalinkHeader($text, $level, $this->ins[$i][1][2]);
             }
         } else {
             $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
         }
         if ($this->mode == 'section') {
-            if ($this->permalink) {
+            if (is_array($this->ins[$i][1][1])) { // permalink header
                 $this->ins[$i][1][1][1] = $level;
-            } else {
+            } else { // normal header
                 $this->ins[$i][1][1] = $level;
             }   
         }
@@ -432,8 +432,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 'include_header',
                 array(
                     $text,
-                    $level,
-                    $pos
+                    $level
                 ),
             ),
             $pos
