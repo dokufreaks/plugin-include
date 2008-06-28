@@ -69,4 +69,4 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
     }
 }
 
-//Setup VIM: ex: et ts=4 enc=utf-8 :
+// vim:ts=4:sw=4:et:enc=utf-8:
