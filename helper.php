@@ -25,6 +25,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $editbtn   = 1;         // show edit button
     var $footer    = 1;         // show metaline below page
     var $noheader  = 0;         // omit header
+    var $permalink = 0;         // make first headline permalink to included page
     var $header    = array();   // included page / section header
     var $renderer  = NULL;      // DokuWiki renderer object
 
@@ -41,14 +42,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->editbtn  = $this->getConf('showeditbtn');
         $this->footer   = $this->getConf('showfooter');
         $this->noheader = 0;
+        $this->permalink = 0;
         $this->header   = array();
     }
 
     function getInfo() {
         return array(
-                'author' => 'Gina Häussge, Michael Klier, Esther Brunner',
+                'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
                 'email'  => 'dokuwiki@chimeric.de',
-                'date'   => '2008-04-20',
+                'date'   => '2008-06-28',
                 'name'   => 'Include Plugin (helper class)',
                 'desc'   => 'Functions to include another page in a wiki page',
                 'url'    => 'http://wiki.splitbrain.org/plugin:include',
@@ -184,6 +186,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noeditbtn':
                 case 'noeditbutton':
                     $this->editbtn = 0;
+                    break;
+                case 'permalink':
+                    $this->permalink = 1;
+                    break;
+                case 'nopermalink':
+                    $this->permalink = 0;
                     break;
             }
         }
@@ -382,11 +390,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if ($this->noheader) {
                 unset($this->ins[$i]);
                 return true;
+            } else if ($this->permalink){
+                $this->ins[$i] = $this->_permalinkHeader($text, $level, $pos);
             }
         } else {
             $level = $this->_convertSectionLevel($this->ins[$i][1][1]);
         }
-        if ($this->mode == 'section') $this->ins[$i][1][1] = $level;
+        if ($this->mode == 'section') {
+            if ($this->permalink) {
+                $this->ins[$i][1][1][1] = $level;
+            } else {
+                $this->ins[$i][1][1] = $level;
+            }   
+        }
 
         // add TOC item
         if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])) { 
@@ -400,6 +416,32 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         return true;
     }
 
+    /**
+     * Create instruction item for a permalink header
+     * 
+     * @param   string  $text: Headline text
+     * @param   integer $level: Headline level
+     * @param   integer $pos: I wish I knew what this is for...
+     * 
+     * @author Gina Haeussge <osd@foosel.net> 
+     */
+    function _permalinkHeader($text, $level, $pos) {
+        $newIns = array(
+            'plugin',
+            array(
+                'include_header',
+                array(
+                    $text,
+                    $level,
+                    $pos
+                ),
+            ),
+            $pos
+        );
+        
+        return $newIns;
+    }
+  
     /**
      * Convert the level of headers and sections
      *

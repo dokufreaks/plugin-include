@@ -22,7 +22,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
  * All DokuWiki plugins to extend the parser/rendering mechanism 
  * need to inherit from this class 
  */ 
-class syntax_plugin_include extends DokuWiki_Syntax_Plugin { 
+class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin { 
 
     function getInfo() { 
         return array( 
@@ -31,7 +31,7 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
                 'date'   => '2008-06-15',
                 'name'   => 'Include Plugin', 
                 'desc'   => 'Displays a wiki page (or a section thereof) within another', 
-                'url'    => 'http://www.wikidesign.ch/en/plugin/include/start', 
+                'url'    => 'http://wiki.splitbrain.org/plugin:include', 
                 ); 
     } 
 
@@ -40,8 +40,8 @@ class syntax_plugin_include extends DokuWiki_Syntax_Plugin {
     function getPType() { return 'block'; }
 
     function connectTo($mode) {  
-        $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include');  
-        $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include'); 
+        $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');  
+        $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include'); 
     } 
 
     function handle($match, $state, $pos, &$handler) {
