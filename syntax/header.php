@@ -21,7 +21,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
         return array (
             'author' => 'Gina Häußge, Michael Klier',
             'email' => 'dokuwiki@chimeric.de',
-            'date' => '2008-06-28',
+            'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
             'name' => 'Include Plugin (permalink header component)',
             'desc' => 'Provides a header instruction which renders a permalink to the included page',
             'url' => 'http://wiki.splitbrain.org/plugin:include',
