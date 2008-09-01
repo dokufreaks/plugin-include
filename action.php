@@ -29,7 +29,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         'email'  => 'dokuwiki@chimeric.de',
         'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
         'name'   => 'Include Plugin',
-        'desc'   => 'Improved cache handling for included pages',
+        'desc'   => 'Improved cache handling for included pages and redirect-handling',
         'url'    => 'http://wiki.splitbrain.org/plugin:include',
       );
     }
@@ -40,8 +40,31 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     function register(&$controller) {
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
 #      $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
+      $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+      $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+      $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+      $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
     }
- 
+
+    /**
+     * add a hidden input to the form to preserve the redirect_id
+     */
+    function handle_form(&$event, $param) {
+      if (array_key_exists('redirect_id', $_REQUEST)) {
+        $event->data->addHidden('redirect_id', cleanID($_REQUEST['redirect_id']));
+      }
+    }
+
+    /**
+     * modify the data for the redirect when there is a redirect_id set
+     */
+    function handle_redirect(&$event, $param) {
+      if (array_key_exists('redirect_id', $_REQUEST)) {
+        $event->data['id'] = cleanID($_REQUEST['redirect_id']);
+        $event->data['title'] = '';
+      }
+    }
+
     /**
      * prepare the cache object for default _useCache action
      */

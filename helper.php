@@ -26,6 +26,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $footer    = 1;         // show metaline below page
     var $noheader  = 0;         // omit header
     var $permalink = 0;         // make first headline permalink to included page
+    var $redirect  = 1;         // redirect back to original page after an edit
     var $header    = array();   // included page / section header
     var $renderer  = NULL;      // DokuWiki renderer object
 
@@ -41,6 +42,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->firstsec = $this->getConf('firstseconly');
         $this->editbtn  = $this->getConf('showeditbtn');
         $this->footer   = $this->getConf('showfooter');
+        $this->redirect = $this->getConf('doredirect');
         $this->noheader = 0;
         $this->permalink = 0;
         $this->header   = array();
@@ -192,6 +194,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'nopermalink':
                     $this->permalink = 0;
+                    break;
+                case 'redirect':
+                    $this->redirect = 1;
+                    break;
+                case 'noredirect':
+                    $this->redirect = 0;
                     break;
             }
         }
@@ -538,6 +546,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Display an edit button for the included page 
      */ 
     function _editButton() {
+        global $ID;
         if ($this->page['exists']) { 
             if (($this->page['perm'] >= AUTH_EDIT) && (is_writable($this->page['file'])))
                 $action = 'edit';
@@ -546,8 +555,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $action = 'create';
         }
         if ($this->editbtn) {
+            $params = array('do' => 'edit');
+            if ($this->redirect)
+                $params['redirect_id'] = $ID;
             return '<div class="secedit">'.DOKU_LF.DOKU_TAB.
-                html_btn($action, $this->page['id'], '', array('do' => 'edit'), 'post').DOKU_LF.
+                html_btn($action, $this->page['id'], '', $params, 'post').DOKU_LF.
                 '</div>'.DOKU_LF;
         } else {
             return '';

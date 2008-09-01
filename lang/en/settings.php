@@ -17,6 +17,7 @@ $lang['showcomments']  = 'show comments below included page (Discussion plugin n
 $lang['showlinkbacks'] = 'show linkbacks below included page (Linkback Plugin needed)';
 $lang['showtags']      = 'show tags below included page (Tag Plugin needed)';
 $lang['showeditbtn']   = 'show edit button';
+$lang['doredirect']    = 'redirect to the original page after editing the included page';
 $lang['usernamespace'] = 'namespace for user pages';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

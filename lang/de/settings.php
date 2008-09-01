@@ -17,6 +17,7 @@ $lang['showcomments']  = 'Kommentare unter eingebundener Seite anzeigen (Discuss
 $lang['showlinkbacks'] = 'Linkbacks unter eingebundener Seite anzeigen (Linkback Plugin wird benötigt)';
 $lang['showtags']      = 'Tags unter eingebundener Seite anzeigen (Tag Plugin wird benötigt)';
 $lang['showeditbtn']   = 'Bearbeiten-Tasten anzeigen';
+$lang['doredirect']    = 'Nach dem Bearbeiten der eingebundenen Seite zur ursprünglichen Seite weiterleiten';
 $lang['usernamespace'] = 'Namensraum für Benutzerseiten';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
