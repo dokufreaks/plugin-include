@@ -180,6 +180,10 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      */
     function _applyMacro($id) {
         global $INFO, $auth;
+        
+        // if we don't have an auth object, do nothing
+        if (!$auth)
+        	return $id;
 
         $user     = $_SERVER['REMOTE_USER'];
         $userdata = $auth->getUserData($user);
