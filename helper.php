@@ -244,10 +244,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->mode = $mode;
         $this->clevel = $clevel;
         $this->page = $page;
+        
+        $xhtml = $this->_cleanXHTML($xhtml);
+        $xhtml = $this->_convertFootnotes($xhtml, $this->page['id']);
 
         // render the included page
         $content = '<div class="entry-content">'.DOKU_LF.
-            $this->_cleanXHTML($xhtml).DOKU_LF.
+            $xhtml.DOKU_LF.
             '</div><!-- .entry-content -->'.DOKU_LF;
 
         // restore ID
@@ -512,6 +515,32 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $replace['#<div class="footnotes">#s'] = '<div class="footnotes level'.$this->clevel.'">';
         $xhtml  = preg_replace(array_keys($replace), array_values($replace), $xhtml); 
         return $xhtml; 
+    }
+    
+    /**
+     * Convert footnotes to include page id to make them unique if more than
+     * one page or section are included in one wiki node. (FS#93)
+     * 
+     * Gotta admit, this fix is kind of ugly, but since we have no chance to
+     * fix the generated footnote ids on instruction level, this has to be
+     * done on the generated XHTML.
+     * 
+     * @param $xhtml XHTML code of the page
+     * @param $id    included page's id
+     * @return XHTML code with converted footnote anchors and ids
+     * 
+     * @author Gina Haeussge <osd@foosel.net>
+     */
+    function _convertFootnotes($xhtml, $id) {
+    	$id = str_replace(':', '_', $id);
+    	$replace = array(
+    		'!<a href="#fn__(\d+)" name="fnt__(\d+)" id="fnt__(\d+)" class="fn_top">!' => 
+				'<a href="#fn__'.$id.'__\1" name="fnt__'.$id.'__\2" id="fnt__'.$id.'__\3" class="fn_top">',
+    		'!<a href="#fnt__(\d+)" id="fn__(\d+)" name="fn__(\d+)" class="fn_bot">!' => 
+				'<a href="#fnt__'.$id.'__\1" name="fn__'.$id.'__\2" id="fn__'.$id.'__\3" class="fn_bot">',
+    	);
+    	$xhtml = preg_replace(array_keys($replace), array_values($replace), $xhtml);
+    	return $xhtml;
     }
 
     /**
