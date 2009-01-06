@@ -496,7 +496,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _finishConvert() {
         if ($this->ins[0][0] != 'document_start')
-            array_unshift($this->ins, array('document_start', array(), 0));
+            @array_unshift($this->ins, array('document_start', array(), 0));
         $c = count($this->ins) - 1;
         if ($this->ins[$c][0] != 'document_end')
             $this->ins[] = array('document_end', array(), 0);
