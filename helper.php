@@ -261,7 +261,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // embed the included page
         $class = ($this->page['draft'] ? 'include draft' : 'include');
 
-        $doc .= DOKU_LF.'<!-- including '.$this->page['id'].' // '.$this->page['file'].' -->'.DOKU_LF;
+        $doc .= DOKU_LF.'<!-- including '.str_replace('--', '-', $this->page['id']).' // '.$this->page['file'].' -->'.DOKU_LF;
         $doc .= '<div class="'.$class.' hentry"'.$this->_showTagLogos().'>'.DOKU_LF;
         if (!$this->header && $this->clevel && ($this->mode == 'section'))
             $doc .= '<div class="level'.$this->clevel.'">'.DOKU_LF;
