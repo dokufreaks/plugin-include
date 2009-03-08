@@ -46,6 +46,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->noheader = 0;
         $this->permalink = 0;
         $this->header   = array();
+        global $TOC;
+        if(!empty($TOC)) $TOC = array();
     }
 
     function getInfo() {
@@ -417,12 +419,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add TOC item
         if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])) { 
-            $this->renderer->toc[] = array( 
+            $item = array( 
                     'hid'   => $hid, 
                     'title' => $text, 
                     'type'  => 'ul', 
                     'level' => $level - $conf['toptoclevel'] + 1 
                     );
+
+            $this->renderer->toc[] = $item;
+            global $TOC;
+            $TOC[] = $item;
         }
         return true;
     }
