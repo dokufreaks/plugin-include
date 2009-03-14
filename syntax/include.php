@@ -24,6 +24,8 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */ 
 class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin { 
 
+    var $helper = null;
+
     function getInfo() { 
         return array( 
                 'author' => 'Gina Häußge, Michael Klier, Esther Brunner', 
@@ -49,7 +51,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $match = substr($match, 2, -2); // strip markup
         list($match, $flags) = explode('&', $match, 2);
 
-        // break the pattern up into its constituent parts 
+        // break the pattern up into its parts 
         list($include, $id, $section) = preg_split('/>|#/u', $match, 3); 
         return array($include, $id, cleanID($section), explode('&', $flags)); 
     }
@@ -57,122 +59,84 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     function render($format, &$renderer, $data) {
         global $ID;
 
-        list($type, $raw_id, $section, $flags) = $data; 
+        list($type, $raw_id, $section, $flags, $lvl, $toc) = $data; 
 
         $id = $this->_applyMacro($raw_id);
         $nocache = ($id != $raw_id);
-        resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
 
-        $include =& plugin_load('helper', 'include');
-        $include->setMode($type);
-        $include->setFlags($flags);
+        resolve_pageid(getNS($ID), $id, $exists); // resolve shortcuts
 
         if ($nocache) $renderer->info['cache'] = false;                 // prevent caching
         if (AUTH_READ > auth_quickaclcheck($id)) return true;           // check for permission 
-        if (!$include->setPage(compact('type','id','section','exists'))) return false;
 
-        //  initiate inclusion of external content for those renderer formats which require it
-        //  - currently only 'xhtml'
-        if (in_array($format, array('xhtml'))) {
+        $this->helper =& plugin_load('helper', 'include');
 
-            $ok = $this->_include($include, $format, $renderer, $type, $id, $section, $flags, $nocache);
+        $this->helper->setMode($type);
+        $this->helper->setFlags($flags);
 
-        } else if (in_array($format, array('odt'))) {
-
-            // current section level
-            $clevel = 0;
-            preg_match_all('|<text:h text:style-name="Heading_20_\d" text:outline-level="(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
-            $n = count($matches) - 1;
-            if ($n > -1) $clevel = $matches[$n][1];
-            $include->setLevel($clevel);
-
-            // include the page now
-            $include->renderODT($renderer);
-
-            return true;
-
-        } else {
-            // carry out renderering for all other formats
-            $ok = $this->_no_include($include, $format, $renderer, $type, $id, $section, $flags, $nocache);
-
-        #global $debug;
-        #$debug[] = compact('id','raw_id','flg_macro','format');
+        if (!$this->helper->setPage(compact('type','id','section','exists'))) {
+            return false;
         }
 
-        return false;  
-    }
+        // handle render formats
+        switch($format) {
+            case 'xhtml':
 
-    /* ---------- Util Functions ---------- */
-    
-    /**
-     * render process for renderer formats which do include external content
-     *
-     * @param  $include   obj     include helper plugin
-     * @param  $format    string  renderer format
-     * @param  $renderer  obj     renderer
-     * @param  $type      string  include type ('page' or 'section')
-     * @param  $id        string  fully resolved wiki page id of included page
-     * @param  $section   string  fragment identifier for page fragment to be included
-     * @param  $flg_macro bool    true if $id was modified by macro substitution
-     */
-    function _include(&$include, $format, &$renderer, $type, $id, $section, $flags, $flg_macro) {
+                // check for toc to prepend eventually
+                if(!empty($toc)) {
+                    foreach($toc as $data) {
+                        $item = array();
+                        $item['hid'] = $renderer->_headerToLink($data[0], 'true');
+                        $item['title'] = $data[0];
+                        $item['type'] = ul;
+                        $item['level'] = $data[1];
+                        array_push($this->helper->toc, $item);
+                    }
+                }
 
-        $file    = wikiFN($id); 
 
-        if ($format == 'xhtml') { 
+                $this->helper->setLevel($lvl);
 
-            // current section level 
-            $matches = array(); 
-            preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER); 
-            $n = count($matches)-1; 
-            $clevel = ($n > -1)  ? $clevel = $matches[$n][1] : 0; 
-            $include->setLevel($clevel);
+                // close current section
+                if ($lvl && ($type == 'section')) $renderer->doc .= '</div>';
 
-            // close current section
-            if ($clevel && ($type == 'section')) $renderer->doc .= '</div>';
+                // include the page
+                $this->helper->renderXHTML($renderer, $info);
 
-            // include the page
-            $include->renderXHTML($renderer,$info);
+                // propagate any cache prevention from included pages into this page
+                if ($info['cache'] == false) $renderer->info['cache'] = false;
 
-            // propagate any cache prevention from included pages into this page
-            if ($info['cache'] == false) $renderer->info['cache'] = false;
+                // resume current section
+                if ($lvl && ($type == 'section')) $renderer->doc .= '<div class="level'.$lvl.'">';
 
-            // resume current section
-            if ($clevel && ($type == 'section')) $renderer->doc .= '<div class="level'.$clevel.'">';
+                return true; 
+                break;
 
-            return true; 
+            case 'odt':
 
-        } else {  // other / unsupported format
-        }
+                // current section level
+                $clevel = 0;
+                preg_match_all('|<text:h text:style-name="Heading_20_\d" text:outline-level="(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
+                $n = count($matches) - 1;
+                if ($n > -1) $clevel = $matches[$n][1];
+                $this->helper->setLevel($clevel);
 
-        return false;  
-    } 
+                // include the page now
+                $this->helpeer->renderODT($renderer);
 
-    /**
-     * render process for renderer formats which don't include external content
-     *
-     * @param  $include   obj     include helper plugin
-     * @param  $format    string  renderer format
-     * @param  $renderer  obj     renderer
-     * @param  $type      string  include type ('page' or 'section')
-     * @param  $id        string  fully resolved wiki page id of included page
-     * @param  $section   string  fragment identifier for page fragment to be included
-     * @param  $flg_macro bool    true if $id was modified by macro substitution
-     */
-    function _no_include(&$include, $format, &$renderer, $type, $id, $section, $flags, $flg_macro) {
+                return true;
+                break;
 
-        switch ($format) {
-            case 'metadata' :
-                if (!$flg_macro) {
+            case 'metadata':
+                if (!$nocache) {
                     $renderer->meta['relation']['haspart'][$id] = @file_exists(wikiFN($id));
                 }
                 return true;
-
-            default :  // unknown / unsupported renderer format
+                break;
+            default;
                 return false;
+                break;
         }
-
-        return false;
     }
 
     /**

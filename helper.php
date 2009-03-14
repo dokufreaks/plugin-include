@@ -20,7 +20,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $ins       = array();   // instructions array
     var $doc       = '';        // the final output XHTML string
     var $mode      = 'section'; // inclusion mode: 'page' or 'section'
-    var $clevel    = 0;         // current section level
+    var $clevel    = 1;         // current section level
     var $firstsec  = 0;         // show first section only
     var $editbtn   = 1;         // show edit button
     var $footer    = 1;         // show metaline below page
@@ -29,6 +29,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $redirect  = 1;         // redirect back to original page after an edit
     var $header    = array();   // included page / section header
     var $renderer  = NULL;      // DokuWiki renderer object
+    var $toplevel_id = NULL;
+    var $toc       = array();
 
     var $INCLUDE_LIMIT = 12;
 
@@ -46,8 +48,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->noheader = 0;
         $this->permalink = 0;
         $this->header   = array();
-        global $TOC;
-        if(!empty($TOC)) $TOC = array();
     }
 
     function getInfo() {
@@ -123,7 +123,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         return true;
     }
 
-    function _push_page($id,$section) {
+    function _push_page($id,$section='') {
         global $ID;
         if (empty($this->pages)) array_push($this->pages, $ID.'#');
         array_push($this->pages, $id.'#'.$section);    
@@ -137,7 +137,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 
     function _in_filechain($id,$section) {     
-        $pattern = $section ? "/^($id#$section|$id#)$/" : "/^$id#/"; 
+        $pattern = ($section) ? "/^($id#$section|$id#)$/" : "/^$id#/"; 
         $match = preg_grep($pattern, $this->pages);
 
         return (!empty($match)); 
@@ -219,7 +219,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->_push_page($this->page['id'],$this->page['section']);
 
         // prepare variables
-        $rdoc  = $renderer->doc;
+        $rdoc = $renderer->doc;
         $doc = '';
         $this->renderer =& $renderer;
 
@@ -251,9 +251,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $xhtml = $this->_convertFootnotes($xhtml, $this->page['id']);
 
         // render the included page
-        $content = '<div class="entry-content">'.DOKU_LF.
-            $xhtml.DOKU_LF.
-            '</div><!-- .entry-content -->'.DOKU_LF;
+        $content = '<div class="entry-content">' . DOKU_LF
+                 . $xhtml . DOKU_LF
+                 . '</div><!-- .entry-content -->' . DOKU_LF;
 
         // restore ID
         $ID = $backupID;
@@ -417,6 +417,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }   
         }
 
+
         // add TOC item
         if (($level >= $conf['toptoclevel']) && ($level <= $conf['maxtoclevel'])) { 
             $item = array( 
@@ -425,10 +426,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     'type'  => 'ul', 
                     'level' => $level - $conf['toptoclevel'] + 1 
                     );
-
-            $this->renderer->toc[] = $item;
-            global $TOC;
-            $TOC[] = $item;
+            $this->toc[] = $item;
         }
         return true;
     }
@@ -688,8 +686,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         if (!$ret) $ret = '&nbsp;';
         $class = 'inclmeta';
-        if ($this->header && $this->clevel && ($this->mode == 'section'))
+        if ($this->header && $this->clevel && ($this->mode == 'section')) {
             $class .= ' level'.$this->clevel;
+        }
         return '<div class="'.$class.'">'.DOKU_LF.DOKU_TAB.$ret.DOKU_LF.'</div>'.DOKU_LF;
     }
 
@@ -723,6 +722,31 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $ID = $backupID;               // restore ID
         // reset defaults
         $this->helper_plugin_include();
+    }
+
+    /**
+     * Makes user or date dependent includes possible
+     */
+    function _applyMacro($id) {
+        global $INFO, $auth;
+        
+        // if we don't have an auth object, do nothing
+        if (!$auth)
+        	return $id;
+
+        $user     = $_SERVER['REMOTE_USER'];
+        $userdata = $auth->getUserData($user);
+        $group    = $userdata['grps'][0];
+
+        $replace = array( 
+                '@USER@'  => cleanID($user), 
+                '@NAME@'  => cleanID($INFO['userinfo']['name']),
+                '@GROUP@' => cleanID($group),
+                '@YEAR@'  => date('Y'), 
+                '@MONTH@' => date('m'), 
+                '@DAY@'   => date('d'), 
+                ); 
+        return str_replace(array_keys($replace), array_values($replace), $id); 
     }
 }
 //vim:ts=4:sw=4:et:enc=utf-8:

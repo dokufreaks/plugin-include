@@ -6,6 +6,7 @@
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Christopher Smith <chris@jalakai.co.uk>  
+ * @author     Michael Klier <chi@chimeric.de>
  */
 if(!defined('DOKU_INC')) die();  // no Dokuwiki, no go
  
@@ -19,6 +20,11 @@ require_once(DOKU_PLUGIN.'action.php');
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
     var $supportedModes = array('xhtml');
+    var $helper = null;
+
+    function action_plugin_include() {
+        $this->helper = plugin_load('helper', 'include');
+    }
  
     /**
      * return some info
@@ -39,11 +45,52 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function register(&$controller) {
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
-#      $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
+//      $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
       $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
+      $controller->register_hook('PARSER_HANDLER_DONE', 'AFTER', $this, 'handle_parser');
+      $controller->register_hook('TPL_TOC_RENDER', 'BEFORE', $this, 'handle_toc');
+    }
+
+    /**
+     * Handles toc generation
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function handle_toc(&$event, $param) {
+        $event->data = $this->helper->toc;
+    }
+
+    /**
+     * Supplies the current section level to the include syntax plugin
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function handle_parser(&$event, $param) {
+        global $ID;
+
+        if(!isset($this->helper->toplevel_id)) $this->helper->toplevel_id = $ID;
+
+        $ins =& $event->data->calls;
+        $num = count($ins);
+
+        $toc = array();
+        $lvl = 1;
+        for($i=0; $i<$num; $i++) {
+            if($ins[$i][0] == 'header' && ($ID == $this->helper->toplevel_id)) {
+                array_push($toc, array($ins[$i][1][0], $ins[$i][1][1]));
+            }
+            if($ins[$i][0] == 'section_open') {
+                $lvl = $ins[$i][1][0];
+            }
+            if($ins[$i][0] == 'plugin' && $ins[$i][1][0] == 'include_include' ) {
+                $ins[$i][1][1][4] = $lvl;
+                $ins[$i][1][1][5] = $toc;
+                $toc = array();
+            }
+        }
     }
 
     /**
@@ -79,8 +126,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $depends = array();    
       $expire = $this->_inclusion_check($cache->page, $key, $depends);
  
-#      global $debug;
-#      $debug[] = compact('key','expire','depends','cache');
+//      global $debug;
+//      $debug[] = compact('key','expire','depends','cache');
  
       // empty $key implies no includes, so nothing to do
       if (empty($key)) return;
@@ -158,8 +205,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $cache =& $event->data;
       if (empty($cache->include)) return;
  
-#      global $debug;
-#      $debug['cache_result'][] = $event->result ? 'true' : 'false';
+//      global $debug;
+//      $debug['cache_result'][] = $event->result ? 'true' : 'false';
     }
  
 }
