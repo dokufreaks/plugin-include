@@ -723,30 +723,5 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // reset defaults
         $this->helper_plugin_include();
     }
-
-    /**
-     * Makes user or date dependent includes possible
-     */
-    function _applyMacro($id) {
-        global $INFO, $auth;
-        
-        // if we don't have an auth object, do nothing
-        if (!$auth)
-        	return $id;
-
-        $user     = $_SERVER['REMOTE_USER'];
-        $userdata = $auth->getUserData($user);
-        $group    = $userdata['grps'][0];
-
-        $replace = array( 
-                '@USER@'  => cleanID($user), 
-                '@NAME@'  => cleanID($INFO['userinfo']['name']),
-                '@GROUP@' => cleanID($group),
-                '@YEAR@'  => date('Y'), 
-                '@MONTH@' => date('m'), 
-                '@DAY@'   => date('d'), 
-                ); 
-        return str_replace(array_keys($replace), array_values($replace), $id); 
-    }
 }
 //vim:ts=4:sw=4:et:enc=utf-8:
