@@ -19,7 +19,7 @@ require_once(DOKU_PLUGIN.'action.php');
  */
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
-    var $supportedModes = array('xhtml');
+    var $supportedModes = array('xhtml', 'i');
     var $helper = null;
 
     function action_plugin_include() {
@@ -50,17 +50,12 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
-      $controller->register_hook('PARSER_HANDLER_DONE', 'AFTER', $this, 'handle_parser');
+      $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
       $controller->register_hook('TPL_TOC_RENDER', 'BEFORE', $this, 'handle_toc');
     }
 
-    /**
-     * Handles toc generation
-     *
-     * @author Michael Klier <chi@chimeric.de>
-     */
     function handle_toc(&$event, $param) {
-        $event->data = $this->helper->toc;
+        //dbglog($event->data);
     }
 
     /**
@@ -71,30 +66,22 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     function handle_parser(&$event, $param) {
         global $ID;
 
-        if(!isset($this->helper->toplevel_id)) $this->helper->toplevel_id = $ID;
-
-        $ins =& $event->data->calls;
-        $num = count($ins);
-
-        $toc = array();
-        $lvl = 1;
-        for($i=0; $i<$num; $i++) {
-            if($ins[$i][0] == 'header' && ($ID == $this->helper->toplevel_id)) {
-                array_push($toc, array($ins[$i][1][0], $ins[$i][1][1]));
-            }
-            if($ins[$i][0] == 'section_open') {
-                $lvl = $ins[$i][1][0];
-            }
-            if($ins[$i][0] == 'plugin' && $ins[$i][1][0] == 'include_include' ) {
-                $ins[$i][1][1][4] = $lvl;
-                $ins[$i][1][1][5] = $toc;
-                $toc = array();
+        // check for stored toplevel ID in helper plugin
+        // if it's missing lets see if we have to do anything at all
+        if(!isset($this->helper->toplevel_id)) {
+            $ins =& $event->data->calls;
+            $num = count($ins);
+            for($i=0; $i<$num; $i++) {
+                if(($ins[$i][0] == 'plugin') && ($ins[$i][1][0] == 'include_include')) {
+                    $this->helper->toplevel_id = $ID;
+                    $this->helper->parse_instructions($ID, $ins);
+                }
             }
         }
     }
 
     /**
-     * add a hidden input to the form to preserve the redirect_id
+     * Add a hidden input to the form to preserve the redirect_id
      */
     function handle_form(&$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
@@ -103,7 +90,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     }
 
     /**
-     * modify the data for the redirect when there is a redirect_id set
+     * Modify the data for the redirect when there is a redirect_id set
      */
     function handle_redirect(&$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
@@ -116,98 +103,51 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * prepare the cache object for default _useCache action
      */
     function _cache_prepare(&$event, $param) {
-      $cache =& $event->data;
- 
-      // we're only interested in wiki pages and supported render modes
-      if (!isset($cache->page)) return;
-      if (!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
- 
-      $key = '';
-      $depends = array();    
-      $expire = $this->_inclusion_check($cache->page, $key, $depends);
- 
-//      global $debug;
-//      $debug[] = compact('key','expire','depends','cache');
- 
-      // empty $key implies no includes, so nothing to do
-      if (empty($key)) return;
- 
-      // mark the cache as being modified by the include plugin
-      $cache->include = true;
- 
-      // set new cache key & cache name - now also dependent on included page ids and their ACL_READ status
-      $cache->key .= $key;
-      $cache->cache = getCacheName($cache->key, $cache->ext);
- 
-      // inclusion check was able to determine the cache must be invalid
-      if ($expire) {
-        $event->preventDefault();
-        $event->stopPropagation();
-        $event->result = false;
-        return;
-      }
- 
-      // update depends['files'] array to include all included files
-      $cache->depends['files'] = !empty($cache->depends['files']) ? array_merge($cache->depends['files'], $depends) : $depends;
-    }
- 
-    /**
-     * carry out included page checks:
-     * - to establish proper cache name, its dependent on the read status of included pages
-     * - to establish file dependencies, the included raw wiki pages
-     *
-     * @param   string    $id         wiki page name
-     * @param   string    $key        (reference) cache key
-     * @param   array     $depends    array of include file dependencies
-     *
-     * @return  bool                  expire the cache
-     */
-    function _inclusion_check($id, &$key, &$depends) {
-      $hasPart = p_get_metadata($id, 'relation haspart');
-      if (empty($hasPart)) return false;
- 
-      $expire = false;
-      foreach ($hasPart as $page => $exists) {
-        // ensure its a wiki page
-        if (strpos($page,'/') ||  cleanID($page) != $page) continue;
- 
-        // recursive includes aren't allowed and there is no need to do the same page twice
-        $file = wikiFN($page);
-        if (in_array($file, $depends)) continue;
- 
-        // file existence state is different from state recorded in metadata
-        if (@file_exists($file) != $exists) {
- 
-          if (($acl = $this->_acl_read_check($page)) != 'NONE') { $expire = true;  }
- 
-        } else if ($exists) {
- 
-          // carry out an inclusion check on the included page, that will update $key & $depends
-          if ($this->_inclusion_check($page, $key, $depends)) { $expire = true; }
-          if (($acl = $this->_acl_read_check($page)) != 'NONE') { $depends[] = $file;  }          
- 
-        } else {
-          $acl = 'NONE';
+        global $ID;
+        global $conf;
+
+        $cache =& $event->data;
+
+        // we're only interested in instructions of the current page
+        // without the ID check we'd get the cache objects for included pages as well
+        if(!isset($cache->page) && ($cache->page != $ID)) return;
+        if(!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
+
+        // get additional depends
+        $depends = p_get_metadata($ID, 'relation haspart');
+        if(empty($depends)) return;
+
+        $key = ''; 
+        foreach(array_keys($depends) as $page) {
+            if(strpos($page,'/') ||  cleanID($page) != $page) {
+                continue;
+            } else {
+                $file = wikiFN($page);
+                if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
+                    $cache->depends['files'][] = $file;
+                    $acl = (AUTH_READ <= auth_quickaclcheck($id)) ? 'READ' : 'NONE';
+                    $key .= '#' . $page . '|' . $acl;
+                }
+            }
         }
-        
-        // add this page and acl status to the key
-        $key .= '#'.$page.'|'.$acl;
-      }
-      
-      return $expire;
-    }
- 
-    function _acl_read_check($id) {
-      return (AUTH_READ <= auth_quickaclcheck($id)) ? 'READ' : 'NONE';
+
+        // empty $key implies no includes, so nothing to do
+        if(empty($key)) return;
+
+        // mark the cache as being modified by the include plugin
+        $cache->include = true;
+
+        // set new cache key & cache name
+        // now also dependent on included page ids and their ACL_READ status
+        $cache->key .= $key;
+        $cache->cache = getCacheName($cache->key, $cache->ext);
     }
  
     function _cache_result(&$event, $param) {
-      $cache =& $event->data;
-      if (empty($cache->include)) return;
- 
-//      global $debug;
-//      $debug['cache_result'][] = $event->result ? 'true' : 'false';
+        $cache =& $event->data;
+        if (empty($cache->include)) return;
+        //global $debug;
+        //$debug['cache_result'][] = $event->result ? 'true' : 'false';
     }
- 
 }
 //vim:ts=4:sw=4:et:enc=utf-8: 
