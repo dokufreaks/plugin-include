@@ -210,7 +210,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // filter instructions if needed
         if(!empty($sect)) {
             $this->_get_section($ins, $sect);   // section required
-        } elseif($flags['firstsec']) {
+        }
+
+        if($flags['firstsec']) {
             $this->_get_firstsec($ins, $page);  // only first section 
         }
         
