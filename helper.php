@@ -317,6 +317,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if(!$footer_lvl && ($idx == $first_header)) $footer_lvl = $new_lvl;
         }
 
+        // add edit button
+        if($flags['editbtn']) $this->_editbtn($ins, $page, $sect, $sect_title);
+
         // add footer
         if($flags['footer']) $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
 
@@ -337,6 +340,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $footer[0] = 'plugin';
         $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $this->toplevel_id, $footer_lvl));
         $ins[] = $footer;
+    }
+
+    /**
+     * Appends instruction item for an edit button
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function _editbtn(&$ins, $page, $sect, $sect_title) {
+        $editbtn = array();
+        $editbtn[0] = 'plugin';
+        $editbtn[1] = array('include_editbtn', array($page, $sect, $sect_title, $this->toplevel_id));
+        $ins[] = $editbtn;
     }
 
     /** 
