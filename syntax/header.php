@@ -48,11 +48,11 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         list($headline, $lvl, $page, $sect) = $data;
-        if(!empty($sect)) $page = $page . '#' . $sect;
+        $hid = $renderer->_headerToLink($headline);
         if ($mode == 'xhtml') {
-            $hid = $renderer->_headerToLink($headline, true);
             $renderer->toc_additem($hid, $headline, $lvl);
-            $renderer->doc .= DOKU_LF.'<h' . $lvl . '><a name="' . $hid . '" id="' . $hid . '" href="' . wl($page) . '">';
+            $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
+            $renderer->doc .= DOKU_LF.'<h' . $lvl . '><a name="' . $hid . '" id="' . $hid . '" href="' . $url . '">';
             $renderer->doc .= $renderer->_xmlEntities($headline);
             $renderer->doc .= '</a></h' . $lvl . '>' . DOKU_LF;
             return true;

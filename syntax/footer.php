@@ -85,23 +85,20 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
         if(!$flags['footer']) return '';
 
-        preg_match_all('|<div class="level(\d)">|i', $renderer->doc, $matches, PREG_SET_ORDER);
-        $lvl = $matches[count($matches)-1][1];
-        if($lvl <= 0) $lvl =1;
-
         $meta  = p_get_metadata($page);
         $xhtml = array();
 
         // permalink
         if ($flags['link']) {
             $class = (page_exists($page) ? 'wikilink1' : 'wikilink2');
-            if(!empty($sect)) $page = $page . '#' . $sect;
-            $title = $sect_title;
+            $url   = ($sect) ? wl($page) . '#' . $sect : wl($page);
+            $name  = ($sect) ? $sect_title : $page;
+            $title = ($sect) ? $page . '#' . $sect : $page;
             if (!$title) $title = str_replace('_', ' ', noNS($page));
             $link = array(
-                    'url'    => wl($page),
-                    'title'  => $page,
-                    'name'   => hsc($title),
+                    'url'    => $url,
+                    'title'  => $title,
+                    'name'   => $name,
                     'target' => $conf['target']['wiki'],
                     'class'  => $class . ' permalink',
                     'more'   => 'rel="bookmark"',
