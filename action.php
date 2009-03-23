@@ -73,7 +73,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $num = count($ins);
             for($i=0; $i<$num; $i++) {
                 if(($ins[$i][0] == 'plugin') && ($ins[$i][1][0] == 'include_include')) {
-                    $this->helper->toplevel_id = $ID;
+                    if(!isset($this->helper->toplevel_id)) $this->helper->toplevel_id = $ID;
                     $this->helper->parse_instructions($ID, $ins);
                 }
             }
@@ -125,11 +125,13 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
                 $file = wikiFN($page);
                 if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
                     $cache->depends['files'][] = $file;
-                    $acl = (AUTH_READ <= auth_quickaclcheck($id)) ? 'READ' : 'NONE';
+                    $acl = (AUTH_READ <= auth_quickaclcheck($page)) ? 'READ' : 'NONE';
                     $key .= '#' . $page . '|' . $acl;
                 }
             }
         }
+
+        dbglog($key);
 
         // empty $key implies no includes, so nothing to do
         if(empty($key)) return;

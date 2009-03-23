@@ -17,6 +17,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $includes     = array();
     var $toplevel_id  = NULL;
+    var $toplevel     = NULL;
     var $defaults     = array();
 
     /**
@@ -111,42 +112,59 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 
     /**
-     * Parses the instructions list
+     * Parses the instructions list of the page which contains the includes
      * 
-     * called by the action plugin component, this function is called
-     * recursively for the p_cached_instructions call (when the instructions
-     * need to be updated)
-     *
      * @author Michael Klier <chi@chimeric.de>
      */
     function parse_instructions($id, &$ins) {
         $num = count($ins);
 
-        $lvl   = 0;
+        $lvl      = false;
+        $prev_lvl = false;
         $mode  = '';
         $page  = '';
         $flags = array();
+        $range = false;
 
         for($i=0; $i<$num; $i++) {
             // set current level
             if($ins[$i][0] == 'section_open') {
                 $lvl = $ins[$i][1][0];
+                if($i > $range) $prev_lvl = $lvl;
             }
             if($ins[$i][0] == 'plugin' && $ins[$i][1][0] == 'include_include' ) {
+                // found no previous section set lvl to 0
+                if(!$lvl) $lvl = 0; 
+
+                // check if toplevel is set already
+                if(!isset($this->toplevel)) $this->toplevel = $lvl;
+
                 $mode  = $ins[$i][1][1][0];
                 $page  = $ins[$i][1][1][1];
                 $sect  = $ins[$i][1][1][2];
                 $flags = $ins[$i][1][1][3];
+
+                // check if we left the range of possible sub includes and reset lvl to toplevel
+                if($range && ($i > $range)) {
+                    if($prev_lvl) {
+                        $lvl = $prev_lvl;
+                        $prev_lvl = false;
+                    } else {
+                        $lvl = $this->toplevel;
+                    }
+                }
                 
                 $page = $this->_apply_macro($page);
                 resolve_pageid(getNS($id), $page, $exists); // resolve shortcuts
-                $flags   = $this->get_flags($flags);
+                $flags  = $this->get_flags($flags);
+
                 $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
 
                 if(!empty($ins_inc)) {
                     // combine instructions and reset counter
                     $ins_start = array_slice($ins, 0, $i+1);
                     $ins_end   = array_slice($ins, $i+1);
+                    $range = $i + count($ins_inc);
                     $ins = array_merge($ins_start, $ins_inc, $ins_end);
                     $num = count($ins);
                 }
@@ -177,21 +195,32 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     /**
      * Converts instructions of the included page
      *
+     * The funcion iterates over the given list of instructions and generates
+     * an index of header and section indicies. It also removes document
+     * start/end instructions, converts links, and removes unwanted
+     * instructions like tags, comments, linkbacks.
+     *
+     * Later all header/section levels are convertet to match the current
+     * inclusion level.
+     *
      * @author Michael Klier <chi@chimeric.de>
      */
     function _convert_instructions(&$ins, $lvl, $page, $sect, $flags) {
 
+        // filter instructions if needed
         if(!empty($sect)) {
             $this->_get_section($ins, $sect);   // section required
         } elseif($flags['firstsec']) {
             $this->_get_firstsec($ins, $page);  // only first section 
         }
         
-        $has_permalink = false;
-        $footer_lvl    = false;
         $ns  = getNS($page);
         $num = count($ins);
-        $top_lvl = $lvl; // save toplevel for later use
+
+        $conv_idx = array(); // conversion index
+        $lvl_max  = false;   // max level
+        $first_header = -1;
+
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
                 case 'document_start':
@@ -200,20 +229,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     unset($ins[$i]);
                     break;
                 case 'header':
-                    $ins[$i][1][1] = $this->_get_level($lvl, $ins[$i][1][1]);
-                    $lvl = $ins[$i][1][1];
-                    if(!$footer_lvl) $footer_lvl = $lvl;
-                    if($sect && !$sect_title) {
-                        $sect_title = $ins[$i][1][0];
-                    }
-                    if($flags['link'] && !$has_permalink) {
-                        $this->_permalink($ins[$i], $page, $sect);
-                        $has_permalink = true;
+                    $conv_idx[] = $i;
+                    // get index of first header
+                    if($first_header == -1) $first_header = $i;
+                    // get max level if this instructions set
+                    if(!$lvl_max || ($ins[$i][1][1] < $lvl_max)) {
+                        $lvl_max = $ins[$i][1][1];
                     }
                     break;
                 case 'section_open':
-                    $ins[$i][1][0] = $this->_get_level($lvl, $ins[$i][1][0]);
-                    $lvl = $ins[$i][1][0];
+                    $conv_idx[] = $i;
                     break;
                 case 'internallink':
                 case 'internalmedia':
@@ -228,21 +253,77 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     }
                     break;
                 case 'plugin':
-                    // FIXME skip others?
+                    // FIXME skip other plugins?
                     if($ins[$i][1][0] == 'tag_tag') unset($ins[$i]);                // skip tags
                     if($ins[$i][1][0] == 'discussion_comments') unset($ins[$i]);    // skip comments
+                    if($ins[$i][1][0] == 'linkback') unset($ins[$i]);               // skip linkbacks
                     break;
                 default:
                     break;
             }
         }
 
+        // calculate difference between header/section level and include level
+        $diff = 0;
+        if($lvl_max) {
+            // max level equals inclusion level diff is 1
+            if($lvl_max == $lvl) {
+                $diff = 1;
+            }
+            // max level is les than inclusion level, we have to convert downwards
+            if($lvl_max < $lvl) {
+                $diff = (($lvl - $lvl_max) + 1);
+            } 
+            // max level is greate inclusion level, we have to convert upwards
+            if($lvl_max > $lvl) {
+                if($lvl == 0) {
+                    // we had no previous section pretend it was 1
+                    $diff = (1 - $lvl_max);
+                } elseif(($lvl - $lvl_max) == -1) {
+                    // we don't need to convert anything up diff is 0
+                    $diff = 0;
+                } else {
+                    // convert everything up
+                    $diff = ($lvl - $lvl_max);
+                }
+            }
+        }
+
+        // convert headers and set footer/permalink
+        $has_permalink = false;
+        $footer_lvl    = false;
+        foreach($conv_idx as $idx) {
+            if($ins[$idx][0] == 'header') {
+                $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
+                $ins[$idx][1][1] = $new_lvl;
+
+                // get section title if we only include one section
+                if(($sect && !$sect_title) && ($idx == $first_header)) {
+                    $sect_title = $ins[$idx][1][0];
+                }
+
+                // set permalink
+                if($flags['link'] && !$has_permalink && ($idx == $first_header)) {
+                    $this->_permalink($ins[$idx], $page, $sect);
+                    $has_permalink = true;
+                }
+            } else {
+                // it's a section
+                $new_lvl = (($ins[$idx][1][0] + $diff) > 5) ? 5 : ($ins[$idx][1][0] + $diff);
+                $ins[$idx][1][0] = $new_lvl;
+            }
+
+            // set footer level
+            if(!$footer_lvl && ($idx == $first_header)) $footer_lvl = $new_lvl;
+        }
+
+        // add footer
         if($flags['footer']) $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
 
         // close previous section if any and re-open after inclusion
-        if($top_lvl != 0) {
+        if($lvl != 0) {
             array_unshift($ins, array('section_close'));
-            $ins[] = array('section_open', array($top_lvl));
+            $ins[] = array('section_open', array($lvl));
         }
     }
 
@@ -256,31 +337,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $footer[0] = 'plugin';
         $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $this->toplevel_id, $footer_lvl));
         $ins[] = $footer;
-    }
-
-    /**
-     * Return the correct level 
-     *
-     * @author Michael Klier <chi@chimeric.de>
-     */
-    function _get_level($lvl, $curr_lvl) {
-        if($curr_lvl == $lvl) {
-            // current level equals inclusion level 
-            // return current level increased by 1
-            return (($curr_lvl + 1) <= 5) ? ($curr_lvl + 1) : 5;
-
-        } elseif(($curr_lvl < $lvl) && (($lvl - $curr_lvl) <= 1)) {
-            // if current level is small than inclusion level and difference 
-            // between inclusion level and current level is less than 1
-            // return current level increased by 1
-            return (($curr_lvl + 1) <= 5) ? ($curr_lvl + 1) : 5;
-
-        } elseif(($curr_lvl < $lvl) && (($lvl - $curr_lvl) > 1)) {
-            // if current level is less than inclusion level and
-            // difference between inclusion level and the curren level is
-            // greater than 1 return inclusion level increased by 1
-            return (($lvl + 1) <= 5) ? ($lvl + 1) : 5;
-        }
     }
 
     /** 
