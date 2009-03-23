@@ -131,8 +131,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             }
         }
 
-        dbglog($key);
-
         // empty $key implies no includes, so nothing to do
         if(empty($key)) return;
 
