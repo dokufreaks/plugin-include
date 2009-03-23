@@ -47,13 +47,21 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      * added an href parameter to the anchor tag linking to the wikilink.
      */
     function render($mode, &$renderer, $data) {
-        list($headline, $lvl, $page, $sect) = $data;
+        list($headline, $lvl, $page, $sect, $flags) = $data;
         $hid = $renderer->_headerToLink($headline);
         if ($mode == 'xhtml') {
             $renderer->toc_additem($hid, $headline, $lvl);
             $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
-            $renderer->doc .= DOKU_LF.'<h' . $lvl . '><a name="' . $hid . '" id="' . $hid . '" href="' . $url . '">';
-            $renderer->doc .= $renderer->_xmlEntities($headline);
+            $renderer->doc .= DOKU_LF.'<h' . $lvl;
+            if($flags['taglogos']) {
+                $tag = $this->_get_firsttag($page);
+                if($tag) {
+                    $renderer->doc .= ' class="include_firsttag__' . $tag . '"';
+                }
+            }
+            $headline = $renderer->_xmlEntities($headline);
+            $renderer->doc .= '><a name="' . $hid . '" id="' . $hid . '" href="' . $url . '" title="' . $headline . '">';
+            $renderer->doc .= $headline;
             $renderer->doc .= '</a></h' . $lvl . '>' . DOKU_LF;
             return true;
         } elseif($mode == 'metadata') {
@@ -61,6 +69,28 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Optionally add a CSS class for the first tag
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function _get_firsttag($page) {
+        if(plugin_isdisabled('tag') || (!$taghelper =& plugin_load('helper', 'tag'))) {
+            return false;
+        }
+        $subject = p_get_metadata($page, 'subject');
+        if (is_array($subject)) {
+            $tag = $subject[0];
+        } else {
+            list($tag, $rest) = explode(' ', $subject, 2);
+        }
+        if($tag) {
+            return $tag;
+        } else {
+            return false;
+        }
     }
 }
 // vim:ts=4:sw=4:et:enc=utf-8:

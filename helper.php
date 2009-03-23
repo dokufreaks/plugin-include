@@ -306,7 +306,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 // set permalink
                 if($flags['link'] && !$has_permalink && ($idx == $first_header)) {
-                    $this->_permalink($ins[$idx], $page, $sect);
+                    $this->_permalink($ins[$idx], $page, $sect, $flags);
                     $has_permalink = true;
                 }
             } else {
@@ -358,6 +358,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $editbtn[0] = 'plugin';
         $editbtn[1] = array('include_editbtn', array($page, $sect, $sect_title, $this->toplevel_id));
         $ins[] = $editbtn;
+    }
+
+    /**
+     * Convert instruction item for a permalink header
+     * 
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function _permalink(&$ins, $page, $sect, $flags) {
+        $ins[0] = 'plugin';
+        $ins[1] = array('include_header', array($ins[1][0], $ins[1][1], $page, $sect, $flags));
     }
 
     /** 
@@ -426,51 +436,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@DAY@'   => date('d'), 
                 ); 
         return str_replace(array_keys($replace), array_values($replace), $id); 
-    }
-
-    /**
-     * Create instruction item for a permalink header
-     * 
-     * @param   string  $text: Headline text
-     * @param   integer $level: Headline level
-     * @param   integer $pos: I wish I knew what this is for... (me too ;-))
-     * 
-     * @author Gina Haeussge <osd@foosel.net> 
-     * @author Michael Klier <chi@chimeric.de>
-     */
-    function _permalink(&$ins, $page, $sect) {
-        $ins[0] = 'plugin';
-        $ins[1] = array('include_header', array($ins[1][0], $ins[1][1], $page, $sect));
-    }
-  
-    /**
-     * Optionally display logo for the first tag found in the included page
-     *
-     * FIXME erm what was this for again?
-     */
-    function _showTagLogos() {
-        if ((!$this->getConf('showtaglogos'))
-                || (plugin_isdisabled('tag'))
-                || (!$taghelper =& plugin_load('helper', 'tag')))
-            return '';
-
-        $subject = p_get_metadata($this->page['id'], 'subject');
-        if (is_array($subject)) $tag = $subject[0];
-        else list($tag, $rest) = explode(' ', $subject, 2);
-        $title = str_replace('_', ' ', noNS($tag));
-        resolve_pageid($taghelper->namespace, $tag, $exists); // resolve shortcuts
-
-        $logosrc = mediaFN($logoID);
-        $types = array('.png', '.jpg', '.gif'); // auto-detect filetype
-        foreach ($types as $type) {
-            if (!@file_exists($logosrc.$type)) continue;
-            $logoID   = $tag.$type;
-            $logosrc .= $type;
-            list($w, $h, $t, $a) = getimagesize($logosrc);
-            return ' style="min-height: '.$h.'px">'.
-                '<img class="mediaright" src="'.ml($logoID).'" alt="'.$title.'"/';
-        }
-        return '';
     }
 }
 //vim:ts=4:sw=4:et:enc=utf-8:

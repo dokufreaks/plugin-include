@@ -46,7 +46,7 @@ class syntax_plugin_include_div extends DokuWiki_Syntax_Plugin {
         if ($mode == 'xhtml') {
             switch($data[0]) {
                 case 'open':
-                    $renderer->doc .= '<div class="plugin_include include_content">' . DOKU_LF;
+                    $renderer->doc .= '<div class="plugin_include_content">' . DOKU_LF;
                     break;
                 case 'close':
                     $renderer->doc .= '</div>' . DOKU_LF;
