@@ -56,7 +56,7 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
                 $xhtml .= '<input type="hidden" name="'.$key.'" ';
                 $xhtml .= 'value="'.htmlspecialchars($val).'" />';
             }
-            $xhtml .= '<input type="submit" value="'.htmlspecialchars($lang['btn_secedit']).'" class="button" title="'.$title.'"/>' . DOKU_LF;
+            $xhtml .= '<input type="submit" value="'.htmlspecialchars($lang['btn_secedit']).' (' . $page . ')" class="button" title="'.$title.'"/>' . DOKU_LF;
             $xhtml .= '</div></form>' . DOKU_LF;
             $xhtml .= '</div>' . DOKU_LF;
             $renderer->doc .= $xhtml;

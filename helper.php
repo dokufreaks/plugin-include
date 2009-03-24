@@ -320,6 +320,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 // it's a section
                 $new_lvl = (($ins[$idx][1][0] + $diff) > 5) ? 5 : ($ins[$idx][1][0] + $diff);
                 $ins[$idx][1][0] = $new_lvl;
+                // check if noheader is used and set the footer level to the first section
+                if($no_header && !$footer_lvl) $footer_lvl = $new_lvl;
             }
 
             // set footer level
