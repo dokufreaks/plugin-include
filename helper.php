@@ -222,6 +222,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $conv_idx = array(); // conversion index
         $lvl_max  = false;   // max level
         $first_header = -1;
+        $no_header = false;
 
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
@@ -231,6 +232,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     unset($ins[$i]);
                     break;
                 case 'header':
+                    // check if we need to skip the first header
+                    if((!$no_header) && $flags['noheader']) {
+                        unset($ins[$i]);
+                        $no_header = true;
+                        continue;
+                    }
                     $conv_idx[] = $i;
                     // get index of first header
                     if($first_header == -1) $first_header = $i;
