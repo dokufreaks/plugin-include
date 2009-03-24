@@ -51,31 +51,11 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl) = $data;
         
         if ($mode == 'xhtml') {
-            $renderer->doc .= $this->html_editButton($page, $flags, $redirect_id);
             $renderer->doc .= $this->html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $renderer);
 	        return true;
         }
         return false;
     }
-
-    /** 
-     * Display an edit button for the included page 
-     */ 
-    function html_editButton($page, $flags, $redirect_id) {
-        global $lang;
-
-        if($flags['editbtn']) return '';
-
-        $xhtml = '';
-        if(auth_quickaclcheck($page) >= AUTH_EDIT) {
-            $params = array('do' => 'edit');
-            if($flags['redirect']) $params['redirect_id'] = $redirect_id;
-            $xhtml = '<div class="secedit">' . DOKU_LF
-                   .  DOKU_TAB . html_btn('secedit', $page, '', $params, 'post') . DOKU_LF
-                   . '</div>' . DOKU_LF;
-            return $xhtml;
-        }
-    } 
 
     /**
      * Returns the meta line below the included page
