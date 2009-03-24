@@ -43,15 +43,22 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      */
     function render($mode, &$renderer, $data) {
+        global $lang;
         list($page, $sect, $sect_title, $redirect_id) = $data;
         if ($mode == 'xhtml') {
-            $tooltip = ($sect) ? $sect_title : $page;
-            $xhtml .= '<div class="secedit">';
-            $xhtml .= html_btn('secedit', $page, '', array('do' => 'edit', 
-                                                       'redirect_id' => $redirect_id, 
-                                                       'id' => $page),
-                                                       'post', $tooltip);
-            $xhtml .= '</div>';
+            $title = ($sect) ? $sect_title : $page;
+            $params = array('do' => 'edit', 
+                             'redirect_id' => $redirect_id, 
+                             'id' => $page);
+            $xhtml .= '<div class="secedit">' . DOKU_LF;
+            $xhtml .= '<form class="button btn_incledit" method="post" action="'.DOKU_SCRTIP.'"><div class="no">' . DOKU_LF;
+            foreach($params as $key => $val) {
+                $xhtml .= '<input type="hidden" name="'.$key.'" ';
+                $xhtml .= 'value="'.htmlspecialchars($val).'" />';
+            }
+            $xhtml .= '<input type="submit" value="'.htmlspecialchars($lang['btn_secedit']).'" class="button" title="'.$title.'"/>' . DOKU_LF;
+            $xhtml .= '</div></form>' . DOKU_LF;
+            $xhtml .= '</div>' . DOKU_LF;
             $renderer->doc .= $xhtml;
             return true;
         }
