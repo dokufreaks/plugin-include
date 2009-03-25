@@ -51,7 +51,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
-      $controller->register_hook('TPL_TOC_RENDER', 'BEFORE', $this, 'handle_toc');
     }
 
     /**
