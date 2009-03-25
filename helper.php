@@ -263,9 +263,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'plugin':
                     // FIXME skip other plugins?
-                    if($ins[$i][1][0] == 'tag_tag') unset($ins[$i]);                // skip tags
-                    if($ins[$i][1][0] == 'discussion_comments') unset($ins[$i]);    // skip comments
-                    if($ins[$i][1][0] == 'linkback') unset($ins[$i]);               // skip linkbacks
+                    switch($ins[$i][1][0]) {
+                        case 'tag_tag':                 // skip tags
+                        case 'discussion_comments':     // skip comments
+                        case 'linkback':                // skip linkbacks
+                        case 'data_entry':              // skip data plugin
+                            unset($ins[$i]);
+                            break;
+                    }
                     break;
                 default:
                     break;

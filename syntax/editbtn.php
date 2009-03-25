@@ -51,7 +51,7 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
                              'redirect_id' => $redirect_id, 
                              'id' => $page);
             $xhtml .= '<div class="secedit">' . DOKU_LF;
-            $xhtml .= '<form class="button btn_incledit" method="post" action="'.DOKU_SCRTIP.'"><div class="no">' . DOKU_LF;
+            $xhtml .= '<form class="button btn_incledit" method="post" action="' . DOKU_SCRIPT . '"><div class="no">' . DOKU_LF;
             foreach($params as $key => $val) {
                 $xhtml .= '<input type="hidden" name="'.$key.'" ';
                 $xhtml .= 'value="'.htmlspecialchars($val).'" />';

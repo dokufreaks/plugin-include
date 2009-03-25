@@ -54,10 +54,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('TPL_TOC_RENDER', 'BEFORE', $this, 'handle_toc');
     }
 
-    function handle_toc(&$event, $param) {
-        //dbglog($event->data);
-    }
-
     /**
      * Supplies the current section level to the include syntax plugin
      *
