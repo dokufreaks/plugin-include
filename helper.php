@@ -181,7 +181,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         global $ID;
 
         if($ID == $page || !page_exists($page) || (page_exists($page) && auth_quickaclcheck($page) < AUTH_READ)) return array();
-        $key = (!$sect) ? $page . '#' . $sect : $page;
+        $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
         if(!$this->includes[$key]) {
