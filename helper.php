@@ -315,7 +315,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // convert headers and set footer/permalink
         $has_permalink = false;
         $footer_lvl    = false;
-        dbglog($flags);
         foreach($conv_idx as $idx) {
             if($ins[$idx][0] == 'header') {
                 $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
