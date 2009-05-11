@@ -32,8 +32,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['date']      = $this->getConf('showdate');
         $this->defaults['user']      = $this->getConf('showuser');
         $this->defaults['comments']  = $this->getConf('showcomments');
-        $this->defaults['linkbacks'] = $this->getConf('linkbacks');
-        $this->defaults['tags']      = $this->getConf('tags');
+        $this->defaults['linkbacks'] = $this->getConf('showlinkbacks');
+        $this->defaults['tags']      = $this->getConf('showtags');
         $this->defaults['link']      = $this->getConf('showlink');
     }
 
