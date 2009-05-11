@@ -1,11 +1,8 @@
 <?php
 /**
- * Include plugin (permalink header component)
- *
- * Provides a header instruction which renders a permalink to the included page
+ * Include plugin (footer component)
  *
  * @license GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author  Gina Haeussge <osd@foosel.net>
  * @author  Michael Klier <chi@chimeric.de>
  */
 
@@ -22,7 +19,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
             'author' => 'Gina Häußge, Michael Klier',
             'email' => 'dokuwiki@chimeric.de',
             'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-            'name' => 'Include Plugin (permalink header component)',
+            'name' => 'Include Plugin (footer component)',
             'desc' => 'Provides a header instruction which renders a permalink to the included page',
             'url' => 'http://wiki.splitbrain.org/plugin:include',
         );
@@ -69,7 +66,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         $xhtml = array();
 
         // permalink
-        if ($flags['link']) {
+        if ($flags['permalink']) {
             $class = (page_exists($page) ? 'wikilink1' : 'wikilink2');
             $url   = ($sect) ? wl($page) . '#' . $sect : wl($page);
             $name  = ($sect) ? $sect_title : $page;
