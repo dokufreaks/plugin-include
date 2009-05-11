@@ -9,6 +9,7 @@ $meta['firstseconly']  = array('onoff');
 $meta['showtaglogos']  = array('onoff');
 $meta['showfooter']    = array('onoff');
 $meta['showlink']      = array('onoff');
+$meta['showpermalink'] = array('onoff');
 $meta['showdate']      = array('onoff');
 $meta['showuser']      = array('onoff');
 $meta['showcomments']  = array('onoff');
