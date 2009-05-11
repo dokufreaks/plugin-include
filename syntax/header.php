@@ -24,7 +24,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
             'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
             'name' => 'Include Plugin (permalink header component)',
             'desc' => 'Provides a header instruction which renders a permalink to the included page',
-            'url' => 'http://wiki.splitbrain.org/plugin:include',
+            'url' => 'http://dokuwiki.org/plugin:include',
         );
     }
 

@@ -45,7 +45,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Include Plugin (helper class)',
                 'desc'   => 'Functions to include another page in a wiki page',
-                'url'    => 'http://wiki.splitbrain.org/plugin:include',
+                'url'    => 'http://dokuwiki.org/plugin:include',
                 );
     }
 

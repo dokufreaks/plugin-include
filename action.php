@@ -36,7 +36,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
         'name'   => 'Include Plugin',
         'desc'   => 'Improved cache handling for included pages and redirect-handling',
-        'url'    => 'http://wiki.splitbrain.org/plugin:include',
+        'url'    => 'http://dokuwiki.org/plugin:include',
       );
     }
     

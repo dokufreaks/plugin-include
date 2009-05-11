@@ -33,7 +33,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
                 'name'   => 'Include Plugin', 
                 'desc'   => 'Displays a wiki page (or a section thereof) within another', 
-                'url'    => 'http://wiki.splitbrain.org/plugin:include', 
+                'url'    => 'http://dokuwiki.org/plugin:include', 
                 ); 
     } 
 
