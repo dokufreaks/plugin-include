@@ -419,9 +419,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _get_firstsec(&$ins, $page) {
         $num = count($ins);
+        $first_sect = false;
         for($i=0; $i<$num; $i++) {
             if($ins[$i][0] == 'section_close') {
-                $ins = array_slice($ins, 0, $i);
+                $first_sect = $i;
+            }
+            if(($first_sect) && ($ins[$i][0] == 'section_open')) {
+                $ins = array_slice($ins, 0, $first_sect);
                 $ins[] = array('p_open', array());
                 $ins[] = array('internallink',array($page, $this->getLang('readmore')));
                 $ins[] = array('p_close', array());
