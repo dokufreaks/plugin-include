@@ -129,10 +129,12 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
         // tags - let Tag Plugin do the work for us
         if (empty($sect) && $flags['tags'] && (!plugin_isdisabled('tag')) && ($tag =& plugin_load('helper', 'tag'))) {
-            $tags = '<div class="tags"><span>' . DOKU_LF
-                          . DOKU_TAB . $tag->td($page) . DOKU_LF
-                          . DOKU_TAB . '</span></div>' . DOKU_LF;
-            $xhtml .= $tags . DOKU_TAB;
+            $tags = $tag->td($page);
+            if($tags) {
+                $xhtml .= '<div class="tags"><span>' . DOKU_LF
+                              . DOKU_TAB . $tags . DOKU_LF
+                              . DOKU_TAB . '</span></div>' . DOKU_LF;
+            }
         }
 
         if (!$xhtml) $xhtml = '&nbsp;';
