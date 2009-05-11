@@ -222,7 +222,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $conv_idx = array(); // conversion index
         $lvl_max  = false;   // max level
         $first_header = -1;
-        $no_header = false;
+        $no_header  = false;
+        $sect_title = false;
 
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
@@ -232,6 +233,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     unset($ins[$i]);
                     break;
                 case 'header':
+                    // get section title of first section
+                    if($sect && !$sect_title) {
+                        $sect_title = $ins[$i][1][0];
+                    }
                     // check if we need to skip the first header
                     if((!$no_header) && $flags['noheader']) {
                         unset($ins[$i]);
@@ -310,11 +315,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if($ins[$idx][0] == 'header') {
                 $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
                 $ins[$idx][1][1] = $new_lvl;
-
-                // get section title if we only include one section
-                if(($sect && !$sect_title) && ($idx == $first_header)) {
-                    $sect_title = $ins[$idx][1][0];
-                }
 
                 // set permalink
                 if($flags['link'] && !$has_permalink && ($idx == $first_header)) {
