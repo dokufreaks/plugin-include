@@ -338,7 +338,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add edit button
-        if($flags['editbtn']) $this->_editbtn($ins, $page, $sect, $sect_title);
+        if($flags['editbtn'] && (auth_quickaclcheck($page) >= AUTH_EDIT)) $this->_editbtn($ins, $page, $sect, $sect_title);
 
         // add footer
         if($flags['footer']) $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
