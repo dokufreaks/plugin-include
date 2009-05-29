@@ -397,6 +397,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $num = count($ins);
         $offset = false;
         $lvl    = false;
+        $end    = false;
 
         for($i=0; $i<$num; $i++) {
             if ($ins[$i][0] == 'header') { 
@@ -406,10 +407,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $offset = $i;
                     $lvl    = $ins[$i][1][1]; 
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
-                    $ins = array_slice($ins, $offset, ($i - $offset));
+                    $end = $i - $offset;
+                    break;
                 }
             }
         }
+        $offset = $offset ? $offset : 0;
+        $end = $end ? $end : ($num - 1);
+        $ins = array_slice($ins, $offset, $end);
     } 
 
     /**
