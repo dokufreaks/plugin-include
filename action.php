@@ -120,8 +120,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
                 $file = wikiFN($page);
                 if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
                     $cache->depends['files'][] = $file;
-                    $acl = (AUTH_READ <= auth_quickaclcheck($page)) ? 'READ' : 'NONE';
-                    $key .= '#' . $page . '|' . $acl;
+                    $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
                 }
             }
         }
