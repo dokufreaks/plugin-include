@@ -59,7 +59,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     function render($format, &$renderer, $data) {
         if($format == 'metadata') {
             list($mode, $page, $sect, $flags) = $data;
-            if(page_exists($page)) $renderer->meta['relation']['haspart'][$page] = true;
+            $renderer->meta['relation']['haspart'][$page] = true;
             return true;
         }
         return false;
