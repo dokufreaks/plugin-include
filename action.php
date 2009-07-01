@@ -114,7 +114,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $key = ''; 
         foreach(array_keys($depends) as $page) {
-            if(strpos($page,'/') ||  cleanID($page) != $page) {
+            $page = $this->helper->_apply_macro($page);
+            if(strpos($page,'/') || cleanID($page) != $page) {
                 continue;
             } else {
                 $file = wikiFN($page);
