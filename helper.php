@@ -243,9 +243,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     }
                     // check if we need to skip the first header
                     if((!$no_header) && $flags['noheader']) {
-                        unset($ins[$i]);
                         $no_header = true;
-                        continue;
                     }
                     $conv_idx[] = $i;
                     // get index of first header
@@ -288,35 +286,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // calculate difference between header/section level and include level
         $diff = 0;
-        if($lvl_max) {
-            // max level equals inclusion level diff is 1
-            if($lvl_max == $lvl) {
-                $diff = 1;
-            }
-            // max level is les than inclusion level, we have to convert downwards
-            if($lvl_max < $lvl) {
-                $diff = (($lvl - $lvl_max) + 1);
-            } 
-            // max level is greate inclusion level, we have to convert upwards
-            if($lvl_max > $lvl) {
-                if($lvl == 0) {
-                    // we had no previous section pretend it was 1
-                    $diff = (1 - $lvl_max);
-                } elseif(($lvl - $lvl_max) == -1) {
-                    // we don't need to convert anything up diff is 0
-                    $diff = 0;
-                } else {
-                    // convert everything up
-                    $diff = ($lvl - $lvl_max);
-                }
-            }
-        }
+   if (!$lvl_max) $lvl_max = 0; // if no level found in taget, set to 0
+   $diff = $lvl - $lvl_max + 1;
+   if ($no_header) $diff -= 1; // push up on level if "noheader"
 
         // convert headers and set footer/permalink
+        $hdr_deleted       = false;
         $has_permalink = false;
         $footer_lvl    = false;
         foreach($conv_idx as $idx) {
             if($ins[$idx][0] == 'header') {
+       if($no_header && !$hdr_deleted) {
+           unset ($ins[$idx]);
+           $hdr_deleted = true;
+           continue;
+       }
                 $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
                 $ins[$idx][1][1] = $new_lvl;
 
