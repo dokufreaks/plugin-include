@@ -275,6 +275,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         case 'discussion_comments':     // skip comments
                         case 'linkback':                // skip linkbacks
                         case 'data_entry':              // skip data plugin
+                        case 'meta':                    // skip meta plugin
                             unset($ins[$i]);
                             break;
                     }
