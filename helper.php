@@ -150,14 +150,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 // check if we left the range of possible sub includes and reset lvl to toplevel
                 if($range && ($i > $range)) {
-                    if($prev_lvl) {
-                        $lvl = $prev_lvl;
+                    if(isset($prev_lvl)) {
+                        $lvl = ($prev_lvl == 0) ? 1 : $prev_lvl;
                         $prev_lvl = false;
                     } else {
                         $lvl = $this->toplevel;
                     }
                 }
-                
+
                 $page = $this->_apply_macro($page);
                 resolve_pageid(getNS($id), $page, $exists); // resolve shortcuts
                 $flags  = $this->get_flags($flags);
@@ -287,21 +287,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // calculate difference between header/section level and include level
         $diff = 0;
-   if (!$lvl_max) $lvl_max = 0; // if no level found in taget, set to 0
-   $diff = $lvl - $lvl_max + 1;
-   if ($no_header) $diff -= 1; // push up on level if "noheader"
+        if (!$lvl_max) $lvl_max = 0; // if no level found in target, set to 0
+        $diff = $lvl - $lvl_max + 1;
+        if ($no_header) $diff -= 1;  // push up one level if "noheader"
 
         // convert headers and set footer/permalink
-        $hdr_deleted       = false;
+        $hdr_deleted   = false;
         $has_permalink = false;
         $footer_lvl    = false;
         foreach($conv_idx as $idx) {
             if($ins[$idx][0] == 'header') {
-       if($no_header && !$hdr_deleted) {
-           unset ($ins[$idx]);
-           $hdr_deleted = true;
-           continue;
-       }
+                if($no_header && !$hdr_deleted) {
+                    unset ($ins[$idx]);
+                    $hdr_deleted = true;
+                    continue;
+                }
                 $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
                 $ins[$idx][1][1] = $new_lvl;
 
