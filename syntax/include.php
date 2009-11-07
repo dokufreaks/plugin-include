@@ -57,8 +57,10 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     }
 
     function render($format, &$renderer, $data) {
+        global $ID;
         if($format == 'metadata') {
             list($mode, $page, $sect, $flags) = $data;
+            resolve_pageid(curNS($ID), $page, $exists);
             $renderer->meta['relation']['haspart'][$page] = true;
             return true;
         }
