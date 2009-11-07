@@ -397,7 +397,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
         $offset = $offset ? $offset : 0;
         $end = $end ? $end : ($num - 1);
-        $ins = array_slice($ins, $offset, $end);
+        if(is_array($ins)) {
+            $ins = array_slice($ins, $offset, $end);
+        }
     } 
 
     /**
