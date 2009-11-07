@@ -17,7 +17,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $includes     = array();
     var $toplevel_id  = NULL;
-    var $toplevel     = NULL;
+    var $toplevel     = 0;
     var $defaults     = array();
 
     /**
@@ -140,9 +140,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 // found no previous section set lvl to 0
                 if(!$lvl) $lvl = 0; 
 
-                // check if toplevel is set already
-                if(!isset($this->toplevel)) $this->toplevel = $lvl;
-
                 $mode  = $ins[$i][1][1][0];
                 $page  = $ins[$i][1][1][1];
                 $sect  = $ins[$i][1][1][2];
@@ -186,6 +183,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         if(($ID == $page) || (auth_quickaclcheck($page) < AUTH_READ) || (!page_exists($page)) && (auth_quickaclcheck($page) < AUTH_CREATE)) return array();
         $key = ($sect) ? $page . '#' . $sect : $page;
+        dbglog($this->includes);
 
         // prevent recursion
         if(!$this->includes[$key]) {
