@@ -434,8 +434,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         if (!$auth) return $id;
 
         $user     = $_SERVER['REMOTE_USER'];
-        $userdata = $auth->getUserData($user);
-        $group    = $userdata['grps'][0];
+        $group    = $INFO['userinfo']['grps'][0];
 
         $replace = array( 
                 '@USER@'  => cleanID($user), 
