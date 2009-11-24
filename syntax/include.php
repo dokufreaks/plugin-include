@@ -44,6 +44,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     function connectTo($mode) {  
         $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');  
         $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include'); 
+        $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include'); 
     } 
 
     function handle($match, $state, $pos, &$handler) {

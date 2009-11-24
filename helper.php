@@ -13,6 +13,8 @@ if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
 if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 
+require_once(DOKU_INC.'inc/search.php');
+
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $includes     = array();
@@ -161,6 +163,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      */
     function parse_instructions($id, &$ins) {
+        global $conf;
+
         $num = count($ins);
 
         $lvl      = false;
@@ -183,26 +187,57 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 if(!$lvl) $lvl = 0; 
 
                 $mode  = $ins[$i][1][1][0];
-                $page  = $ins[$i][1][1][1];
-                $sect  = $ins[$i][1][1][2];
-                $flags = $ins[$i][1][1][3];
 
-                $page = $this->_apply_macro($page);
-                resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
-                $ins[$i][1][1][4] = $scope;
-                $scope = $page;
+                if($mode == 'namespace') {
+                    $ns    = $ins[$i][1][1][1];
+                    $sect  = '';
+                    $flags = $ins[$i][1][1][3];
 
-                $flags  = $this->get_flags($flags);
+                    $pages = array();
+                    search($pages, $conf['datadir'], 'search_pagename', array('query' => $ns));
 
-                $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
+                    if(!empty($pages)) {
+                        $ins_inc = array();
+                        foreach($pages as $page) {
+                            $ins_tmp = array();
+                            $ins_tmp[0]       = 'plugin';
+                            $ins_tmp[1][0]    = 'include_include';
+                            $ins_tmp[1][1][0] = 'page';
+                            $ins_tmp[1][1][1] = $page['id'];
+                            $ins_tmp[1][1][2] = '';
+                            $ins_tmp[1][1][3] = $flags;
+                            $ins_inc = array_merge($ins_inc, array($ins_tmp));
+                        }
+                        $ins_start = array_slice($ins, 0, $i+1);
+                        $ins_end   = array_slice($ins, $i+1);
+                        $ins       = array_merge($ins_start, $ins_inc, $ins_end);
+                    }
+                    unset($ins[$i]);
+                    $i--;
+                }
 
-                if(!empty($ins_inc)) {
-                    // combine instructions and reset counter
-                    $ins_start = array_slice($ins, 0, $i+1);
-                    $ins_end   = array_slice($ins, $i+1);
-                    $range = $i + count($ins_inc);
-                    $ins = array_merge($ins_start, $ins_inc, $ins_end);
-                    $num = count($ins);
+                if($mode == 'page' || $mode == 'section') {
+                    $page  = $ins[$i][1][1][1];
+                    $sect  = $ins[$i][1][1][2];
+                    $flags = $ins[$i][1][1][3];
+
+                    $page = $this->_apply_macro($page);
+                    resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
+                    $ins[$i][1][1][4] = $scope;
+                    $scope = $page;
+
+                    $flags  = $this->get_flags($flags);
+
+                    $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
+
+                    if(!empty($ins_inc)) {
+                        // combine instructions and reset counter
+                        $ins_start = array_slice($ins, 0, $i+1);
+                        $ins_end   = array_slice($ins, $i+1);
+                        $range = $i + count($ins_inc);
+                        $ins = array_merge($ins_start, $ins_inc, $ins_end);
+                        $num = count($ins);
+                    }
                 }
             }
 
