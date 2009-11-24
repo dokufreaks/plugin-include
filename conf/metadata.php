@@ -18,5 +18,6 @@ $meta['showtags']      = array('onoff');
 $meta['showeditbtn']   = array('onoff');
 $meta['doredirect']    = array('onoff');
 $meta['usernamespace'] = array('string');
+$meta['doindent']      = array('onoff');
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

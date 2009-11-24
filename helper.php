@@ -36,6 +36,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['tags']      = $this->getConf('showtags');
         $this->defaults['link']      = $this->getConf('showlink');
         $this->defaults['permalink'] = $this->getConf('showpermalink');
+        $this->defaults['indent']    = $this->getConf('doindent');
     }
 
     function getInfo() {
@@ -142,6 +143,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'nodate':
                     $flags['date'] = 0;
+                    break;
+                case 'indent':
+                    $flags['indent'] = 1;
+                    break;
+                case 'noindent':
+                    $flags['indent'] = 0;
                     break;
             }
         }
@@ -340,24 +347,42 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $hdr_deleted = true;
                     continue;
                 }
-                $new_lvl = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
-                $ins[$idx][1][1] = $new_lvl;
+
+                if($flags['indent']) {
+                    $lvl_new = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
+                    $ins[$idx][1][1] = $lvl_new;
+                }
 
                 // set permalink
                 if($flags['link'] && !$has_permalink && ($idx == $first_header)) {
                     $this->_permalink($ins[$idx], $page, $sect, $flags);
                     $has_permalink = true;
                 }
+
+                // set footer level
+                if(!$footer_lvl && ($idx == $first_header) && !$no_header) {
+                    if($flags['indent']) {
+                        $footer_lvl = $lvl_new;
+                    } else {
+                        $footer_lvl = $lvl_max;
+                    }
+                }
             } else {
                 // it's a section
-                $new_lvl = (($ins[$idx][1][0] + $diff) > 5) ? 5 : ($ins[$idx][1][0] + $diff);
-                $ins[$idx][1][0] = $new_lvl;
-                // check if noheader is used and set the footer level to the first section
-                if($no_header && !$footer_lvl) $footer_lvl = $new_lvl;
-            }
+                if($flags['indent']) {
+                    $lvl_new = (($ins[$idx][1][0] + $diff) > 5) ? 5 : ($ins[$idx][1][0] + $diff);
+                    $ins[$idx][1][0] = $lvl_new;
+                }
 
-            // set footer level
-            if(!$footer_lvl && ($idx == $first_header)) $footer_lvl = $new_lvl;
+                // check if noheader is used and set the footer level to the first section
+                if($no_header && !$footer_lvl) {
+                    if($flags['indent']) {
+                        $footer_lvl = $lvl_new;
+                    } else {
+                        $footer_lvl = $lvl_max;
+                    }
+                } 
+            }
         }
 
         // add edit button

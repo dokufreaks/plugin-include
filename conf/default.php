@@ -15,5 +15,6 @@ $conf['showtags']      = 1;      // show tags below blog entries
 $conf['showeditbtn']   = 1;      // show the edit button
 $conf['doredirect']    = 1;      // redirect back to original page after an edit
 $conf['usernamespace'] = 'user'; // namespace for user pages
+$conf['doindent']      = 1;      // indent included pages relative to the page they get included
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :

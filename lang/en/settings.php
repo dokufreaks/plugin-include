@@ -20,5 +20,6 @@ $lang['showtags']      = 'show tags below included page (Tag Plugin needed)';
 $lang['showeditbtn']   = 'show edit button';
 $lang['doredirect']    = 'redirect to the original page after editing the included page';
 $lang['usernamespace'] = 'namespace for user pages';
+$lang['doindent']      = 'indent included pages relative to the page they get included in';
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
