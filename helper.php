@@ -125,10 +125,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $lvl      = false;
         $prev_lvl = false;
-        $mode  = '';
-        $page  = '';
-        $flags = array();
-        $range = false;
+        $mode     = '';
+        $page     = '';
+        $flags    = array();
+        $range    = false;
+        $scope    = $id;
 
         for($i=0; $i<$num; $i++) {
             // set current level
@@ -136,6 +137,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $lvl = $ins[$i][1][0];
                 if($i > $range) $prev_lvl = $lvl;
             }
+
             if($ins[$i][0] == 'plugin' && $ins[$i][1][0] == 'include_include' ) {
                 // found no previous section set lvl to 0
                 if(!$lvl) $lvl = 0; 
@@ -145,18 +147,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $sect  = $ins[$i][1][1][2];
                 $flags = $ins[$i][1][1][3];
 
-                // check if we left the range of possible sub includes and reset lvl to toplevel
-                if($range && ($i > $range)) {
-                    if(isset($prev_lvl)) {
-                        $lvl = ($prev_lvl == 0) ? 1 : $prev_lvl;
-                        $prev_lvl = false;
-                    } else {
-                        $lvl = $this->toplevel;
-                    }
-                }
-
                 $page = $this->_apply_macro($page);
-                resolve_pageid(getNS($id), $page, $exists); // resolve shortcuts
+                resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
+                $ins[$i][1][1][4] = $scope;
+                $scope = $page;
+
                 $flags  = $this->get_flags($flags);
 
                 $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
@@ -169,6 +164,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $ins = array_merge($ins_start, $ins_inc, $ins_end);
                     $num = count($ins);
                 }
+            }
+
+            // check if we left the range of possible sub includes and reset lvl and scope to toplevel_id
+            if($range && ($i > $range)) {
+                $lvl = ($prev_lvl == 0) ? 1 : $prev_lvl;
+                $prev_lvl = false;
+                $range    = false;
+                // reset scope to toplevel_id
+                $scope = $this->toplevel_id;
             }
         }
     }
@@ -183,7 +187,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         if(($ID == $page) || (auth_quickaclcheck($page) < AUTH_READ) || (!page_exists($page)) && (auth_quickaclcheck($page) < AUTH_CREATE)) return array();
         $key = ($sect) ? $page . '#' . $sect : $page;
-        dbglog($this->includes);
 
         // prevent recursion
         if(!$this->includes[$key]) {

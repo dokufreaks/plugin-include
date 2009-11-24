@@ -45,7 +45,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function register(&$controller) {
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
-//      $controller->register_hook('PARSER_CACHE_USE','AFTER', $this, '_cache_result');    // debugging only
       $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
@@ -138,11 +137,5 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $cache->cache = getCacheName($cache->key, $cache->ext);
     }
  
-    function _cache_result(&$event, $param) {
-        $cache =& $event->data;
-        if (empty($cache->include)) return;
-        //global $debug;
-        //$debug['cache_result'][] = $event->result ? 'true' : 'false';
-    }
 }
 //vim:ts=4:sw=4:et:enc=utf-8: 
