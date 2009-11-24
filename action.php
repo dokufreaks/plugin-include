@@ -111,6 +111,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $depends = p_get_metadata($ID, 'relation haspart');
         if(empty($depends)) return;
 
+        // add plugin VERSION file to depends for nicer upgrades
+        $cache->depends['files'][] = dirname(__FILE__) . '/VERSION';
+
         $key = ''; 
         foreach(array_keys($depends) as $page) {
             $page = $this->helper->_apply_macro($page);
