@@ -185,7 +185,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
         global $ID;
 
-        if(($ID == $page) || (auth_quickaclcheck($page) < AUTH_READ) || (!page_exists($page)) && (auth_quickaclcheck($page) < AUTH_CREATE)) return array();
+        if(($ID == $page) || (auth_quickaclcheck($page) < AUTH_READ) 
+                          || (!page_exists($page)) 
+                          && (auth_quickaclcheck($page) < AUTH_CREATE)) return array();
+
         $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
@@ -246,10 +249,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if((!$no_header) && $flags['noheader']) {
                         $no_header = true;
                     }
+
                     $conv_idx[] = $i;
                     // get index of first header
                     if($first_header == -1) $first_header = $i;
-                    // get max level if this instructions set
+                    // get max level of this instructions set
                     if(!$lvl_max || ($ins[$i][1][1] < $lvl_max)) {
                         $lvl_max = $ins[$i][1][1];
                     }
@@ -324,10 +328,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add edit button
-        if($flags['editbtn'] && (auth_quickaclcheck($page) >= AUTH_EDIT)) $this->_editbtn($ins, $page, $sect, $sect_title);
+        if($flags['editbtn'] && (auth_quickaclcheck($page) >= AUTH_EDIT)) {
+            $this->_editbtn($ins, $page, $sect, $sect_title);
+        }
 
         // add footer
-        if($flags['footer']) $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
+        if($flags['footer']) {
+            $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
+        }
 
         // add instructions entry divs
         array_unshift($ins, array('plugin', array('include_div', array('open', $page))));
