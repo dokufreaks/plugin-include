@@ -110,6 +110,39 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'link':
                     $flags['link'] = 1;
                     break;
+                case 'nolink':
+                    $flags['link'] = 0;
+                    break;
+                case 'user':
+                    $flags['user'] = 1;
+                    break;
+                case 'nouser':
+                    $flags['user'] = 0;
+                    break;
+                case 'comments':
+                    $flags['comments'] = 1;
+                    break;
+                case 'nocomments':
+                    $flags['comments'] = 0;
+                    break;
+                case 'linkbacks':
+                    $flags['linkbacks'] = 1;
+                    break;
+                case 'nolinkbacks':
+                    $flags['linkbacks'] = 0;
+                    break;
+                case 'tags':
+                    $flags['tags'] = 1;
+                    break;
+                case 'notags':
+                    $flags['tags'] = 0;
+                    break;
+                case 'date':
+                    $flags['date'] = 1;
+                    break;
+                case 'nodate':
+                    $flags['date'] = 0;
+                    break;
             }
         }
         return $flags;
