@@ -18,9 +18,11 @@ require_once(DOKU_INC.'inc/search.php');
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $includes     = array();
+    var $hasparts     = array();
     var $toplevel_id  = NULL;
     var $toplevel     = 0;
     var $defaults     = array();
+    var $include_key     = '';
 
     /**
      * Constructor loads default config settings once
@@ -164,6 +166,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function parse_instructions($id, &$ins) {
         global $conf;
+        global $INFO;
 
         $num = count($ins);
 
@@ -199,8 +202,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $page) {
-                            if(quth_quickaclcheck($page) < AUTH_READ) continue;
-                            $ins_tmp = array();
+                            $perm = auth_quickaclcheck($page);
+                            if($perm < AUTH_READ) continue;
+                            array_push($this->hasparts, $page);
                             $ins_tmp[0]       = 'plugin';
                             $ins_tmp[1][0]    = 'include_include';
                             $ins_tmp[1][1][0] = 'page';
@@ -219,10 +223,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 if($mode == 'page' || $mode == 'section') {
                     $page  = $ins[$i][1][1][1];
-                    if(auth_quickaclcheck($page) < AUTH_READ) {
-                        unset($ins[$i]);
-                        continue;
-                    }
+                    $perm = auth_quickaclcheck($page);
+
+                    if($perm < AUTH_READ) continue;
+                    array_push($this->hasparts, $page);
 
                     $sect  = $ins[$i][1][1][2];
                     $flags = $ins[$i][1][1][3];
@@ -231,18 +235,24 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
                     $ins[$i][1][1][4] = $scope;
                     $scope = $page;
+                    $flags = $this->get_flags($flags);
 
-                    $flags  = $this->get_flags($flags);
-
-                    $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
-
-                    if(!empty($ins_inc)) {
-                        // combine instructions and reset counter
-                        $ins_start = array_slice($ins, 0, $i+1);
-                        $ins_end   = array_slice($ins, $i+1);
-                        $range = $i + count($ins_inc);
-                        $ins = array_merge($ins_start, $ins_inc, $ins_end);
-                        $num = count($ins);
+                    if(!page_exists($page)) {
+                        if($flags['footer']) {
+                            $ins[$i] = $this->_footer($page, $sect, '', $flags, 0);
+                        } else {
+                            unset($ins[$i]);
+                        }
+                    } else {
+                        $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
+                        if(!empty($ins_inc)) {
+                            // combine instructions and reset counter
+                            $ins_start = array_slice($ins, 0, $i+1);
+                            $ins_end   = array_slice($ins, $i+1);
+                            $range = $i + count($ins_inc);
+                            $ins = array_merge($ins_start, $ins_inc, $ins_end);
+                            $num = count($ins);
+                        }
                     }
                 }
             }
@@ -256,6 +266,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $scope = $this->toplevel_id;
             }
         }
+
+        if(!empty($INFO['userinfo'])) {
+            $include_key = $INFO['userinfo']['name'] . '|' . implode('|', $INFO['userinfo']['grps']);
+        } else {
+            $include_key = '@ALL';
+        }
+
+        $meta = p_get_metadata($id, 'plugin_include');
+        $meta[$include_key] = array_unique($this->hasparts);
+        p_set_metadata($id, array('plugin_include' => $meta), true, true);
     }
 
     /**
@@ -266,16 +286,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
         global $ID;
         
-        if(!page_exists($page)) {
-            if($flags['footer']) {
-                $ins = array();
-                $this->_footer($ins, $page, $sect, '', $flags, 0);
-                return $ins;
-            } else {
-                return array();
-            }
-        }
-
         $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
@@ -439,7 +449,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add footer
         if($flags['footer']) {
-            $this->_footer($ins, $page, $sect, $sect_title, $flags, $footer_lvl);
+            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl);
         }
 
         // add instructions entry divs
@@ -458,11 +468,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _footer(&$ins, $page, $sect, $sect_title, $flags, $footer_lvl) {
+    function _footer($page, $sect, $sect_title, $flags, $footer_lvl) {
         $footer = array();
         $footer[0] = 'plugin';
         $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $this->toplevel_id, $footer_lvl));
-        $ins[] = $footer;
+        return $footer;
     }
 
     /**

@@ -98,6 +98,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function _cache_prepare(&$event, $param) {
         global $ID;
+        global $INFO;
         global $conf;
 
         $cache =& $event->data;
@@ -107,15 +108,21 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         if(!isset($cache->page) && ($cache->page != $ID)) return;
         if(!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
 
+        if(!empty($INFO['userinfo'])) {
+            $include_key = $INFO['userinfo']['name'] . '|' . implode('|', $INFO['userinfo']['grps']);
+        } else {
+            $include_key = '@ALL';
+        }
+
         // get additional depends
-        $depends = p_get_metadata($ID, 'relation haspart');
-        if(empty($depends)) return;
+        $depends = p_get_metadata($ID, 'plugin_include');
+        if(empty($depends[$include_key])) return;
 
         // add plugin VERSION file to depends for nicer upgrades
         $cache->depends['files'][] = dirname(__FILE__) . '/VERSION';
 
         $key = ''; 
-        foreach(array_keys($depends) as $page) {
+        foreach($depends[$include_key] as $page) {
             $page = $this->helper->_apply_macro($page);
             if(strpos($page,'/') || cleanID($page) != $page) {
                 continue;
