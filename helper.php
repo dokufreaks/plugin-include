@@ -199,6 +199,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $page) {
+                            if(quth_quickaclcheck($page) < AUTH_READ) continue;
                             $ins_tmp = array();
                             $ins_tmp[0]       = 'plugin';
                             $ins_tmp[1][0]    = 'include_include';
@@ -218,6 +219,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 if($mode == 'page' || $mode == 'section') {
                     $page  = $ins[$i][1][1][1];
+                    if(auth_quickaclcheck($page) < AUTH_READ) continue;
+
                     $sect  = $ins[$i][1][1][2];
                     $flags = $ins[$i][1][1][3];
 
@@ -259,10 +262,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
         global $ID;
-
-        if(($ID == $page) || (auth_quickaclcheck($page) < AUTH_READ) 
-                          || (!page_exists($page)) 
-                          && (auth_quickaclcheck($page) < AUTH_CREATE)) return array();
+        
+        if(!page_exists($page)) return array();
 
         $key = ($sect) ? $page . '#' . $sect : $page;
 
