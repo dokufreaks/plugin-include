@@ -263,8 +263,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
         global $ID;
         
-        if(!page_exists($page)) return array();
-
         $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
