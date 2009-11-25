@@ -219,7 +219,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 if($mode == 'page' || $mode == 'section') {
                     $page  = $ins[$i][1][1][1];
-                    if(auth_quickaclcheck($page) < AUTH_READ) continue;
+                    if(auth_quickaclcheck($page) < AUTH_READ) {
+                        unset($ins[$i]);
+                        continue;
+                    }
 
                     $sect  = $ins[$i][1][1][2];
                     $flags = $ins[$i][1][1][3];
@@ -263,6 +266,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
         global $ID;
         
+        if(!page_exists($page)) {
+            if($flags['footer']) {
+                $ins = array();
+                $this->_footer($ins, $page, $sect, '', $flags, 0);
+                return $ins;
+            } else {
+                return array();
+            }
+        }
+
         $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
