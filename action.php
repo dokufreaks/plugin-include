@@ -114,15 +114,24 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $include_key = '@ALL';
         }
 
-        // get additional depends
         $depends = p_get_metadata($ID, 'plugin_include');
-        if(empty($depends[$include_key])) return;
+        if(is_array($depends)) {
+            $pages = array();
+            if(!isset($depends['keys'][$include_key])) {
+                $cache->depends['purge'] = true; // include key not set - request purge 
+            } else {
+                $pages = $depends['pages'];
+            }
+        } else {
+            // nothing to do for us
+            return;
+        }
 
         // add plugin VERSION file to depends for nicer upgrades
         $cache->depends['files'][] = dirname(__FILE__) . '/VERSION';
 
         $key = ''; 
-        foreach($depends[$include_key] as $page) {
+        foreach($pages as $page) {
             $page = $this->helper->_apply_macro($page);
             if(strpos($page,'/') || cleanID($page) != $page) {
                 continue;

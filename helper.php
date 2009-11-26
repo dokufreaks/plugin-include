@@ -203,8 +203,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         $ins_inc = array();
                         foreach($pages as $page) {
                             $perm = auth_quickaclcheck($page['id']);
-                            if($perm < AUTH_READ) continue;
                             array_push($this->hasparts, $page['id']);
+                            if($perm < AUTH_READ) continue;
                             $ins_tmp[0]       = 'plugin';
                             $ins_tmp[1][0]    = 'include_include';
                             $ins_tmp[1][1][0] = 'page';
@@ -225,8 +225,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $page  = $ins[$i][1][1][1];
                     $perm = auth_quickaclcheck($page);
 
-                    if($perm < AUTH_READ) continue;
                     array_push($this->hasparts, $page);
+                    if($perm < AUTH_READ) continue;
 
                     $sect  = $ins[$i][1][1][2];
                     $flags = $ins[$i][1][1][3];
@@ -273,8 +273,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $include_key = '@ALL';
         }
 
+        $meta = array();
         $meta = p_get_metadata($id, 'plugin_include');
-        $meta[$include_key] = array_unique($this->hasparts);
+        $meta['pages'] = array_unique($this->hasparts);
+        $meta['keys'][$include_key] = true;
         p_set_metadata($id, array('plugin_include' => $meta), true, true);
     }
 
