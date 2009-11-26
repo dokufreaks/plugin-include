@@ -192,19 +192,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $mode  = $ins[$i][1][1][0];
 
                 if($mode == 'namespace') {
-                    $ns    = $ins[$i][1][1][1];
+                    $ns    = str_replace(':', '/', cleanID($ins[$i][1][1][1]).':');
                     $sect  = '';
                     $flags = $ins[$i][1][1][3];
 
                     $pages = array();
-                    search($pages, $conf['datadir'], 'search_pagename', array('query' => $ns));
+                    search($pages, $conf['datadir'], 'search_list', '', $ns);
 
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $page) {
-                            $perm = auth_quickaclcheck($page);
+                            $perm = auth_quickaclcheck($page['id']);
                             if($perm < AUTH_READ) continue;
-                            array_push($this->hasparts, $page);
+                            array_push($this->hasparts, $page['id']);
                             $ins_tmp[0]       = 'plugin';
                             $ins_tmp[1][0]    = 'include_include';
                             $ins_tmp[1][1][0] = 'page';
