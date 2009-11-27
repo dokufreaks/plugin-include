@@ -198,6 +198,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                     $pages = array();
                     search($pages, $conf['datadir'], 'search_list', '', $ns);
+                    sort($pages);
 
                     if(!empty($pages)) {
                         $ins_inc = array();
