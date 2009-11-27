@@ -192,7 +192,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $mode  = $ins[$i][1][1][0];
 
                 if($mode == 'namespace') {
-                    $ns    = str_replace(':', '/', cleanID($ins[$i][1][1][1]).':');
+                    $ns    = str_replace(':', '/', cleanID($ins[$i][1][1][1]));
                     $sect  = '';
                     $flags = $ins[$i][1][1][3];
 
@@ -258,7 +258,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
 
             // check if we left the range of possible sub includes and reset lvl and scope to toplevel_id
-            if($range && ($i > $range)) {
+            if($range && ($i >= $range)) {
                 $lvl = ($prev_lvl == 0) ? 1 : $prev_lvl;
                 $prev_lvl = false;
                 $range    = false;
