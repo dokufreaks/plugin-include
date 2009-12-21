@@ -114,7 +114,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $include_key = '@ALL';
         }
 
-        $depends = p_get_metadata($ID, 'plugin_include');
+        $depends = p_get_metadata($ID, plugin_include);
         if(is_array($depends)) {
             $pages = array();
             if(!isset($depends['keys'][$include_key])) {

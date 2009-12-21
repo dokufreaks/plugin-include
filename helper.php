@@ -22,7 +22,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $toplevel_id  = NULL;
     var $toplevel     = 0;
     var $defaults     = array();
-    var $include_key     = '';
+    var $include_key  = '';
 
     /**
      * Constructor loads default config settings once
@@ -274,11 +274,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $include_key = '@ALL';
         }
 
+        // handle meta data
         $meta = array();
         $meta = p_get_metadata($id, 'plugin_include');
         $meta['pages'] = array_unique($this->hasparts);
         $meta['keys'][$include_key] = true;
-        p_set_metadata($id, array('plugin_include' => $meta), true, true);
+        $ins_meta    = array();
+        $ins_meta[0] = 'plugin';
+        $ins_meta[1] = array('include_meta', array($meta));
+        array_push($ins, $ins_meta);
     }
 
     /**
@@ -287,8 +291,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      */
     function _get_instructions($page, $sect, $mode, $lvl, $flags) {
-        global $ID;
-        
         $key = ($sect) ? $page . '#' . $sect : $page;
 
         // prevent recursion
