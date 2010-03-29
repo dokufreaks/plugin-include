@@ -105,7 +105,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         // we're only interested in instructions of the current page
         // without the ID check we'd get the cache objects for included pages as well
-        if(!isset($cache->page) && ($cache->page != $ID)) return;
+        if(!isset($cache->page) || ($cache->page != $ID)) return;
         if(!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
 
         if(!empty($INFO['userinfo'])) {
