@@ -15,17 +15,6 @@ require_once (DOKU_PLUGIN . 'syntax.php');
 
 class syntax_plugin_include_meta extends DokuWiki_Syntax_Plugin {
 
-    function getInfo() {
-        return array (
-            'author' => 'Gina Häußge, Michael Klier',
-            'email' => 'dokuwiki@chimeric.de',
-            'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-            'name' => 'Include Plugin (meta component)',
-            'desc' => 'Handles the meta data',
-            'url' => 'http://dokuwiki.org/plugin:include',
-        );
-    }
-
     function getType() {
         return 'formatting';
     }

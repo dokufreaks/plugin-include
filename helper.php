@@ -43,17 +43,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['indent']    = $this->getConf('doindent');
     }
 
-    function getInfo() {
-        return array(
-                'author' => 'Gina Häußge, Michael Klier, Esther Brunner',
-                'email'  => 'dokuwiki@chimeric.de',
-                'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-                'name'   => 'Include Plugin (helper class)',
-                'desc'   => 'Functions to include another page in a wiki page',
-                'url'    => 'http://dokuwiki.org/plugin:include',
-                );
-    }
-
     /**
      * Available methods for other plugins
      */

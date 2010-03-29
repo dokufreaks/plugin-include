@@ -27,20 +27,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     }
  
     /**
-     * return some info
-     */
-    function getInfo() {
-      return array(
-        'author' => 'Gina Häußge, Michael Klier, Christopher Smith',
-        'email'  => 'dokuwiki@chimeric.de',
-        'date'   => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-        'name'   => 'Include Plugin',
-        'desc'   => 'Improved cache handling for included pages and redirect-handling',
-        'url'    => 'http://dokuwiki.org/plugin:include',
-      );
-    }
-    
-    /**
      * plugin should use this method to register its handlers with the dokuwiki's event controller
      */
     function register(&$controller) {

@@ -14,17 +14,6 @@ require_once (DOKU_PLUGIN . 'syntax.php');
 
 class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
-    function getInfo() {
-        return array (
-            'author' => 'Gina Häußge, Michael Klier',
-            'email' => 'dokuwiki@chimeric.de',
-            'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-            'name' => 'Include Plugin (footer component)',
-            'desc' => 'Provides a header instruction which renders a permalink to the included page',
-            'url' => 'http://dokuwiki.org/plugin:include',
-        );
-    }
-
     function getType() {
         return 'formatting';
     }
