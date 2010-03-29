@@ -119,14 +119,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $key = ''; 
         foreach($pages as $page) {
             $page = $this->helper->_apply_macro($page);
-            if(strpos($page,'/') || cleanID($page) != $page) {
-                continue;
-            } else {
-                $file = wikiFN($page);
-                if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
-                    $cache->depends['files'][] = $file;
-                    $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
-                }
+            $file = wikiFN($page);
+            if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
+                $cache->depends['files'][] = $file;
+                $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
             }
         }
 
