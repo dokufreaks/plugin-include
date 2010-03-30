@@ -52,9 +52,20 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $ins =& $event->data->calls;
             $num = count($ins);
             for($i=0; $i<$num; $i++) {
-                if(($ins[$i][0] == 'plugin') && ($ins[$i][1][0] == 'include_include')) {
-                    if(!isset($this->helper->toplevel_id)) $this->helper->toplevel_id = $ID;
-                    $this->helper->parse_instructions($ID, $ins);
+                if(($ins[$i][0] == 'plugin')) {
+                    switch($ins[$i][1][0]) {
+                        case 'include_include':
+                            if(!isset($this->helper->toplevel_id)) {
+                                $this->helper->toplevel_id = $ID;
+                            }
+                            $this->helper->parse_instructions($ID, $ins);
+                            break;
+                        // some plugins already close open sections
+                        // so we need to make sure we don't close them twice
+                        case 'box':
+                            $this->helper->sec_close = false;
+                            break;
+                    }
                 }
             }
         }

@@ -23,6 +23,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     var $toplevel     = 0;
     var $defaults     = array();
     var $include_key  = '';
+    var $sec_close    = true;
 
     /**
      * Constructor loads default config settings once
@@ -450,7 +451,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         array_push($ins, array('plugin', array('include_div', array('close'))));
 
         // close previous section if any and re-open after inclusion
-        if($lvl != 0) {
+        if($lvl != 0 && $this->sec_close) {
             array_unshift($ins, array('section_close'));
             $ins[] = array('section_open', array($lvl));
         }
