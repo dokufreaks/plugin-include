@@ -160,7 +160,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $num = count($ins);
 
         $lvl      = false;
-        $prev_lvl = false;
+        $prev_lvl = 0;
         $mode     = '';
         $page     = '';
         $flags    = array();
@@ -249,8 +249,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
             // check if we left the range of possible sub includes and reset lvl and scope to toplevel_id
             if($range && ($i >= $range)) {
-                $lvl = ($prev_lvl == 0) ? 1 : $prev_lvl;
-                $prev_lvl = false;
+                $lvl = ($prev_lvl == 0) ? 0 : $prev_lvl;
                 $range    = false;
                 // reset scope to toplevel_id
                 $scope = $this->toplevel_id;
@@ -383,7 +382,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // calculate difference between header/section level and include level
         $diff = 0;
-        if (!$lvl_max) $lvl_max = 0; // if no level found in target, set to 0
+        if (!isset($lvl_max)) $lvl_max = 0; // if no level found in target, set to 0
         $diff = $lvl - $lvl_max + 1;
         if ($no_header) $diff -= 1;  // push up one level if "noheader"
 
