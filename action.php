@@ -111,6 +111,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $include_key = '@ALL';
         }
 
+
         $depends = p_get_metadata($ID, 'plugin_include');
         if(is_array($depends)) {
             $pages = array();
@@ -129,7 +130,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $key = ''; 
         foreach($pages as $page) {
-            $page = $this->helper->_apply_macro($page);
+            $page = cleanID($this->helper->_apply_macro($page));
             $file = wikiFN($page);
             if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
                 $cache->depends['files'][] = $file;

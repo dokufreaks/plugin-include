@@ -213,7 +213,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 }
 
                 if($mode == 'page' || $mode == 'section') {
-                    $page  = $ins[$i][1][1][1];
+                    $page = cleanID($ins[$i][1][1][1]);
                     $perm = auth_quickaclcheck($page);
 
                     array_push($this->hasparts, $page);
