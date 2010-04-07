@@ -213,7 +213,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 }
 
                 if($mode == 'page' || $mode == 'section') {
-                    $page = cleanID($ins[$i][1][1][1]);
+                    $page = cleanID($this->_apply_macro($ins[$i][1][1][1]));
                     $perm = auth_quickaclcheck($page);
 
                     array_push($this->hasparts, $page);
@@ -222,7 +222,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $sect  = $ins[$i][1][1][2];
                     $flags = $ins[$i][1][1][3];
 
-                    $page = $this->_apply_macro($page);
                     resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
                     $ins[$i][1][1][4] = $scope;
                     $scope = $page;
