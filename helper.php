@@ -193,16 +193,33 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $page) {
-                            $perm = auth_quickaclcheck($page['id']);
-                            array_push($this->hasparts, $page['id']);
-                            if($perm < AUTH_READ) continue;
-                            $ins_tmp[0]       = 'plugin';
-                            $ins_tmp[1][0]    = 'include_include';
-                            $ins_tmp[1][1][0] = 'page';
-                            $ins_tmp[1][1][1] = $page['id'];
-                            $ins_tmp[1][1][2] = '';
-                            $ins_tmp[1][1][3] = $flags;
-                            $ins_inc = array_merge($ins_inc, array($ins_tmp));
+                            $this->_append_includeins(&$ins_inc, $page['id'], $flags);
+                        }
+                        $ins_start = array_slice($ins, 0, $i+1);
+                        $ins_end   = array_slice($ins, $i+1);
+                        $ins       = array_merge($ins_start, $ins_inc, $ins_end);
+                    }
+                    unset($ins[$i]);
+                    $i--;
+                }
+
+                if($mode == 'tagtopic') {
+                    $this->taghelper =& plugin_load('helper', 'tag');
+                    if(!$this->taghelper) {
+                        msg('You have to install the tag plugin to use this functionality!', -1);
+                        return;
+                    }
+                    $tag   = $ins[$i][1][1][1]; 
+                    $sect  = '';
+                    $flags = $ins[$i][1][1][3];
+
+                    $pages = array();
+                    $pages = $this->taghelper->getTopic('', null, $tag);
+
+                    if(!empty($pages)) {
+                        $ins_inc = array();
+                        foreach($pages as $title => $page) {
+                            $this->_append_includeins(&$ins_inc, $page['id'], $flags);
                         }
                         $ins_start = array_slice($ins, 0, $i+1);
                         $ins_end   = array_slice($ins, $i+1);
@@ -453,6 +470,24 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         if($lvl != 0 && $this->sec_close) {
             array_unshift($ins, array('section_close'));
             $ins[] = array('section_open', array($lvl));
+        }
+    }
+
+    /**
+     * Creates include instructions for the namespace/tagtopic modes
+     *
+     * @author Michael Klier <chi@chimeric.de>
+     */
+    function _append_includeins(&$ins, $id, $flags) {
+        if(auth_quickaclcheck($id) >= AUTH_READ) {
+            array_push($this->hasparts, $id);
+            $ins_tmp[0]       = 'plugin';
+            $ins_tmp[1][0]    = 'include_include';
+            $ins_tmp[1][1][0] = 'page';
+            $ins_tmp[1][1][1] = $id;
+            $ins_tmp[1][1][2] = '';
+            $ins_tmp[1][1][3] = $flags;
+            $ins = array_merge($ins, array($ins_tmp));
         }
     }
 
