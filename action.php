@@ -124,8 +124,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             return;
         }
 
-        // add plugin VERSION file to depends for nicer upgrades
-        $cache->depends['files'][] = dirname(__FILE__) . '/VERSION';
+        // add plugin.info.txt to depends for nicer upgrades
+        $cache->depends['files'][] = dirname(__FILE__) . '/plugin.info.txt';
 
         $key = ''; 
         foreach($pages as $page) {
