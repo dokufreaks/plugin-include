@@ -468,7 +468,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // close previous section if any and re-open after inclusion
         if($lvl != 0 && $this->sec_close) {
-            array_unshift($ins, array('section_close'));
+            array_unshift($ins, array('section_close', array()));
             $ins[] = array('section_open', array($lvl));
         }
     }
@@ -571,9 +571,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if(($first_sect) && ($ins[$i][0] == 'section_open')) {
                 $ins = array_slice($ins, 0, $first_sect);
                 $ins[] = array('p_open', array());
-                $ins[] = array('internallink',array($page, $this->getLang('readmore')));
+                $ins[] = array('internallink', array($page, $this->getLang('readmore')));
                 $ins[] = array('p_close', array());
-                $ins[] = array('section_close');
+                $ins[] = array('section_close', array());
                 return;
             }
         }
