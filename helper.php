@@ -193,7 +193,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $page) {
-                            $this->_append_includeins(&$ins_inc, $page['id'], $flags);
+                            $this->_append_includeins($ins_inc, $page['id'], $flags);
                         }
                         $ins_start = array_slice($ins, 0, $i+1);
                         $ins_end   = array_slice($ins, $i+1);
@@ -219,7 +219,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if(!empty($pages)) {
                         $ins_inc = array();
                         foreach($pages as $title => $page) {
-                            $this->_append_includeins(&$ins_inc, $page['id'], $flags);
+                            $this->_append_includeins($ins_inc, $page['id'], $flags);
                         }
                         $ins_start = array_slice($ins, 0, $i+1);
                         $ins_end   = array_slice($ins, $i+1);
