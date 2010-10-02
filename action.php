@@ -36,6 +36,19 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
+      $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
+    }
+
+    /**
+     * Used for debugging purposes only
+     */
+    function handle_metadata(&$event, $param) {
+        global $conf;
+        if($conf['allowdebug']) {
+            dbglog('---- PLUGIN INCLUDE META DATA START ----');
+            dbglog($event->data);
+            dbglog('---- PLUGIN INCLUDE META DATA END ----');
+        }
     }
 
     /**
@@ -112,6 +125,16 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         }
 
         $depends = p_get_metadata($ID, 'plugin_include');
+        
+        if($conf['allowdebug']) {
+            dbglog('---- PLUGIN INCLUDE INCLUDE KEY START ----');
+            dbglog($include_key);
+            dbglog('---- PLUGIN INCLUDE INCLUDE KEY END ----');
+            dbglog('---- PLUGIN INCLUDE CACHE DEPENDS START ----');
+            dbglog($depends);
+            dbglog('---- PLUGIN INCLUDE CACHE DEPENDS END ----');
+        }
+
         if(is_array($depends)) {
             $pages = array();
             if(!isset($depends['keys'][$include_key])) {
