@@ -19,7 +19,7 @@ require_once(DOKU_PLUGIN.'action.php');
  */
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
-    var $supportedModes = array('xhtml', 'i');
+    var $supportedModes = array('xhtml');
     var $helper = null;
 
     function action_plugin_include() {
@@ -55,31 +55,33 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * Supplies the current section level to the include syntax plugin
      *
      * @author Michael Klier <chi@chimeric.de>
+     * @author Michael Hamann <michael@content-space.de>
      */
     function handle_parser(&$event, $param) {
         global $ID;
 
-        // check for stored toplevel ID in helper plugin
-        // if it's missing lets see if we have to do anything at all
-        if(!isset($this->helper->toplevel_id)) {
-            $ins =& $event->data->calls;
-            $num = count($ins);
-            for($i=0; $i<$num; $i++) {
-                if(($ins[$i][0] == 'plugin')) {
-                    switch($ins[$i][1][0]) {
-                        case 'include_include':
-                            if(!isset($this->helper->toplevel_id)) {
-                                $this->helper->toplevel_id = $ID;
-                            }
-                            $this->helper->parse_instructions($ID, $ins);
-                            break;
-                        // some plugins already close open sections
-                        // so we need to make sure we don't close them twice
-                        case 'box':
-                            $this->helper->sec_close = false;
-                            break;
-                    }
+        $level = 1;
+        $ins =& $event->data->calls;
+        $num = count($ins);
+        for($i=0; $i<$num; $i++) {
+            switch($ins[$i][0]) {
+            case 'plugin':
+                switch($ins[$i][1][0]) {
+                case 'include_include':
+                    $ins[$i][1][1][] = $level;
+                    break;
+                    /* FIXME: this doesn't work anymore that way with the new structure
+                    // some plugins already close open sections
+                    // so we need to make sure we don't close them twice
+                case 'box':
+                    $this->helper->sec_close = false;
+                    break;
+                     */
                 }
+                break;
+            case 'section_open':
+                $level = $ins[$i][1][0];
+                break;
             }
         }
     }
@@ -151,13 +153,15 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $cache->depends['files'][] = dirname(__FILE__) . '/plugin.info.txt';
 
         $key = ''; 
-        foreach($pages as $page) {
-            $page = cleanID($this->helper->_apply_macro($page));
-            resolve_pageid(getNS($ID), $page, $exists);
-            $file = wikiFN($page);
-            if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
-                $cache->depends['files'][] = $file;
-                $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
+        if (is_array($pages)) {
+            foreach($pages as $page) {
+                $page = cleanID($this->helper->_apply_macro($page));
+                resolve_pageid(getNS($ID), $page, $exists);
+                $file = wikiFN($page);
+                if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
+                    $cache->depends['files'][] = $file;
+                    $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
+                }
             }
         }
 

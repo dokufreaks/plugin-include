@@ -17,12 +17,7 @@ require_once(DOKU_INC.'inc/search.php');
 
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
-    var $includes     = array();
-    var $hasparts     = array();
-    var $toplevel_id  = NULL;
-    var $toplevel     = 0;
     var $defaults     = array();
-    var $include_key  = '';
     var $sec_close    = true;
 
     /**
@@ -150,163 +145,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 
     /**
-     * Parses the instructions list of the page which contains the includes
-     * 
-     * @author Michael Klier <chi@chimeric.de>
-     */
-    function parse_instructions($id, &$ins) {
-        global $conf;
-        global $INFO;
-
-        $num = count($ins);
-
-        $lvl      = false;
-        $prev_lvl = 0;
-        $mode     = '';
-        $page     = '';
-        $flags    = array();
-        $range    = false;
-        $scope    = $id;
-
-        for($i=0; $i<$num; $i++) {
-            // set current level
-            if($ins[$i][0] == 'section_open') {
-                $lvl = $ins[$i][1][0];
-                if($i > $range) $prev_lvl = $lvl;
-            }
-
-            if($ins[$i][0] == 'plugin' && $ins[$i][1][0] == 'include_include' ) {
-                // found no previous section set lvl to 0
-                if(!$lvl) $lvl = 0; 
-
-                $mode  = $ins[$i][1][1][0];
-
-                if($mode == 'namespace') {
-                    $ns    = str_replace(':', '/', cleanID($ins[$i][1][1][1]));
-                    $sect  = '';
-                    $flags = $ins[$i][1][1][3];
-
-                    $pages = array();
-                    search($pages, $conf['datadir'], 'search_list', '', $ns);
-                    sort($pages);
-
-                    if(!empty($pages)) {
-                        $ins_inc = array();
-                        foreach($pages as $page) {
-                            $this->_append_includeins($ins_inc, $page['id'], $flags);
-                        }
-                        $ins_start = array_slice($ins, 0, $i+1);
-                        $ins_end   = array_slice($ins, $i+1);
-                        $ins       = array_merge($ins_start, $ins_inc, $ins_end);
-                    }
-                    unset($ins[$i]);
-                    $i--;
-                }
-
-                if($mode == 'tagtopic') {
-                    $this->taghelper =& plugin_load('helper', 'tag');
-                    if(!$this->taghelper) {
-                        msg('You have to install the tag plugin to use this functionality!', -1);
-                        return;
-                    }
-                    $tag   = $ins[$i][1][1][1]; 
-                    $sect  = '';
-                    $flags = $ins[$i][1][1][3];
-
-                    $pages = array();
-                    $pages = $this->taghelper->getTopic('', null, $tag);
-
-                    if(!empty($pages)) {
-                        $ins_inc = array();
-                        foreach($pages as $title => $page) {
-                            $this->_append_includeins($ins_inc, $page['id'], $flags);
-                        }
-                        $ins_start = array_slice($ins, 0, $i+1);
-                        $ins_end   = array_slice($ins, $i+1);
-                        $ins       = array_merge($ins_start, $ins_inc, $ins_end);
-                    }
-                    unset($ins[$i]);
-                    $i--;
-                }
-
-                if($mode == 'page' || $mode == 'section') {
-                    $page = cleanID($this->_apply_macro($ins[$i][1][1][1]));
-
-                    resolve_pageid(getNS($scope), $page, $exists); // resolve shortcuts
-
-                    $perm = auth_quickaclcheck($page);
-
-                    array_push($this->hasparts, $page);
-                    if($perm < AUTH_READ) continue;
-
-                    $sect  = $ins[$i][1][1][2];
-                    $flags = $ins[$i][1][1][3];
-
-                    $ins[$i][1][1][4] = $scope;
-                    $scope = $page;
-                    $flags = $this->get_flags($flags);
-
-                    if(!page_exists($page)) {
-                        if($flags['footer']) {
-                            $ins[$i] = $this->_footer($page, $sect, '', $flags, 0);
-                        } else {
-                            unset($ins[$i]);
-                        }
-                    } else {
-                        $ins_inc = $this->_get_instructions($page, $sect, $mode, $lvl, $flags);
-                        if(!empty($ins_inc)) {
-                            // combine instructions and reset counter
-                            $ins_start = array_slice($ins, 0, $i+1);
-                            $ins_end   = array_slice($ins, $i+1);
-                            $range = $i + count($ins_inc);
-                            $ins = array_merge($ins_start, $ins_inc, $ins_end);
-                            $num = count($ins);
-                        }
-                    }
-                }
-            }
-
-            // check if we left the range of possible sub includes and reset lvl and scope to toplevel_id
-            if($range && ($i >= $range)) {
-                $lvl = ($prev_lvl == 0) ? 0 : $prev_lvl;
-                $range    = false;
-                // reset scope to toplevel_id
-                $scope = $this->toplevel_id;
-            }
-        }
-
-        if(!empty($INFO['userinfo'])) {
-            $include_key = $INFO['userinfo']['name'] . '|' . implode('|', $INFO['userinfo']['grps']);
-        } else {
-            $include_key = '@ALL';
-        }
-
-        // handle meta data
-        $meta = array();
-        $meta = p_get_metadata($id, 'plugin_include');
-        $meta['pages'] = array_unique($this->hasparts);
-        $meta['keys'][$include_key] = true;
-        $ins_meta    = array();
-        $ins_meta[0] = 'plugin';
-        $ins_meta[1] = array('include_meta', array($meta));
-        array_push($ins, $ins_meta);
-    }
-
-    /**
      * Returns the converted instructions of a give page/section
      *
      * @author Michael Klier <chi@chimeric.de>
+     * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags) {
-        $key = ($sect) ? $page . '#' . $sect : $page;
-
-        // prevent recursion
-        if(!$this->includes[$key]) {
-            $ins = p_cached_instructions(wikiFN($page));
-            $this->includes[$key] = true;
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags);
-            return $ins;
-        }
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id) {
+        $ins = p_cached_instructions(wikiFN($page));
+        $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
+        return $ins;
     }
 
     /**
@@ -322,7 +169,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id) {
 
         // filter instructions if needed
         if(!empty($sect)) {
@@ -392,6 +239,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         case 'meta':                    // skip meta plugin
                             unset($ins[$i]);
                             break;
+                        // adapt indentation level of nested includes
+                        case 'include_include':
+                            $ins[$i][1][1][4] += $lvl;
+                            break;
                     }
                     break;
                 default:
@@ -456,12 +307,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add edit button
         if($flags['editbtn'] && (auth_quickaclcheck($page) >= AUTH_EDIT)) {
-            $this->_editbtn($ins, $page, $sect, $sect_title);
+            $this->_editbtn($ins, $page, $sect, $sect_title, $root_id);
         }
 
         // add footer
         if($flags['footer']) {
-            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl);
+            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id);
         }
 
         // add instructions entry divs
@@ -476,32 +327,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 
     /**
-     * Creates include instructions for the namespace/tagtopic modes
-     *
-     * @author Michael Klier <chi@chimeric.de>
-     */
-    function _append_includeins(&$ins, $id, $flags) {
-        if(auth_quickaclcheck($id) >= AUTH_READ) {
-            array_push($this->hasparts, $id);
-            $ins_tmp[0]       = 'plugin';
-            $ins_tmp[1][0]    = 'include_include';
-            $ins_tmp[1][1][0] = 'page';
-            $ins_tmp[1][1][1] = $id;
-            $ins_tmp[1][1][2] = '';
-            $ins_tmp[1][1][3] = $flags;
-            $ins = array_merge($ins, array($ins_tmp));
-        }
-    }
-
-    /**
      * Appends instruction item for the include plugin footer
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _footer($page, $sect, $sect_title, $flags, $footer_lvl) {
+    function _footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id) {
         $footer = array();
         $footer[0] = 'plugin';
-        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $this->toplevel_id, $footer_lvl));
+        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $root_id, $footer_lvl));
         return $footer;
     }
 
@@ -510,10 +343,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _editbtn(&$ins, $page, $sect, $sect_title) {
+    function _editbtn(&$ins, $page, $sect, $sect_title, $root_id) {
         $editbtn = array();
         $editbtn[0] = 'plugin';
-        $editbtn[1] = array('include_editbtn', array($page, $sect, $sect_title, $this->toplevel_id));
+        $editbtn[1] = array('include_editbtn', array($page, $sect, $sect_title, $root_id));
         $ins[] = $editbtn;
     }
 
