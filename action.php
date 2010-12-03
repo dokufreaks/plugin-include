@@ -60,7 +60,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     function handle_parser(&$event, $param) {
         global $ID;
 
-        $level = 1;
+        $level = 0;
         $ins =& $event->data->calls;
         $num = count($ins);
         for($i=0; $i<$num; $i++) {
