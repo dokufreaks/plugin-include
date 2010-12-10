@@ -19,7 +19,7 @@ require_once(DOKU_PLUGIN.'action.php');
  */
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
-    var $supportedModes = array('xhtml');
+    var $supportedModes = array('xhtml', 'metadata');
     var $helper = null;
 
     function action_plugin_include() {
@@ -109,72 +109,49 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * prepare the cache object for default _useCache action
      */
     function _cache_prepare(&$event, $param) {
-        global $ID;
-        global $INFO;
         global $conf;
 
         $cache =& $event->data;
 
-        // we're only interested in instructions of the current page
-        // without the ID check we'd get the cache objects for included pages as well
-        if(!isset($cache->page) || ($cache->page != $ID)) return;
+        if(!isset($cache->page)) return;
         if(!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
 
-        if(!empty($INFO['userinfo'])) {
-            $include_key = $INFO['userinfo']['name'] . '|' . implode('|', $INFO['userinfo']['grps']);
-        } else {
-            $include_key = '@ALL';
-        }
-
-        $depends = p_get_metadata($ID, 'plugin_include');
+        $depends = p_get_metadata($cache->page, 'plugin_include');
         
         if($conf['allowdebug']) {
-            dbglog('---- PLUGIN INCLUDE INCLUDE KEY START ----');
-            dbglog($include_key);
-            dbglog('---- PLUGIN INCLUDE INCLUDE KEY END ----');
             dbglog('---- PLUGIN INCLUDE CACHE DEPENDS START ----');
             dbglog($depends);
             dbglog('---- PLUGIN INCLUDE CACHE DEPENDS END ----');
         }
 
-        if(is_array($depends)) {
-            $pages = array();
-            if(!isset($depends['keys'][$include_key])) {
-                $cache->depends['purge'] = true; // include key not set - request purge 
-            } else {
-                $pages = $depends['pages'];
+        if (!is_array($depends)) return; // nothing to do for us
+
+        if (!is_array($depends['pages']) ||
+            !is_array($depends['instructions']) ||
+            $depends['pages'] != $this->helper->_get_included_pages_from_meta_instructions($depends['instructions'])) {
+
+            $cache->depends['purge'] = true; // included pages changed or old metadata - request purge.
+            if($conf['allowdebug']) {
+                dbglog('---- PLUGIN INCLUDE: REQUESTING CACHE PURGE ----');
+                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META START ----');
+                dbglog($depends['pages']);
+                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META END ----');
+                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS START ----');
+                dbglog($this->helper->_get_included_pages_from_meta_instructions($depends['instructions']));
+                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS END ----');
+
             }
         } else {
-            // nothing to do for us
-            return;
-        }
-
-        // add plugin.info.txt to depends for nicer upgrades
-        $cache->depends['files'][] = dirname(__FILE__) . '/plugin.info.txt';
-
-        $key = ''; 
-        if (is_array($pages)) {
-            foreach($pages as $page) {
-                $page = cleanID($this->helper->_apply_macro($page));
-                resolve_pageid(getNS($ID), $page, $exists);
-                $file = wikiFN($page);
-                if(!in_array($cache->depends['files'], array($file)) && @file_exists($file)) {
+            // add plugin.info.txt to depends for nicer upgrades
+            $cache->depends['files'][] = dirname(__FILE__) . '/plugin.info.txt';
+            foreach ($depends['pages'] as $page) {
+                if (!$page['exists']) continue;
+                $file = wikiFN($page['id']);
+                if (!in_array($file, $cache->depends['files'])) {
                     $cache->depends['files'][] = $file;
-                    $key .= '#' . $page . '|ACL' . auth_quickaclcheck($page);
                 }
             }
         }
-
-        // empty $key implies no includes, so nothing to do
-        if(empty($key)) return;
-
-        // mark the cache as being modified by the include plugin
-        $cache->include = true;
-
-        // set new cache key & cache name
-        // now also dependent on included page ids and their ACL_READ status
-        $cache->key .= $key;
-        $cache->cache = getCacheName($cache->key, $cache->ext);
     }
  
 }

@@ -25,7 +25,6 @@ require_once(DOKU_PLUGIN.'syntax.php');
 class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin { 
 
     var $helper = null;
-    var $taghelper = null;
 
     function getType() { return 'substition'; }
     function getSort() { return 303; }
@@ -71,59 +70,27 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             $this->helper =& plugin_load('helper', 'include');
         $flags = $this->helper->get_flags($flags);
 
-        $pages = array();
-        switch($mode) {
-        case 'namespace':
-            $ns    = str_replace(':', '/', cleanID($page));
-            search($pagearrays, $conf['datadir'], 'search_list', '', $ns);
-            if (is_array($pagearrays)) {
-                foreach ($pagearrays as $pagearray) {
-                    $pages[] = $pagearray['id'];
-                }
-            }
-            sort($pages);
-            break;
-        case 'tagtopic':
-            if (!$this->taghelper)
-                $this->taghelper =& plugin_load('helper', 'tag');
-            if(!$this->taghelper) {
-                msg('You have to install the tag plugin to use this functionality!', -1);
-                return;
-            }
-            $tag   = $page;
-            $sect  = '';
-            $pagearrays = $this->taghelper->getTopic('', null, $tag);
-            foreach ($pagearrays as $pagearray) {
-                $pages[] = $pagearray['id'];
-            }
-            break;
-        default:
-            $page = cleanID($this->helper->_apply_macro($page));
-            resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts
-            $pages[] = $page;
+        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id);
+
+        if ($format == 'metadata') {
+            $renderer->meta['plugin_include']['instructions'][] = array('mode' => $mode, 'page' => $page, 'sect' => $sect, 'parent_id' => $parent_id);
+            if (!isset($renderer->meta['plugin_include']['pages']))
+               $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
+            $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
         }
 
         foreach ($pages as $page) {
-            if (in_array($page, $page_stack)) continue;
-            array_push($page_stack, $page);
+            extract($page);
 
-            if($format == 'metadata') {
-                $renderer->meta['plugin_include']['pages'][] = $page; // FIXME: record raw id so caching can check if the current replacements still match
-                // recording all included pages might make sense for metadata cache updates, though really knowing all included pages
-                // probably means we just need to always purge the metadata cache or move rendered metadata to other cache files that depend on user/groups
-                // for namespace/tag includes we probably need to purge the cache everytime so they should be recorded in the metadata so we know when that's necessary
-            }
+            if (in_array($id, $page_stack)) continue;
+            array_push($page_stack, $id);
 
-            $perm = auth_quickaclcheck($page);
-
-            if($perm < AUTH_READ) continue;
-
-            if(!page_exists($page)) {
+            if(!$exists) {
                 if($flags['footer']) {
-                    $renderer->nest(array($this->helper->_footer($page, $sect, '', $flags, $level, $root_id)));
+                    $renderer->nest(array($this->helper->_footer($id, $sect, '', $flags, $level, $root_id)));
                 }
             } else {
-                $instructions = $this->helper->_get_instructions($page, $sect, $mode, $level, $flags, $root_id);
+                $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
                 $renderer->nest($instructions);
             }
 

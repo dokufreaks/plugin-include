@@ -19,6 +19,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $defaults     = array();
     var $sec_close    = true;
+    var $taghelper = null;
 
     /**
      * Constructor loads default config settings once
@@ -412,6 +413,69 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 return;
             }
         }
+    }
+
+    /**
+     * Gives a list of pages for a given include statement
+     *
+     * @author Michael Hamann <michael@content-space.de>
+     */
+    function _get_included_pages($mode, $page, $sect, $parent_id) {
+        global $conf;
+        $pages = array();
+        switch($mode) {
+        case 'namespace':
+            $ns    = str_replace(':', '/', cleanID($page));
+            search($pagearrays, $conf['datadir'], 'search_list', '', $ns);
+            if (is_array($pagearrays)) {
+                foreach ($pagearrays as $pagearray) {
+                    $pages[] = $pagearray['id'];
+                }
+            }
+            break;
+        case 'tagtopic':
+            if (!$this->taghelper)
+                $this->taghelper =& plugin_load('helper', 'tag');
+            if(!$this->taghelper) {
+                msg('You have to install the tag plugin to use this functionality!', -1);
+                return array();
+            }
+            $tag   = $page;
+            $sect  = '';
+            $pagearrays = $this->taghelper->getTopic('', null, $tag);
+            foreach ($pagearrays as $pagearray) {
+                $pages[] = $pagearray['id'];
+            }
+            break;
+        default:
+            $page = cleanID($this->_apply_macro($page));
+            resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts
+            if (auth_quickaclcheck($page) >= AUTH_READ)
+                $pages[] = $page;
+        }
+
+        sort($pages);
+
+        $result = array();
+        foreach ($pages as $page) {
+            $perm = auth_quickaclcheck($page);
+            $exists = page_exists($page);
+            $result[] = array('id' => $page, 'exists' => $exists, 'can_edit' => ($perm >= AUTH_EDIT), 'parent_id' => $parent_id);
+        }
+        return $result;
+    }
+
+    /**
+     * This function generates the list of all included pages from a list of metadata
+     * instructions.
+     */
+    function _get_included_pages_from_meta_instructions($instructions) {
+        $pages = array();
+        foreach ($instructions as $instruction) {
+            extract($instruction);
+            $pages = array_merge($pages, $this->_get_included_pages($mode, $page, $sect, $parent_id));
+        }
+        return $pages;
     }
 
     /**
