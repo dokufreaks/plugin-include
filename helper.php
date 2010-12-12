@@ -448,8 +448,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
             break;
         default:
-            $page = cleanID($this->_apply_macro($page));
-            resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts
+            $page = $this->_apply_macro($page);
+            resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
         }
