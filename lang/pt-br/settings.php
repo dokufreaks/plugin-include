@@ -11,4 +11,4 @@ $lang['firstseconly']     = 'mostrar apenas primeira seção de registros do blo
 $lang['showdate']         = 'mostrar datas abaixo dos registros do blog';
 $lang['showuser']         = 'mostrar usernames abaixo dos registros do blog';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

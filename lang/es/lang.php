@@ -9,4 +9,4 @@
 // frases personalizadas en español para el plugin
 $lang['readmore']   = 'Leer más...';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

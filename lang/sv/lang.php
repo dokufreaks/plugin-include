@@ -9,4 +9,4 @@
 // custom language strings for the plugin
 $lang['readmore']   = '→ Läs mer...';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

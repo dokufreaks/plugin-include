@@ -19,4 +19,4 @@ $lang['showtags']      = 'zobrazovat dole tagy vkládaných stránek (vyžadová
 $lang['showeditbtn']   = 'zobrazovat tlačítko pro editaci';
 $lang['usernamespace'] = 'jmenný prostor pro uživatelské stránky';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

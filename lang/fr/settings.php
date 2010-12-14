@@ -14,4 +14,4 @@ $lang['showdate']        = 'afficher les dates sous les billets';
 $lang['showuser']        = "afficher le nom de l'utilisateur sous les billets";
 $lang['usernamespace']   = 'espace de nom pour les pages des utilisateurs';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

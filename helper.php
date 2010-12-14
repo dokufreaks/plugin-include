@@ -502,4 +502,4 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         return str_replace(array_keys($replace), array_values($replace), $id); 
     }
 }
-//vim:ts=4:sw=4:et:enc=utf-8:
+//vim:ts=4:sw=4:et:

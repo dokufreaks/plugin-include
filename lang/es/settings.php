@@ -17,4 +17,4 @@ $lang['showcomments']  = 'mostrar comentarios a continuación de las entradas al
 $lang['showtags']      = 'mostrar etiquetas a continuación de la entrada al blog';
 $lang['usernamespace'] = 'namespace para las páginas de usuario';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

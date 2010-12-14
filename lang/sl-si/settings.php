@@ -15,4 +15,4 @@ $lang['showuser']      = 'prikaži uporabniška imena pod blog vnosi';
 
 $lang['usernamespace'] = 'namespace za uporabniške strani';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :
