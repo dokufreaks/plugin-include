@@ -22,4 +22,4 @@ $lang['doredirect']    = 'redirect to the original page after editing the includ
 $lang['usernamespace'] = 'namespace for user pages';
 $lang['doindent']      = 'indent included pages relative to the page they get included in';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

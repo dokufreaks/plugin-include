@@ -20,4 +20,4 @@ $lang['showeditbtn']   = 'Bearbeiten-Tasten anzeigen';
 $lang['doredirect']    = 'Nach dem Bearbeiten der eingebundenen Seite zur ursprünglichen Seite weiterleiten';
 $lang['usernamespace'] = 'Namensraum für Benutzerseiten';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

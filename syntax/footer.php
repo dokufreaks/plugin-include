@@ -132,4 +132,4 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         return '<div class="' . $class . '">' . DOKU_LF . DOKU_TAB . $xhtml . DOKU_LF . '</div>' . DOKU_LF;
     }
 }
-// vim:ts=4:sw=4:et:enc=utf-8:
+// vim:ts=4:sw=4:et:

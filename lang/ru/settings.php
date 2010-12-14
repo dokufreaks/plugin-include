@@ -13,4 +13,4 @@ $lang['showdate']      = 'показывать дату ниже записей 
 $lang['showuser']      = 'показывать имя пользователя ниже записей блога';
 $lang['usernamespace'] = 'неймспейс для страниц пользователя';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :

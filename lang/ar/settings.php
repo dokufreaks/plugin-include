@@ -18,4 +18,4 @@ $lang['showcomments']  = 'عرض تعليقات الصفحة المضمّنة';
 $lang['showtags']      = 'عرض الأقسام أسف الصفحة المضمّنة';
 $lang['usernamespace'] = 'فضاء الأسماء لصفحات المستخدم';
 
-//Setup VIM: ex: et ts=2 enc=utf-8 :
+//Setup VIM: ex: et ts=2 :
