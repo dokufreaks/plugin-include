@@ -171,6 +171,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      */
     function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id) {
+        global $conf;
 
         // filter instructions if needed
         if(!empty($sect)) {
@@ -258,9 +259,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         if ($no_header) $diff -= 1;  // push up one level if "noheader"
 
         // convert headers and set footer/permalink
-        $hdr_deleted   = false;
-        $has_permalink = false;
-        $footer_lvl    = false;
+        $hdr_deleted      = false;
+        $has_permalink    = false;
+        $footer_lvl       = false;
+        $contains_secedit = false;
         foreach($conv_idx as $idx) {
             if($ins[$idx][0] == 'header') {
                 if($no_header && !$hdr_deleted) {
@@ -273,6 +275,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $lvl_new = (($ins[$idx][1][1] + $diff) > 5) ? 5 : ($ins[$idx][1][1] + $diff);
                     $ins[$idx][1][1] = $lvl_new;
                 }
+
+                if($ins[$idx][1][1] <= $conf['maxseclevel'])
+                    $contains_secedit = true;
 
                 // set permalink
                 if($flags['link'] && !$has_permalink && ($idx == $first_header)) {
@@ -304,6 +309,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     }
                 } 
             }
+        }
+
+        // close last open section of the included page if there is any
+        if ($contains_secedit) {
+            array_push($ins, array('plugin', array('include_close_last_secedit', array())));
         }
 
         // add edit button
@@ -502,4 +512,4 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         return str_replace(array_keys($replace), array_values($replace), $id); 
     }
 }
-//vim:ts=4:sw=4:et:
+// vim:ts=4:sw=4:et:

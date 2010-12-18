@@ -37,6 +37,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
       $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
+      $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
     }
 
     /**
@@ -153,6 +154,51 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             }
         }
     }
- 
+
+    function handle_secedit_button(&$event, $params) {
+        // stack of included pages in the form ('id' => page, 'rev' => modification time, 'can_edit' => bool)
+        static $page_stack = array();
+
+        global $ID;
+
+        $data = $event->data;
+
+        if ($data['target'] == 'plugin_include_start') {
+            // handle the "section edits" added by the include plugin
+            $fn = wikiFN($data['name']);
+            array_unshift($page_stack, array(
+                'id' => $data['name'],
+                'rev' => @filemtime($fn),
+                'writable' => (is_writable($fn) && auth_quickaclcheck($data['name']) >= AUTH_EDIT)
+            ));
+        } elseif ($data['target'] == 'plugin_include_end') {
+            array_shift($page_stack);
+        } elseif (!empty($page_stack)) {
+            if ($page_stack[0]['writable']) {
+                $name = $data['name'];
+                unset($data['name']);
+
+                $secid = $data['secid'];
+                unset($data['secid']);
+
+                $data['redirect_id'] = $ID;
+
+                $event->result = "<div class='secedit editbutton_" . $data['target'] .
+                    " editbutton_" . $secid . "'>" .
+                    html_btn('secedit', $page_stack[0]['id'], '',
+                        array_merge(array('do'  => 'edit',
+                        'rev' => $page_stack[0]['rev'],
+                        'summary' => '['.$name.'] '), $data),
+                        'post', $name) . '</div>';
+            } else {
+                $event->result = '';
+            }
+        } else {
+            return; // return so the event won't be stopped
+        }
+
+        $event->preventDefault();
+        $event->stopPropagation();
+    }
 }
 // vim:ts=4:sw=4:et:
