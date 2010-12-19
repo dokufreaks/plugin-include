@@ -7,19 +7,19 @@
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Michael Klier <chi@chimeric.de>
+ * @author Michael Hamann <michael@content-space.de>
  */
 addInitEvent(function(){
     var btns = getElementsByClass('btn_incledit',document,'form');
     for(var i=0; i<btns.length; i++){
         addEvent(btns[i],'mouseover',function(e){
-            var tgt = e.target;
-            if(tgt.form) tgt = tgt.form;
-            id = 'plugin_include__' + tgt.id.value;
-            var divs = getElementsByClass('plugin_include_content');
-            for(var j=0; j<divs.length; j++) {
-                if(divs[j].id == id) {
-                    divs[j].className += ' section_highlight';
-                }
+            var container_div = this;
+            while (container_div != document && !container_div.className.match(/\bplugin_include_content\b/)) {
+                container_div = container_div.parentNode;
+            }
+
+            if (container_div != document) {
+                container_div.className += ' section_highlight';
             }
         });
 
