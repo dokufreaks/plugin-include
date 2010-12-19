@@ -17,9 +17,10 @@ require_once(DOKU_INC.'inc/search.php');
 
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
-    var $defaults     = array();
-    var $sec_close    = true;
+    var $defaults  = array();
+    var $sec_close = true;
     var $taghelper = null;
+    var $includes  = array(); // deprecated - compatibility code for the blog plugin
 
     /**
      * Constructor loads default config settings once
@@ -151,7 +152,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id) {
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null) {
+        $key = ($sect) ? $page . '#' . $sect : $page;
+        $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
+
+        // keep compatibility with other plugins that don't know the $root_id parameter
+        if (is_null($root_id)) {
+            global $ID;
+            $root_id = $ID;
+        }
+
         $ins = p_cached_instructions(wikiFN($page));
         $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
         return $ins;
