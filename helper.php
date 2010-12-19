@@ -236,15 +236,20 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'internallink':
                 case 'internalmedia':
-                    if($ins[$i][1][0]{0} == '.') {
-                        if($ins[$i][1][0]{1} == '.') {
-                            $ins[$i][1][0] = getNS($ns) . ':' . substr($ins[$i][1][0], 2); // parent namespace
-                        } else {
-                            $ins[$i][1][0] = $ns . ':' . substr($ins[$i][1][0], 1); // current namespace
-                        }
-                    } elseif (strpos($ins[$i][1][0], ':') === false) {
-                        $ins[$i][1][0] = $ns . ':' . $ins[$i][1][0]; // relative links
+                    // make sure parameters aren't touched
+                    $link_params = '';
+                    $link_id = $ins[$i][1][0];
+                    $link_parts = explode('?', $link_id, 2);
+                    if (count($link_parts) === 2) {
+                        $link_id = $link_parts[0];
+                        $link_params = $link_parts[1];
                     }
+                    // resolve the id without cleaning it
+                    $link_id = resolve_id($ns, $link_id, false);
+                    // this id is internal (i.e. absolute) now, add ':' to make resolve_id work again
+                    if ($link_id{0} != ':') $link_id = ':'.$link_id;
+                    // restore parameters
+                    $ins[$i][1][0] = ($link_params != '') ? $link_id.'?'.$link_params : $link_id;
                     break;
                 case 'plugin':
                     // FIXME skip other plugins?
