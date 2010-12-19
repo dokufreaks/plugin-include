@@ -73,6 +73,13 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id);
 
         if ($format == 'metadata') {
+
+            // remove old persistent metadata of previous versions of the include plugin
+            if (isset($renderer->persistent['plugin_include'])) {
+                unset($renderer->persistent['plugin_include']);
+                unset($renderer->meta['plugin_include']);
+            }
+
             $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id');
             if (!isset($renderer->meta['plugin_include']['pages']))
                $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
