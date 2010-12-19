@@ -354,13 +354,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         if ($lvl > 0 && $section_close_at !== 0) {
             if ($section_close_at === false) {
                 $ins[] = array('section_close', array());
+                array_unshift($ins, array('section_open', array($lvl)));
             } else {
                 $section_close_idx = array_search($section_close_at, array_keys($ins));
-                $before_ins = array_slice($ins, 0, $section_close_idx);
-                $after_ins = array_slice($ins, $section_close_idx);
-                $ins = array_merge($before_ins, array(array('section_close', array())), $after_ins);
+                if ($section_close_idx > 0) {
+                    $before_ins = array_slice($ins, 0, $section_close_idx);
+                    $after_ins = array_slice($ins, $section_close_idx);
+                    $ins = array_merge($before_ins, array(array('section_close', array())), $after_ins);
+                    array_unshift($ins, array('section_open', array($lvl)));
+                }
             }
-            array_unshift($ins, array('section_open', array($lvl)));
         }
 
         // add instructions entry wrapper
