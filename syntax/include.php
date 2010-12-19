@@ -85,31 +85,20 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             if (in_array($id, $page_stack)) continue;
             array_push($page_stack, $id);
 
-            if(!$exists) {
-                if($flags['footer']) {
-                    $footer_ins = array();
-                    if($flags['editbtn'] && (auth_quickaclcheck($id) >= AUTH_CREATE)) {
-                        $this->helper->_editbtn($footer_ins, $id, $sect, '', $root_id);
-                    }
-                    $footer_ins[] = $this->helper->_footer($id, $sect, '', $flags, $level, $root_id);
-                    $renderer->nest($footer_ins);
-                }
-            } else {
-                $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
+            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
 
-                if ($format == 'xhtml') {
-                    $renderer->startSectionEdit(0, 'plugin_include_start', $id);
-                    $renderer->finishSectionEdit();
-                    // Start a new section with type != section so headers in the included page
-                    // won't print section edit buttons of the parent page
-                    $renderer->startSectionEdit(0, 'plugin_include_end', $id);
-                }
+            if ($format == 'xhtml') {
+                $renderer->startSectionEdit(0, 'plugin_include_start', $id);
+                $renderer->finishSectionEdit();
+                // Start a new section with type != section so headers in the included page
+                // won't print section edit buttons of the parent page
+                $renderer->startSectionEdit(0, 'plugin_include_end', $id);
+            }
 
-                $renderer->nest($instructions);
+            $renderer->nest($instructions);
 
-                if ($format == 'xhtml') {
-                   $renderer->finishSectionEdit();
-                }
+            if ($format == 'xhtml') {
+                $renderer->finishSectionEdit();
             }
 
             array_pop($page_stack);

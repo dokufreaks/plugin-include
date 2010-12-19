@@ -162,7 +162,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $root_id = $ID;
         }
 
-        $ins = p_cached_instructions(wikiFN($page));
+        if (page_exists($page)) {
+            $ins = p_cached_instructions(wikiFN($page));
+        } else {
+            $ins = array();
+        }
+
         $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
         return $ins;
     }
@@ -333,8 +338,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add edit button
-        if($flags['editbtn'] && (auth_quickaclcheck($page) >= AUTH_EDIT)) {
-            $this->_editbtn($ins, $page, $sect, $sect_title, $root_id);
+        if($flags['editbtn']) {
+            $perm = auth_quickaclcheck($page);
+            $can_edit = page_exists($page) ? $perm >= AUTH_EDIT : $perm >= AUTH_CREATE;
+            if ($can_edit)
+                $this->_editbtn($ins, $page, $sect, $sect_title, $root_id);
         }
 
         // add footer
