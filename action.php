@@ -155,8 +155,13 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         }
     }
 
+    /**
+     * Handle special section edit buttons for the include plugin to get the current page
+     * and replace normal section edit buttons when the current page is different from the
+     * global $ID.
+     */
     function handle_secedit_button(&$event, $params) {
-        // stack of included pages in the form ('id' => page, 'rev' => modification time, 'can_edit' => bool)
+        // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
         static $page_stack = array();
 
         global $ID;
