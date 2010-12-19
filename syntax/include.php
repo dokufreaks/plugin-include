@@ -87,19 +87,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
             $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
 
-            if ($format == 'xhtml') {
-                $renderer->startSectionEdit(0, 'plugin_include_start', $id);
-                $renderer->finishSectionEdit();
-                // Start a new section with type != section so headers in the included page
-                // won't print section edit buttons of the parent page
-                $renderer->startSectionEdit(0, 'plugin_include_end', $id);
-            }
-
             $renderer->nest($instructions);
-
-            if ($format == 'xhtml') {
-                $renderer->finishSectionEdit();
-            }
 
             array_pop($page_stack);
         }

@@ -363,9 +363,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             array_unshift($ins, array('section_open', array($lvl)));
         }
 
-        // add instructions entry divs
-        array_unshift($ins, array('plugin', array('include_div', array('open', $page))));
-        array_push($ins, array('plugin', array('include_div', array('close'))));
+        // add instructions entry wrapper
+        array_unshift($ins, array('plugin', array('include_wrap', array('open', $page))));
+        array_push($ins, array('plugin', array('include_wrap', array('close'))));
 
         // close previous section if any and re-open after inclusion
         if($lvl != 0 && $this->sec_close) {

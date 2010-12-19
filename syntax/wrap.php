@@ -1,9 +1,10 @@
 <?php
 /**
- * Include plugin (editbtn header component)
+ * Include plugin (wrapper component)
  *
  * @license GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author  Michael Klier <chi@chimeric.de>
+ * @author  Michael Hamann <michael@content-space.de>
  */
 
 if (!defined('DOKU_INC'))
@@ -12,12 +13,12 @@ if (!defined('DOKU_PLUGIN'))
     define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 require_once (DOKU_PLUGIN . 'syntax.php');
 
-class syntax_plugin_include_div extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
 
     function getType() {
         return 'formatting';
     }
-    
+
     function getSort() {
         return 50;
     }
@@ -27,17 +28,25 @@ class syntax_plugin_include_div extends DokuWiki_Syntax_Plugin {
     }
 
     /**
-     * Renders an include edit button
+     * Wraps the included page in a div and writes section edits for the action component
+     * so it can detect where an included page starts/ends.
      *
      * @author Michael Klier <chi@chimeric.de>
+     * @author Michael Hamann <michael@content-space.de>
      */
     function render($mode, &$renderer, $data) {
         if ($mode == 'xhtml') {
             switch($data[0]) {
                 case 'open':
+                    $renderer->startSectionEdit(0, 'plugin_include_start', $data[1]);
+                    $renderer->finishSectionEdit();
+                    // Start a new section with type != section so headers in the included page
+                    // won't print section edit buttons of the parent page
+                    $renderer->startSectionEdit(0, 'plugin_include_end', $data[1]);
                     $renderer->doc .= '<div class="plugin_include_content plugin_include__' . $data[1] . '">' . DOKU_LF;
                     break;
                 case 'close':
+                    $renderer->finishSectionEdit();
                     $renderer->doc .= '</div>' . DOKU_LF;
                     break;
             }
