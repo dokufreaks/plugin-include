@@ -273,8 +273,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $has_permalink    = false;
         $footer_lvl       = false;
         $contains_secedit = false;
+        $section_close_at = false;
         foreach($conv_idx as $idx) {
             if($ins[$idx][0] == 'header') {
+                if ($section_close_at === false) {
+                    // store the index of the first heading (the begin of the first section)
+                    $section_close_at = $idx;
+                }
+
                 if($no_header && !$hdr_deleted) {
                     unset ($ins[$idx]);
                     $hdr_deleted = true;
@@ -334,6 +340,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // add footer
         if($flags['footer']) {
             $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id);
+        }
+
+        // wrap content at the beginning of the include that is not in a section in a section
+        if ($lvl > 0 && $section_close_at !== 0) {
+            if ($section_close_at === false) {
+                $ins[] = array('section_close', array());
+            } else {
+                $section_close_idx = array_search($section_close_at, array_keys($ins));
+                $before_ins = array_slice($ins, 0, $section_close_idx);
+                $after_ins = array_slice($ins, $section_close_idx);
+                $ins = array_merge($before_ins, array(array('section_close', array())), $after_ins);
+            }
+            array_unshift($ins, array('section_open', array($lvl)));
         }
 
         // add instructions entry divs
