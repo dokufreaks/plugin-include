@@ -88,7 +88,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             if(!$exists) {
                 if($flags['footer']) {
                     $footer_ins = array();
-                    if($flags['editbtn'] && (auth_quickaclcheck($id) >= AUTH_EDIT)) {
+                    if($flags['editbtn'] && (auth_quickaclcheck($id) >= AUTH_CREATE)) {
                         $this->helper->_editbtn($footer_ins, $id, $sect, '', $root_id);
                     }
                     $footer_ins[] = $this->helper->_footer($id, $sect, '', $flags, $level, $root_id);
