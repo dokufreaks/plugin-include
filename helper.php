@@ -356,7 +356,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // wrap content at the beginning of the include that is not in a section in a section
-        if ($lvl > 0 && $section_close_at !== 0) {
+        if ($lvl > 0 && $section_close_at !== 0 && $flags['indent']) {
             if ($section_close_at === false) {
                 $ins[] = array('section_close', array());
                 array_unshift($ins, array('section_open', array($lvl)));
