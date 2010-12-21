@@ -263,7 +263,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                             break;
                         // adapt indentation level of nested includes
                         case 'include_include':
-                            $ins[$i][1][1][4] += $lvl;
+                            if ($flags['indent'])
+                                $ins[$i][1][1][4] += $lvl;
                             break;
                     }
                     break;
