@@ -101,6 +101,13 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function handle_redirect(&$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
+        // Render metadata when this is an older DokuWiki version where
+        // metadata is not automatically re-rendered as the page has probably
+        // been changed but is not directly displayed
+        $versionData = getVersionData();
+        if ($versionData['date'] < '2010-11-23') {
+            p_set_metadata($event->data['id'], array(), true);
+        }
         $event->data['id'] = cleanID($_REQUEST['redirect_id']);
         $event->data['title'] = '';
       }
