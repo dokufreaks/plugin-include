@@ -40,6 +40,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['permalink'] = $this->getConf('showpermalink');
         $this->defaults['indent']    = $this->getConf('doindent');
         $this->defaults['linkonly']  = $this->getConf('linkonly');
+        $this->defaults['inline']    = false;
     }
 
     /**
@@ -149,6 +150,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'include_content':
                     $flags['linkonly'] = 0;
                     break;
+                case 'inline':
+                    $flags['inline'] = 1;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -251,8 +255,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     }
                     break;
                 case 'section_open':
-                    $conv_idx[] = $i;
+                    if ($flags['inline'])
+                        unset($ins[$i]);
+                    else
+                        $conv_idx[] = $i;
                     break;
+                case 'section_close':
+                    if ($flags['inline'])
+                        unset($ins[$i]);
                 case 'internallink':
                 case 'internalmedia':
                     // make sure parameters aren't touched
@@ -282,7 +292,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                             break;
                         // adapt indentation level of nested includes
                         case 'include_include':
-                            if ($flags['indent'])
+                            if (!$flags['inline'] && $flags['indent'])
                                 $ins[$i][1][1][4] += $lvl;
                             break;
                     }
@@ -376,7 +386,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // wrap content at the beginning of the include that is not in a section in a section
-        if ($lvl > 0 && $section_close_at !== 0 && $flags['indent']) {
+        if ($lvl > 0 && $section_close_at !== 0 && $flags['indent'] && !$flags['inline']) {
             if ($section_close_at === false) {
                 $ins[] = array('section_close', array());
                 array_unshift($ins, array('section_open', array($lvl)));
@@ -396,7 +406,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         array_push($ins, array('plugin', array('include_wrap', array('close'))));
 
         // close previous section if any and re-open after inclusion
-        if($lvl != 0 && $this->sec_close) {
+        if($lvl != 0 && $this->sec_close && !$flags['inline']) {
             array_unshift($ins, array('section_close', array()));
             $ins[] = array('section_open', array($lvl));
         }
