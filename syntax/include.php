@@ -84,6 +84,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             if (!isset($renderer->meta['plugin_include']['pages']))
                $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
             $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
+            $renderer->meta['plugin_include']['include_content'] = (bool)$_REQUEST['include_content'];
         }
 
         foreach ($pages as $page) {

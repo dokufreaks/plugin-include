@@ -16,5 +16,6 @@ $conf['showeditbtn']   = 1;      // show the edit button
 $conf['doredirect']    = 1;      // redirect back to original page after an edit
 $conf['usernamespace'] = 'user'; // namespace for user pages
 $conf['doindent']      = 1;      // indent included pages relative to the page they get included
+$conf['linkonly']      = 0;      // link only to the included pages instead of including the content
 
 //Setup VIM: ex: et ts=2 :

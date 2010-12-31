@@ -136,7 +136,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         if (!is_array($depends['pages']) ||
             !is_array($depends['instructions']) ||
-            $depends['pages'] != $this->helper->_get_included_pages_from_meta_instructions($depends['instructions'])) {
+            $depends['pages'] != $this->helper->_get_included_pages_from_meta_instructions($depends['instructions']) ||
+            // the include_content url parameter may change the behavior for included pages
+            $depends['include_content'] != (bool)$_REQUEST['include_content']) {
 
             $cache->depends['purge'] = true; // included pages changed or old metadata - request purge.
             if($conf['allowdebug']) {

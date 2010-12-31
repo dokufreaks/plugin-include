@@ -39,6 +39,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['link']      = $this->getConf('showlink');
         $this->defaults['permalink'] = $this->getConf('showpermalink');
         $this->defaults['indent']    = $this->getConf('doindent');
+        $this->defaults['linkonly']  = $this->getConf('linkonly');
     }
 
     /**
@@ -141,8 +142,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noindent':
                     $flags['indent'] = 0;
                     break;
+                case 'linkonly':
+                    $flags['linkonly'] = 1;
+                    break;
+                case 'nolinkonly':
+                case 'include_content':
+                    $flags['linkonly'] = 0;
+                    break;
             }
         }
+        // the include_content URL parameter overrides flags
+        if (isset($_REQUEST['include_content']))
+            $flags['linkonly'] = 0;
         return $flags;
     }
 
@@ -162,13 +173,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $root_id = $ID;
         }
 
-        if (page_exists($page)) {
-            $ins = p_cached_instructions(wikiFN($page));
+        if ($flags['linkonly']) {
+            $ins = array(
+                array('p_open', array()),
+                array('internallink', array(':'.$key)),
+                array('p_close', array()),
+            );
         } else {
-            $ins = array();
-        }
+            if (page_exists($page)) {
+                $ins = p_cached_instructions(wikiFN($page));
+            } else {
+                $ins = array();
+            }
 
-        $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
+        }
         return $ins;
     }
 

@@ -21,5 +21,6 @@ $lang['showeditbtn']   = 'show edit button';
 $lang['doredirect']    = 'redirect to the original page after editing the included page';
 $lang['usernamespace'] = 'namespace for user pages';
 $lang['doindent']      = 'indent included pages relative to the page they get included in';
+$lang['linkonly']      = 'link only to the included page instead of showing the content';
 
 //Setup VIM: ex: et ts=2 :

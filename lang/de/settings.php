@@ -19,5 +19,6 @@ $lang['showtags']      = 'Tags unter eingebundener Seite anzeigen (Tag Plugin wi
 $lang['showeditbtn']   = 'Bearbeiten-Tasten anzeigen';
 $lang['doredirect']    = 'Nach dem Bearbeiten der eingebundenen Seite zur ursprünglichen Seite weiterleiten';
 $lang['usernamespace'] = 'Namensraum für Benutzerseiten';
+$lang['linkonly']      = 'Nur einen Link anzeigen statt dem Inhalt der eingebundenen Seite';
 
 //Setup VIM: ex: et ts=2 :
