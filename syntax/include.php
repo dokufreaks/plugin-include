@@ -92,6 +92,10 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             if (in_array($id, $page_stack)) continue;
             array_push($page_stack, $id);
 
+            // add references for backlink
+            if ($format == 'metadata')
+                $renderer->meta['relation']['references'][$id] = $exists;
+
             $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
 
             $renderer->nest($instructions);
