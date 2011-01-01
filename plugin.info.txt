@@ -1,7 +1,7 @@
 base   include
 author Michael Hamann, Gina Häussge, Christopher Smith, Michael Klier, Esther Brunner
 email  plugin-include@content-space.de
-date   2010-12-20
+date   2011-01-01
 name   include plugin
 desc   Functions to include another page in a wiki page
 url    http://dokuwiki.org/plugin:include
