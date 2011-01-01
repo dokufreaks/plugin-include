@@ -177,13 +177,14 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $data = $event->data;
 
-        if ($data['target'] == 'plugin_include_start') {
+        if ($data['target'] == 'plugin_include_start' || $data['target'] == 'plugin_include_start_noredirect') {
             // handle the "section edits" added by the include plugin
             $fn = wikiFN($data['name']);
             array_unshift($page_stack, array(
                 'id' => $data['name'],
                 'rev' => @filemtime($fn),
-                'writable' => (is_writable($fn) && auth_quickaclcheck($data['name']) >= AUTH_EDIT)
+                'writable' => (is_writable($fn) && auth_quickaclcheck($data['name']) >= AUTH_EDIT),
+                'redirect' => ($data['target'] == 'plugin_include_start'),
             ));
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
@@ -195,7 +196,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
                 $secid = $data['secid'];
                 unset($data['secid']);
 
-                $data['redirect_id'] = $ID;
+                if ($page_stack[0]['redirect'])
+                    $data['redirect_id'] = $ID;
 
                 $event->result = "<div class='secedit editbutton_" . $data['target'] .
                     " editbutton_" . $secid . "'>" .

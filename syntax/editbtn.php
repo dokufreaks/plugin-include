@@ -37,8 +37,9 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
         if ($mode == 'xhtml') {
             $title = ($sect) ? $sect_title : $page;
             $params = array('do' => 'edit', 
-                             'redirect_id' => $redirect_id, 
                              'id' => $page);
+            if ($redirect_id !== false)
+                $params['redirect_id'] = $redirect_id;
             $xhtml .= '<div class="secedit">' . DOKU_LF;
             $xhtml .= '<form class="button btn_incledit" method="post" action="' . DOKU_SCRIPT . '"><div class="no">' . DOKU_LF;
             foreach($params as $key => $val) {

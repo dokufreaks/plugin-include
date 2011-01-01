@@ -38,7 +38,11 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
         if ($mode == 'xhtml') {
             switch($data[0]) {
                 case 'open':
-                    $renderer->startSectionEdit(0, 'plugin_include_start', $data[1]);
+                    if ($data[2]) { // $data[2] = $flags['redirect']
+                        $renderer->startSectionEdit(0, 'plugin_include_start', $data[1]);
+                    } else {
+                        $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $data[1]);
+                    }
                     $renderer->finishSectionEdit();
                     // Start a new section with type != section so headers in the included page
                     // won't print section edit buttons of the parent page

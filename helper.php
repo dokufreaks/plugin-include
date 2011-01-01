@@ -377,7 +377,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $perm = auth_quickaclcheck($page);
             $can_edit = page_exists($page) ? $perm >= AUTH_EDIT : $perm >= AUTH_CREATE;
             if ($can_edit)
-                $this->_editbtn($ins, $page, $sect, $sect_title, $root_id);
+                $this->_editbtn($ins, $page, $sect, $sect_title, ($flags['redirect'] ? $root_id : false));
         }
 
         // add footer
@@ -402,7 +402,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add instructions entry wrapper
-        array_unshift($ins, array('plugin', array('include_wrap', array('open', $page))));
+        array_unshift($ins, array('plugin', array('include_wrap', array('open', $page, $flags['redirect']))));
         array_push($ins, array('plugin', array('include_wrap', array('close'))));
 
         // close previous section if any and re-open after inclusion
