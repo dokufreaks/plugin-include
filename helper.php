@@ -457,11 +457,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $lvl    = false;
         $end    = false;
 
+        $check = array(); // used for sectionID() in order to get the same ids as the xhtml renderer
+
         for($i=0; $i<$num; $i++) {
             if ($ins[$i][0] == 'header') { 
 
                 // found the right header 
-                if (cleanID($ins[$i][1][0]) == $sect) { 
+                if (sectionID($ins[$i][1][0], $check) == $sect) {
                     $offset = $i;
                     $lvl    = $ins[$i][1][1]; 
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
