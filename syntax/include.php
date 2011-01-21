@@ -45,7 +45,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         // break the pattern up into its parts 
         list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3); 
         $check = null;
-        return array($mode, $page, sectionID($sect, $check), explode('&', $flags));
+        if (isset($sect)) $sect = sectionID($sect, $check);
+        return array($mode, $page, $sect, explode('&', $flags));
     }
 
     /**
