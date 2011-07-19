@@ -185,7 +185,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             );
         } else {
             if (page_exists($page)) {
+                global $ID;
+                $backupID = $ID;
+                $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
                 $ins = p_cached_instructions(wikiFN($page));
+                $ID = $backupID;
             } else {
                 $ins = array();
             }
