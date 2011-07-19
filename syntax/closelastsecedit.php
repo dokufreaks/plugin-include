@@ -9,7 +9,7 @@
 if (!defined('DOKU_PLUGIN'))
     define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 
-class syntax_plugin_include_close_last_secedit extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_include_closelastsecedit extends DokuWiki_Syntax_Plugin {
 
     function getType() {
         return 'formatting';
@@ -28,7 +28,7 @@ class syntax_plugin_include_close_last_secedit extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         if ($mode == 'xhtml') {
-						$renderer->finishSectionEdit();
+            $renderer->finishSectionEdit();
             return true;
         }
         return false;

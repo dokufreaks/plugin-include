@@ -373,7 +373,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // close last open section of the included page if there is any
         if ($contains_secedit) {
-            array_push($ins, array('plugin', array('include_close_last_secedit', array())));
+            array_push($ins, array('plugin', array('include_closelastsecedit', array())));
         }
 
         // add edit button
