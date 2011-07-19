@@ -189,7 +189,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
         } elseif (!empty($page_stack)) {
-            if ($page_stack[0]['writable']) {
+            if ($page_stack[0]['writable'] && isset($data['name']) && $data['name'] !== '') {
                 $name = $data['name'];
                 unset($data['name']);
 
