@@ -173,21 +173,35 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
         static $page_stack = array();
 
-        global $ID;
+        global $ID, $lang;
 
         $data = $event->data;
 
         if ($data['target'] == 'plugin_include_start' || $data['target'] == 'plugin_include_start_noredirect') {
             // handle the "section edits" added by the include plugin
             $fn = wikiFN($data['name']);
+            $perm = auth_quickaclcheck($data['name']);
             array_unshift($page_stack, array(
                 'id' => $data['name'],
                 'rev' => @filemtime($fn),
-                'writable' => (is_writable($fn) && auth_quickaclcheck($data['name']) >= AUTH_EDIT),
+                'writable' => (page_exists($data['name']) ? (is_writable($fn) && $perm >= AUTH_EDIT) : $perm >= AUTH_CREATE),
                 'redirect' => ($data['target'] == 'plugin_include_start'),
             ));
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
+        } elseif ($data['target'] == 'plugin_include_editbtn') {
+            if ($page_stack[0]['writable']) {
+                $params = array('do' => 'edit',
+                    'id' => $page_stack[0]['id']);
+                if ($page_stack[0]['redirect'])
+                    $params['redirect_id'] = $ID;
+                $event->result = '<div class="secedit">' . DOKU_LF .
+                    html_btn('incledit', $page_stack[0]['id'], '',
+                        $params, 'post',
+                        $data['name'],
+                        $lang['btn_secedit'].' ('.$page_stack[0]['id'].')') .
+                    '</div>' . DOKU_LF;
+            }
         } elseif (!empty($page_stack)) {
 
             // Special handling for the edittable plugin

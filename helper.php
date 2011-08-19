@@ -405,10 +405,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add edit button
         if($flags['editbtn']) {
-            $perm = auth_quickaclcheck($page);
-            $can_edit = page_exists($page) ? $perm >= AUTH_EDIT : $perm >= AUTH_CREATE;
-            if ($can_edit)
-                $this->_editbtn($ins, $page, $sect, $sect_title, ($flags['redirect'] ? $root_id : false));
+            $this->_editbtn($ins, $page, $sect, $sect_title, ($flags['redirect'] ? $root_id : false));
         }
 
         // add footer
@@ -461,9 +458,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      */
     function _editbtn(&$ins, $page, $sect, $sect_title, $root_id) {
+        $title = ($sect) ? $sect_title : $page;
         $editbtn = array();
         $editbtn[0] = 'plugin';
-        $editbtn[1] = array('include_editbtn', array($page, $sect, $sect_title, $root_id));
+        $editbtn[1] = array('include_editbtn', array($title));
         $ins[] = $editbtn;
     }
 
@@ -522,6 +520,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if($ins[$i][0] == 'section_close') {
                 $first_sect = $i;
             }
+            // only truncate the content and add the read more link when there is really
+            // more than that first section
             if(($first_sect) && ($ins[$i][0] == 'section_open')) {
                 $ins = array_slice($ins, 0, $first_sect);
                 $ins[] = array('p_open', array());
@@ -576,9 +576,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $result = array();
         foreach ($pages as $page) {
-            $perm = auth_quickaclcheck($page);
             $exists = page_exists($page);
-            $result[] = array('id' => $page, 'exists' => $exists, 'can_edit' => ($perm >= AUTH_EDIT), 'parent_id' => $parent_id);
+            $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
         }
         return $result;
     }

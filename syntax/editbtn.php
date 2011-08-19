@@ -33,23 +33,10 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         global $lang;
-        list($page, $sect, $sect_title, $redirect_id) = $data;
+        list($title) = $data;
         if ($mode == 'xhtml') {
-            $title = ($sect) ? $sect_title : $page;
-            $params = array('do' => 'edit', 
-                             'id' => $page);
-            if ($redirect_id !== false)
-                $params['redirect_id'] = $redirect_id;
-            $xhtml .= '<div class="secedit">' . DOKU_LF;
-            $xhtml .= '<form class="button btn_incledit" method="post" action="' . DOKU_SCRIPT . '"><div class="no">' . DOKU_LF;
-            foreach($params as $key => $val) {
-                $xhtml .= '<input type="hidden" name="'.$key.'" ';
-                $xhtml .= 'value="'.htmlspecialchars($val).'" />';
-            }
-            $xhtml .= '<input type="submit" value="'.htmlspecialchars($lang['btn_secedit']).' (' . $page . ')" class="button" title="'.$title.'"/>' . DOKU_LF;
-            $xhtml .= '</div></form>' . DOKU_LF;
-            $xhtml .= '</div>' . DOKU_LF;
-            $renderer->doc .= $xhtml;
+            $renderer->startSectionEdit(0, 'plugin_include_editbtn', $title);
+            $renderer->finishSectionEdit();
             return true;
         }
         return false;
