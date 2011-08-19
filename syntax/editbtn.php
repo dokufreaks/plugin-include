@@ -32,7 +32,6 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      */
     function render($mode, &$renderer, $data) {
-        global $lang;
         list($title) = $data;
         if ($mode == 'xhtml') {
             $renderer->startSectionEdit(0, 'plugin_include_editbtn', $title);

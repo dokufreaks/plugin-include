@@ -41,3 +41,7 @@ div.dokuwiki div.inclmeta div.tags {
   float: right;
   clear: none;
 }
+
+div.dokuwiki p.include_readmore {
+  text-align: right;
+}

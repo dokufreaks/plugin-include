@@ -524,9 +524,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             // more than that first section
             if(($first_sect) && ($ins[$i][0] == 'section_open')) {
                 $ins = array_slice($ins, 0, $first_sect);
-                $ins[] = array('p_open', array());
-                $ins[] = array('internallink', array($page, $this->getLang('readmore')));
-                $ins[] = array('p_close', array());
+                $ins[] = array('plugin', array('include_readmore', array($page)));
                 $ins[] = array('section_close', array());
                 return;
             }
