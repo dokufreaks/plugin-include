@@ -40,6 +40,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['permalink'] = $this->getConf('showpermalink');
         $this->defaults['indent']    = $this->getConf('doindent');
         $this->defaults['linkonly']  = $this->getConf('linkonly');
+        $this->defaults['title']     = $this->getConf('');
+        $this->defaults['pageexists']  = $this->getConf('');
+        $this->defaults['parlink']   = $this->getConf('');
         $this->defaults['inline']    = false;
     }
 
@@ -153,6 +156,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'inline':
                     $flags['inline'] = 1;
                     break;
+                case 'title':
+                    $flags['title'] = 1;
+                    break;
+                case 'pageexists':
+                    $flags['pageexists'] = 1;
+                    break;
+                case 'existlink':
+                    $flags['pageexists'] = 1;
+                    $flags['linkonly'] = 1;
+                    break;
+                case 'noparlink':
+                    $flags['parlink'] = 0;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -178,11 +194,22 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         if ($flags['linkonly']) {
-            $ins = array(
-                array('p_open', array()),
-                array('internallink', array(':'.$key)),
-                array('p_close', array()),
-            );
+            if (page_exists($page) || $flags['pageexists']  == 0) {
+                $title = '';
+                if ($flags['title'])
+                    $title = p_get_first_heading($page);
+                if($flags['parlink']) {
+                    $ins = array(
+                        array('p_open', array()),
+                        array('internallink', array(':'.$key, $title)),
+                        array('p_close', array()),
+                    );
+                } else {
+                    $ins = array(array('internallink', array(':'.$key,$title)));
+                }
+            }else {
+                $ins = array();
+            }
         } else {
             if (page_exists($page)) {
                 global $ID;
@@ -582,15 +609,55 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $user     = $_SERVER['REMOTE_USER'];
         $group    = $INFO['userinfo']['grps'][0];
 
-        $replace = array( 
-                '@USER@'  => cleanID($user), 
+        $time_stamp = time();
+        if(preg_match('/@DATE(\w+)@/',$id,$matches)) {
+            switch($matches[1]) {
+            case 'PMONTH':
+                $time_stamp = strtotime("-1 month");
+                break;
+            case 'NMONTH':
+                $time_stamp = strtotime("+1 month");
+                break;
+            case 'NWEEK':
+                $time_stamp = strtotime("+1 week");
+                break;
+            case 'PWEEK':
+                $time_stamp = strtotime("-1 week");
+                break;
+            case 'TOMORROW':
+                $time_stamp = strtotime("+1 day");
+                break;
+            case 'YESTERDAY':
+                $time_stamp = strtotime("-1 day");
+                break;
+            case 'NYEAR':
+                $time_stamp = strtotime("+1 year");
+                break;
+            case 'PYEAR':
+                $time_stamp = strtotime("-1 year");
+                break;
+            }
+            $id = preg_replace('/@DATE(\w+)@/','', $id);
+        }
+
+        $replace = array(
+                '@USER@'  => cleanID($user),
                 '@NAME@'  => cleanID($INFO['userinfo']['name']),
                 '@GROUP@' => cleanID($group),
-                '@YEAR@'  => date('Y'), 
-                '@MONTH@' => date('m'), 
-                '@DAY@'   => date('d'), 
-                ); 
-        return str_replace(array_keys($replace), array_values($replace), $id); 
+                '@YEAR@'  => date('Y',$time_stamp),
+                '@MONTH@' => date('m',$time_stamp),
+                '@WEEK@' => date('W',$time_stamp),
+                '@DAY@'   => date('d',$time_stamp),
+                '@YEARPMONTH@' => date('Ym',strtotime("-1 month")),
+                '@PMONTH@' => date('m',strtotime("-1 month")),
+                '@NMONTH@' => date('m',strtotime("+1 month")),
+                '@YEARNMONTH@' => date('Ym',strtotime("+1 month")),
+                '@YEARPWEEK@' => date('YW',strtotime("-1 week")),
+                '@PWEEK@' => date('W',strtotime("-1 week")),
+                '@NWEEK@' => date('W',strtotime("+1 week")),
+                '@YEARNWEEK@' => date('YW',strtotime("+1 week")),
+                );
+        return str_replace(array_keys($replace), array_values($replace), $id);
     }
 }
 // vim:ts=4:sw=4:et:

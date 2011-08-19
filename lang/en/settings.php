@@ -22,5 +22,7 @@ $lang['doredirect']    = 'redirect to the original page after editing the includ
 $lang['usernamespace'] = 'namespace for user pages';
 $lang['doindent']      = 'indent included pages relative to the page they get included in';
 $lang['linkonly']      = 'link only to the included page instead of showing the content';
-
+$lang['title']         = 'use first heading of page in link even if useheading is off (only affects linkonly mode)';
+$lang['pageexists']    = 'do not display a link if the page does not exist (only affects linkonly mode)';
+$lang['parlink']       = 'put a paragraph around the link (only affects linkonly mode)';
 //Setup VIM: ex: et ts=2 :
