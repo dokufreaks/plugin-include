@@ -40,9 +40,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['permalink'] = $this->getConf('showpermalink');
         $this->defaults['indent']    = $this->getConf('doindent');
         $this->defaults['linkonly']  = $this->getConf('linkonly');
-        $this->defaults['title']     = $this->getConf('');
-        $this->defaults['pageexists']  = $this->getConf('');
-        $this->defaults['parlink']   = $this->getConf('');
+        $this->defaults['title']     = $this->getConf('title');
+        $this->defaults['pageexists']  = $this->getConf('pageexists');
+        $this->defaults['parlink']   = $this->getConf('parlink');
         $this->defaults['inline']    = false;
     }
 
