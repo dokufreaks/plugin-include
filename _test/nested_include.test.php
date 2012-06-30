@@ -1,46 +1,27 @@
 <?php
-require_once(DOKU_INC.'_test/lib/unittest.php');
-require_once(DOKU_INC.'inc/init.php');
-class plugin_include_nested_test extends Doku_UnitTestCase {
+
+class plugin_include_nested_test extends DokuWikiTest {
     private $ids = array(
         'test:plugin_include:nested:start',
         'test:plugin_include:nested:second',
         'test:plugin_include:nested:third'
     );
 
-    public function tearDown() {
-        foreach($this->ids as $id) {
-            saveWikiText($id,'','deleted in tearDown()');
-            @unlink(metaFN($id, '.meta'));
-        }
+    public function setup() {
+        $this->pluginsEnabled[] = 'include';
+        parent::setup();
     }
 
-    public function setUp() {
-        saveWikiText('test:plugin_include:nested:start', 
-            '====== Main Test Page ======'.DOKU_LF.DOKU_LF
-            .'Main Content'.DOKU_LF.DOKU_LF
-            .'{{page>second}}'.DOKU_LF,
-            'setup for test');
-        saveWikiText('test:plugin_include:nested:second', 
-            '====== Second Test Page ======'.DOKU_LF.DOKU_LF
-            .'Second Content'.DOKU_LF.DOKU_LF
-            .'{{page>third}}'.DOKU_LF,
-            'setup for test');
-        saveWikiText('test:plugin_include:nested:third', 
-            '====== Third Test Page ======'.DOKU_LF.DOKU_LF
-            .'Third Content'.DOKU_LF.DOKU_LF
-            .'{{page>third}}'.DOKU_LF,
-            'setup for test');
-    }
-
-    public function testOuterToInner() {
+    public function test_outer_to_inner() {
+        $this->_createPages();
         $mainHTML = p_wiki_xhtml('test:plugin_include:nested:start');
         $secondHTML = p_wiki_xhtml('test:plugin_include:nested:second');
         $thirdHTML = p_wiki_xhtml('test:plugin_include:nested:third');
         $this->_validateContent($mainHTML, $secondHTML, $thirdHTML);
     }
 
-    public function testInnerToOuter() {
+    public function test_inner_to_outer() {
+        $this->_createPages();
         $thirdHTML = p_wiki_xhtml('test:plugin_include:nested:third');
         $secondHTML = p_wiki_xhtml('test:plugin_include:nested:second');
         $mainHTML = p_wiki_xhtml('test:plugin_include:nested:start');
@@ -64,6 +45,24 @@ class plugin_include_nested_test extends Doku_UnitTestCase {
 
     private function _matchHeader($level, $text, $html) {
         return preg_match('/<h'.$level.'[^>]*><a[^>]*>'.$text.'/', $html) > 0;
+    }
+
+    private function _createPages() {
+        saveWikiText('test:plugin_include:nested:start', 
+            '====== Main Test Page ======'.DOKU_LF.DOKU_LF
+            .'Main Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>second}}'.DOKU_LF,
+            'setup for test');
+        saveWikiText('test:plugin_include:nested:second', 
+            '====== Second Test Page ======'.DOKU_LF.DOKU_LF
+            .'Second Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>third}}'.DOKU_LF,
+            'setup for test');
+        saveWikiText('test:plugin_include:nested:third', 
+            '====== Third Test Page ======'.DOKU_LF.DOKU_LF
+            .'Third Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>third}}'.DOKU_LF,
+            'setup for test');
     }
 }
 
