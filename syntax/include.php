@@ -35,18 +35,23 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include'); 
         $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include'); 
         $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include'); 
+        $this->Lexer->addSpecialPattern("{{template>.+?}}", $mode, 'plugin_include_include');
     } 
 
     function handle($match, $state, $pos, &$handler) {
 
         $match = substr($match, 2, -2); // strip markup
+        $replacers = explode('|', $match);
+        $match = array_shift($replacers);
         list($match, $flags) = explode('&', $match, 2);
+
+        $replacers = $this->_massageReplacers($replacers);
 
         // break the pattern up into its parts 
         list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3); 
         $check = null;
         if (isset($sect)) $sect = sectionID($sect, $check);
-        return array($mode, $page, $sect, explode('&', $flags));
+        return array($mode, $page, $sect, explode('&', $flags), $replacers);
     }
 
     /**
@@ -66,7 +71,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $parent_id = $page_stack[count($page_stack)-1];
         $root_id = $page_stack[0];
 
-        list($mode, $page, $sect, $flags, $level) = $data;
+        list($mode, $page, $sect, $flags, $replacers, $level) = $data;
 
         if (!$this->helper)
             $this->helper =& plugin_load('helper', 'include');
@@ -101,7 +106,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 $renderer->meta['relation']['haspart'][$id]    = $exists;
             }
 
-            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id);
+            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $replacers, $root_id);
 
             $renderer->nest($instructions);
 
@@ -113,6 +118,32 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         if (count($page_stack) == 1) array_pop($page_stack);
 
         return true;
+    }
+
+    /**
+     * Handles the replacement array
+     */
+    function _massageReplacers($replacers) {
+        $r = array();
+        if (is_null($replacers)) {
+            $r['keys'] = null;
+            $r['vals'] = null;
+        } else if (is_string($replacers)) {
+            list($k, $v) = explode('=', $replacers, 2);
+            $r['keys'] = BEGIN_REPLACE_DELIMITER.trim($k).END_REPLACE_DELIMITER;
+            $r['vals'] = trim(str_replace('\|', '|', $v));
+        } else if (is_array($replacers)) {
+            foreach($replacers as $rep) {
+                list($k, $v) = explode('=', $rep, 2);
+                $r['keys'][] = BEGIN_REPLACE_DELIMITER.trim($k).END_REPLACE_DELIMITER;
+                $r['vals'][] = trim(str_replace('\|', '|', $v));
+            }
+        } else {
+            // This is an assertion failure. We should NEVER get here.
+            $r['keys'] = null;
+            $r['vals'] = null;
+        }
+        return $r;
     }
 }
 // vim:ts=4:sw=4:et:

@@ -183,7 +183,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null) {
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $replacers, $root_id = null) {
         $key = ($sect) ? $page . '#' . $sect : $page;
         $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
 
@@ -221,7 +221,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $replacers, $root_id);
         }
         return $ins;
     }
@@ -229,17 +229,17 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     /**
      * Converts instructions of the included page
      *
-     * The funcion iterates over the given list of instructions and generates
+     * The function iterates over the given list of instructions and generates
      * an index of header and section indicies. It also removes document
      * start/end instructions, converts links, and removes unwanted
      * instructions like tags, comments, linkbacks.
      *
-     * Later all header/section levels are convertet to match the current
+     * Later all header/section levels are converted to match the current
      * inclusion level.
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $replacers, $root_id) {
         global $conf;
 
         // filter instructions if needed
@@ -262,6 +262,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
+            	case 'cdata':
+            	    $ins[$i][1][0] = str_replace($replacers['keys'], $replacers['vals'], $ins[$i][1][0]);
+            	    $ins[$i][1][0] = preg_replace('/'.BEGIN_REPLACE_DELIMITER.'.*'.END_REPLACE_DELIMITER.'/', '', $ins[$i][1][0]);
+            	    break;
                 case 'document_start':
                 case 'document_end':
                 case 'section_edit':
