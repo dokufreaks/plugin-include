@@ -14,6 +14,8 @@ if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 
 require_once(DOKU_INC.'inc/search.php');
+if (!defined('BEGIN_REPLACE_DELIMITER')) define('BEGIN_REPLACE_DELIMITER', '@');
+if (!defined('END_REPLACE_DELIMITER')) define('END_REPLACE_DELIMITER', '@');
 
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 

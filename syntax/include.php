@@ -17,6 +17,8 @@
 if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/'); 
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/'); 
 require_once(DOKU_PLUGIN.'syntax.php'); 
+if (!defined('BEGIN_REPLACE_DELIMITER')) define('BEGIN_REPLACE_DELIMITER', '@');
+if (!defined('END_REPLACE_DELIMITER')) define('END_REPLACE_DELIMITER', '@');
   
 /** 
  * All DokuWiki plugins to extend the parser/rendering mechanism 
