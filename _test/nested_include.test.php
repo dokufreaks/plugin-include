@@ -44,7 +44,7 @@ class plugin_include_nested_test extends DokuWikiTest {
     }
 
     private function _matchHeader($level, $text, $html) {
-        return preg_match('/<h'.$level.'[^>]*><a[^>]*>'.$text.'/', $html) > 0;
+        return preg_match('/<h'.$level.'[^>]*>(<a[^>]*>)?'.$text.'/', $html) > 0;
     }
 
     private function _createPages() {

@@ -20,6 +20,7 @@ require_once(DOKU_PLUGIN.'action.php');
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
     var $supportedModes = array('xhtml', 'metadata');
+    /* @var helper_plugin_include $helper */
     var $helper = null;
 
     function action_plugin_include() {
@@ -30,6 +31,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * plugin should use this method to register its handlers with the dokuwiki's event controller
      */
     function register(&$controller) {
+        /* @var Doku_event_handler $controller */
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
       $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
@@ -58,7 +60,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function handle_parser(&$event, $param) {
+    function handle_parser(Doku_Event &$event, $param) {
         global $ID;
 
         $level = 0;
@@ -90,7 +92,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Add a hidden input to the form to preserve the redirect_id
      */
-    function handle_form(&$event, $param) {
+    function handle_form(Doku_Event &$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
         $event->data->addHidden('redirect_id', cleanID($_REQUEST['redirect_id']));
       }
@@ -99,7 +101,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Modify the data for the redirect when there is a redirect_id set
      */
-    function handle_redirect(&$event, $param) {
+    function handle_redirect(Doku_Event &$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
         // Render metadata when this is an older DokuWiki version where
         // metadata is not automatically re-rendered as the page has probably
@@ -116,9 +118,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * prepare the cache object for default _useCache action
      */
-    function _cache_prepare(&$event, $param) {
+    function _cache_prepare(Doku_Event &$event, $param) {
         global $conf;
 
+        /* @var cache_renderer $cache */
         $cache =& $event->data;
 
         if(!isset($cache->page)) return;
@@ -169,7 +172,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * and replace normal section edit buttons when the current page is different from the
      * global $ID.
      */
-    function handle_secedit_button(&$event, $params) {
+    function handle_secedit_button(Doku_Event &$event, $params) {
         // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
         static $page_stack = array();
 
@@ -206,6 +209,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
             // Special handling for the edittable plugin
             if ($data['target'] == 'table' && !plugin_isdisabled('edittable')) {
+                /* @var action_plugin_edittable $edittable */
                 $edittable =& plugin_load('action', 'edittable');
                 $data['name'] = $edittable->getLang('secedit_name');
             }
