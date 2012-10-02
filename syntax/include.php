@@ -24,19 +24,51 @@ require_once(DOKU_PLUGIN.'syntax.php');
  */ 
 class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin { 
 
+    /** @var $helper helper_plugin_include */
     var $helper = null;
 
+    /**
+     * Get syntax plugin type.
+     *
+     * @return string The plugin type.
+     */
     function getType() { return 'substition'; }
+
+    /**
+     * Get sort order of syntax plugin.
+     *
+     * @return int The sort order.
+     */
     function getSort() { return 303; }
+
+    /**
+     * Get paragraph type.
+     *
+     * @return string The paragraph type.
+     */
     function getPType() { return 'block'; }
 
+    /**
+     * Connect patterns/modes
+     *
+     * @param $mode mixed The current mode
+     */
     function connectTo($mode) {  
         $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');  
         $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include'); 
         $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include'); 
         $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include'); 
-    } 
+    }
 
+    /**
+     * Handle syntax matches
+     *
+     * @param string       $match   The current match
+     * @param int          $state   The match state
+     * @param int          $pos     The position of the match
+     * @param Doku_Handler $handler The hanlder object
+     * @return array The instructions of the plugin
+     */
     function handle($match, $state, $pos, &$handler) {
 
         $match = substr($match, 2, -2); // strip markup
@@ -75,6 +107,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id);
 
         if ($format == 'metadata') {
+            /** @var Doku_Renderer_metadata $renderer */
 
             // remove old persistent metadata of previous versions of the include plugin
             if (isset($renderer->persistent['plugin_include'])) {
@@ -91,6 +124,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
         foreach ($pages as $page) {
             extract($page);
+            $id = $page['id'];
+            $exists = $page['exists'];
 
             if (in_array($id, $page_stack)) continue;
             array_push($page_stack, $id);
