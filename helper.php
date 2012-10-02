@@ -266,7 +266,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             switch($ins[$i][0]) {
             	case 'cdata':
             	    $ins[$i][1][0] = str_replace($replacers['keys'], $replacers['vals'], $ins[$i][1][0]);
-            	    $ins[$i][1][0] = preg_replace('/'.BEGIN_REPLACE_DELIMITER.'.*'.END_REPLACE_DELIMITER.'/', '', $ins[$i][1][0]);
             	    break;
                 case 'document_start':
                 case 'document_end':
