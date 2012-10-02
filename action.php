@@ -40,6 +40,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
       $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
       $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
+      $controller->register_hook('EDITX_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_editx_register');
     }
 
     /**
@@ -240,6 +241,31 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $event->preventDefault();
         $event->stopPropagation();
+    }
+
+    public function handle_editx_register(Doku_Event $event, $params) {
+        $event->data['handlers']['include_include'] = array($this, 'rewrite_include');
+    }
+
+    public function rewrite_include($match, $pos, $state, $plugin, action_plugin_editx_handler $handler) {
+        $syntax = substr($match, 2, -2); // strip markup
+        $replacers = explode('|', $syntax);
+        $syntax = array_shift($replacers);
+        list($syntax, $flags) = explode('&', $syntax, 2);
+
+        // break the pattern up into its parts
+        list($mode, $page, $sect) = preg_split('/>|#/u', $syntax, 3);
+        $newpage = $handler->adaptRelativeId($page);
+        if ($newpage == $page) {
+            return $match;
+        } else {
+            $result = '{{'.$mode.'>'.$newpage;
+            if ($sect) $result .= '#'.$sect;
+            if ($flags) $result .= '&'.$flags;
+            if ($replacers) $result .= '|'.$replacers;
+            $result .= '}}';
+            return $result;
+        }
     }
 }
 // vim:ts=4:sw=4:et:
