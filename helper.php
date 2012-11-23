@@ -473,7 +473,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _permalink(&$ins, $page, $sect, $flags) {
         $ins[0] = 'plugin';
-        $ins[1] = array('include_header', array($ins[1][0], $ins[1][1], $page, $sect, $flags));
+        $ins[1] = array('include_header', array($ins[1][0], $ins[1][1], $ins[1][2], $page, $sect, $flags));
     }
 
     /** 

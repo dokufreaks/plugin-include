@@ -36,17 +36,28 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      * added an href parameter to the anchor tag linking to the wikilink.
      */
     function render($mode, &$renderer, $data) {
-        list($headline, $lvl, $page, $sect, $flags) = $data;
+        global $conf;
+
+        list($headline, $lvl, $pos, $page, $sect, $flags) = $data;
         $hid = $renderer->_headerToLink($headline, true);
         if ($mode == 'xhtml') {
             $renderer->toc_additem($hid, $headline, $lvl);
             $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
             $renderer->doc .= DOKU_LF.'<h' . $lvl;
+            $classes = array();
             if($flags['taglogos']) {
                 $tag = $this->_get_firsttag($page);
                 if($tag) {
-                    $renderer->doc .= ' class="include_firsttag__' . $tag . '"';
+                    $classes[] = 'include_firsttag__' . $tag;
                 }
+            }
+            // the include header instruction is always at the beginning of the first section edit inside the include
+            // wrap so there is no need to close a previous section edit.
+            if ($lvl <= $conf['maxseclevel']) {
+                $classes[] = $renderer->startSectionEdit($pos, 'section', $headline);
+            }
+            if ($classes) {
+                $renderer->doc .= ' class="'. implode(' ', $classes) . '"';
             }
             $headline = $renderer->_xmlEntities($headline);
             $renderer->doc .= ' id="'.$hid.'"><a href="' . $url . '" title="' . $headline . '">';
