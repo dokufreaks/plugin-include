@@ -259,6 +259,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $first_header = -1;
         $no_header  = false;
         $sect_title = false;
+        $endpos     = null; // end position of the raw wiki text
 
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
@@ -326,6 +327,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         case 'include_include':
                             if (!$flags['inline'] && $flags['indent'])
                                 $ins[$i][1][1][4] += $lvl;
+                            break;
+                        /*
+                         * if there is already a closelastsecedit instruction (was added by one of the section
+                         * functions), store its position but delete it as it can't be determined yet if it is needed,
+                         * i.e. if there is a header which generates a section edit (depends on the levels, level
+                         * adjustments, $no_header, ...)
+                         */
+                        case 'include_closelastsecedit':
+                            $endpos = $ins[$i][1][1][0];
+                            unset($ins[$i]);
                             break;
                     }
                     break;
@@ -401,7 +412,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // close last open section of the included page if there is any
         if ($contains_secedit) {
-            array_push($ins, array('plugin', array('include_closelastsecedit', array())));
+            array_push($ins, array('plugin', array('include_closelastsecedit', array($endpos))));
         }
 
         // add edit button
@@ -481,11 +492,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */ 
-    function _get_section(&$ins, $sect) { 
+    function _get_section(&$ins, $sect) {
         $num = count($ins);
         $offset = false;
         $lvl    = false;
         $end    = false;
+        $endpos = null; // end position in the input text, needed for section edit buttons
 
         $check = array(); // used for sectionID() in order to get the same ids as the xhtml renderer
 
@@ -498,6 +510,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $lvl    = $ins[$i][1][1]; 
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
                     $end = $i - $offset;
+                    $endpos = $ins[$i][1][2]; // the position directly after the found section, needed for the section edit button
                     break;
                 }
             }
@@ -506,6 +519,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $end = $end ? $end : ($num - 1);
         if(is_array($ins)) {
             $ins = array_slice($ins, $offset, $end);
+            // store the end position in the include_closelastsecedit instruction so it can generate a matching button
+            $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));
         }
     } 
 
@@ -517,9 +532,19 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_firstsec(&$ins, $page) {
         $num = count($ins);
         $first_sect = false;
+        $endpos = null; // end position in the input text
         for($i=0; $i<$num; $i++) {
             if($ins[$i][0] == 'section_close') {
                 $first_sect = $i;
+            }
+            if ($ins[$i][0] == 'header') {
+                /*
+                 * Store the position of the last header that is encountered. As section_close/open-instruction are
+                 * always (unless some plugin modifies this) around a header instruction this means that the last
+                 * position that is stored here is exactly the position of the section_close/open at which the content
+                 * is truncated.
+                 */
+                $endpos = $ins[$i][1][2];
             }
             // only truncate the content and add the read more link when there is really
             // more than that first section
@@ -527,6 +552,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array_slice($ins, 0, $first_sect);
                 $ins[] = array('plugin', array('include_readmore', array($page)));
                 $ins[] = array('section_close', array());
+                // store the end position in the include_closelastsecedit instruction so it can generate a matching button
+                $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));
                 return;
             }
         }

@@ -28,7 +28,9 @@ class syntax_plugin_include_closelastsecedit extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         if ($mode == 'xhtml') {
-            $renderer->finishSectionEdit();
+            /** @var Doku_Renderer_xhtml $renderer */
+            list($endpos) = $data;
+            $renderer->finishSectionEdit($endpos);
             return true;
         }
         return false;
