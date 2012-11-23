@@ -37,7 +37,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         list($headline, $lvl, $page, $sect, $flags) = $data;
-        $hid = $renderer->_headerToLink($headline);
+        $hid = $renderer->_headerToLink($headline, true);
         if ($mode == 'xhtml') {
             $renderer->toc_additem($hid, $headline, $lvl);
             $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
