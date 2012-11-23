@@ -12,7 +12,7 @@
 jQuery(function() {
     jQuery('.btn_incledit')
         .mouseover(function () {
-            jQuery(this).parents('.plugin_include_content').first().addClass('section_highlight');
+            jQuery(this).closest('.plugin_include_content').addClass('section_highlight');
         })
         .mouseout(function () {
             jQuery('.section_highlight').removeClass('section_highlight');
