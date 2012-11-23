@@ -294,6 +294,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'section_close':
                     if ($flags['inline'])
                         unset($ins[$i]);
+                    break;
                 case 'internallink':
                 case 'internalmedia':
                     // make sure parameters aren't touched
