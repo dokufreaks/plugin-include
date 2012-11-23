@@ -39,8 +39,10 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
         global $conf;
 
         list($headline, $lvl, $pos, $page, $sect, $flags) = $data;
-        $hid = $renderer->_headerToLink($headline, true);
+
         if ($mode == 'xhtml') {
+            /** @var Doku_Renderer_xhtml $renderer */
+            $hid = $renderer->_headerToLink($headline, true);
             $renderer->toc_additem($hid, $headline, $lvl);
             $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
             $renderer->doc .= DOKU_LF.'<h' . $lvl;
@@ -64,9 +66,8 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= $headline;
             $renderer->doc .= '</a></h' . $lvl . '>' . DOKU_LF;
             return true;
-        } elseif($mode == 'metadata') {
-            $renderer->toc_additem($hid, $headline, $lvl);
-            return true;
+        } else {
+            $renderer->header($headline, $lvl, $pos);
         }
         return false;
     }
