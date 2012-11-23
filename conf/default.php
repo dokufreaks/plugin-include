@@ -20,4 +20,5 @@ $conf['linkonly']      = 0;      // link only to the included pages instead of i
 $conf['title']        = 0;       // use first header of page in link
 $conf['pageexists']   = 0;       // no link if page does not exist
 $conf['parlink']      = 1;       // paragraph around link
+$conf['safeindex']    = 1;       // prevent indexing of protected metadata
 //Setup VIM: ex: et ts=2 :

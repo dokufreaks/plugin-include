@@ -23,4 +23,5 @@ $meta['linkonly']      = array('onoff');
 $meta['title']         = array('onoff');
 $meta['pageexists']    = array('onoff');
 $meta['parlink']       = array('onoff');
+$meta['safeindex']     = array('onoff');
 //Setup VIM: ex: et ts=2 :

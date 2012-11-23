@@ -32,6 +32,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function register(&$controller) {
         /* @var Doku_event_handler $controller */
+        $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
+        $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handle_indexer_version');
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
       $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
       $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
@@ -41,6 +43,88 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
       $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
       $controller->register_hook('EDITX_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_editx_register');
+    }
+
+    /**
+     * Add a version string to the index so it is rebuilt
+     * whenever the handler is updated or the safeindex setting is changed
+     */
+    public function handle_indexer_version($event, $param) {
+        $event->data['plugin_include'] = '0.1.safeindex='.$this->getConf('safeindex');
+    }
+
+    /**
+     * Handles the INDEXER_PAGE_ADD event, prevents indexing of metadata from included pages that aren't public if enabled
+     *
+     * @param Doku_Event $event  the event object
+     * @param array      $params optional parameters (unused)
+     */
+    public function handle_indexer(Doku_Event $event, $params) {
+        global $USERINFO;
+
+        // check if the feature is enabled at all
+        if (!$this->getConf('safeindex')) return;
+
+        // is there a user logged in at all? If not everything is fine already
+        if (is_null($USERINFO) && !isset($_SERVER['REMOTE_USER'])) return;
+
+        // get the include metadata in order to see which pages were included
+        $inclmeta = p_get_metadata($event->data['page'], 'plugin_include', METADATA_RENDER_UNLIMITED);
+        $all_public = true; // are all included pages public?
+        // check if the current metadata indicates that non-public pages were included
+        if ($inclmeta !== null && isset($inclmeta['pages'])) {
+            foreach ($inclmeta['pages'] as $page) {
+                if (auth_aclcheck($page['id'], '', array()) < AUTH_READ) { // is $page public?
+                    $all_public = false;
+                    break;
+                }
+            }
+        }
+
+        if (!$all_public) { // there were non-public pages included - action required!
+            // backup the user information
+            $userinfo_backup = $USERINFO;
+            $remote_user = $_SERVER['REMOTE_USER'];
+            // unset user information - temporary logoff!
+            $USERINFO = null;
+            unset($_SERVER['REMOTE_USER']);
+
+            // metadata is only rendered once for a page in one request - thus we need to render manually.
+            $meta = p_read_metadata($event->data['page']); // load the original metdata
+            $meta = p_render_metadata($event->data['page'], $meta); // render the metadata
+            p_save_metadata($event->data['page'], $meta); // save the metadata so other event handlers get the public metadata, too
+
+            $meta = $meta['current']; // we are only interested in current metadata.
+
+            // check if the tag plugin handler has already been called before the include plugin
+            $tag_called = isset($event->data['metadata']['subject']);
+
+            // Reset the metadata in the renderer. This removes data from all other event handlers, but we need to be on the safe side here.
+            $event->data['metadata'] = array('title' => $meta['title']);
+
+            // restore the relation references metadata
+            if (isset($meta['relation']['references'])) {
+                $event->data['metadata']['relation_references'] = array_keys($meta['relation']['references']);
+            } else {
+                $event->data['metadata']['relation_references'] = array();
+            }
+
+            // restore the tag metadata if the tag plugin handler has been called before the include plugin handler.
+            if ($tag_called) {
+                $tag_helper = $this->loadHelper('tag', false);
+                if ($tag_helper) {
+                    if (isset($meta['subject']))  {
+                        $event->data['metadata']['subject'] = $tag_helper->_cleanTagList($meta['subject']);
+                    } else {
+                        $event->data['metadata']['subject'] = array();
+                    }
+                }
+            }
+
+            // restore user information
+            $USERINFO = $userinfo_backup;
+            $_SERVER['REMOTE_USER'] = $remote_user;
+        }
     }
 
     /**
