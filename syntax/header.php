@@ -49,7 +49,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
                 }
             }
             $headline = $renderer->_xmlEntities($headline);
-            $renderer->doc .= '><a name="' . $hid . '" id="' . $hid . '" href="' . $url . '" title="' . $headline . '">';
+            $renderer->doc .= ' id="'.$hid.'"><a href="' . $url . '" title="' . $headline . '">';
             $renderer->doc .= $headline;
             $renderer->doc .= '</a></h' . $lvl . '>' . DOKU_LF;
             return true;
