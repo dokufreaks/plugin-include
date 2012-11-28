@@ -34,8 +34,8 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
         // for page ordering
         saveWikiText('inclorder:page1', 'Page 1', 'Created page 1');
         saveWikiText('inclorder:page2', 'Page 2', 'Created page 2');
-        saveWikiText('inclorder:page3', '{{include_n>1}} Page 3/1', 'created page 3/1');
-        saveWikiText('inclorder:page4', '{{include_n>0}} Page 4/0', 'created page 4/0');
+        saveWikiText('inclorder:page3', '{{include_n>10}} Page 3/10', 'created page 3/1');
+        saveWikiText('inclorder:page4', '{{include_n>2}} Page 4/2', 'created page 4/0');
     }
 
     /**

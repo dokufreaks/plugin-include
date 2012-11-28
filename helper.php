@@ -625,9 +625,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         if (count($pages) > 1) {
             if ($flags['order'] === 'id') {
                 if ($flags['rsort']) {
-                    rsort($pages);
+                    usort($pages, array($this, '_r_strnatcasecmp'));
                 } else {
-                    sort($pages);
+                    natcasesort($pages);
                 }
             } else {
                 $ordered_pages = array();
@@ -658,9 +658,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $ordered_pages[$key] = $page;
                 }
                 if ($flags['rsort']) {
-                    krsort($ordered_pages);
+                    uksort($ordered_pages, array($this, '_r_strnatcasecmp'));
                 } else {
-                    ksort($ordered_pages);
+                    uksort($ordered_pages, 'strnatcasecmp');
                 }
                 $pages = $ordered_pages;
             }
@@ -672,6 +672,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
         }
         return $result;
+    }
+
+    /**
+     * String comparisons using a "natural order" algorithm in reverse order
+     *
+     * @link http://php.net/manual/en/function.strnatcmp.php
+     * @param string $a First string
+     * @param string $b Second string
+     * @return int Similar to other string comparison functions, this one returns &lt; 0 if
+     * str1 is greater than str2; &gt;
+     * 0 if str1 is lesser than
+     * str2, and 0 if they are equal.
+     */
+    function _r_strnatcasecmp($a, $b) {
+        return strnatcasecmp($b, $a);
     }
 
     /**
