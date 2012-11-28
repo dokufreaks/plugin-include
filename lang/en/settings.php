@@ -26,4 +26,5 @@ $lang['title']         = 'use first heading of page in link even if useheading i
 $lang['pageexists']    = 'do not display a link if the page does not exist (only affects linkonly mode)';
 $lang['parlink']       = 'put a paragraph around the link (only affects linkonly mode)';
 $lang['safeindex']     = 'prevent indexing of metadata from non-public included pages';
+$lang['depth']         = 'maximum depth of namespace includes, 0 for unlimited depth';
 //Setup VIM: ex: et ts=2 :

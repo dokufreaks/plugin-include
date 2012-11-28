@@ -104,7 +104,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             $this->helper =& plugin_load('helper', 'include');
         $flags = $this->helper->get_flags($flags);
 
-        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id);
+        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags);
 
         if ($format == 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
@@ -115,7 +115,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($renderer->meta['plugin_include']);
             }
 
-            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id');
+            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', $flags);
             if (!isset($renderer->meta['plugin_include']['pages']))
                $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
             $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);

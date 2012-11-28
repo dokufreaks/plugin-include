@@ -24,4 +24,5 @@ $meta['title']         = array('onoff');
 $meta['pageexists']    = array('onoff');
 $meta['parlink']       = array('onoff');
 $meta['safeindex']     = array('onoff');
+$meta['depth']         = array('numeric', '_min' => 0);
 //Setup VIM: ex: et ts=2 :

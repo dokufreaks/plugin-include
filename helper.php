@@ -44,6 +44,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['pageexists']  = $this->getConf('pageexists');
         $this->defaults['parlink']   = $this->getConf('parlink');
         $this->defaults['inline']    = false;
+        $this->defaults['depth']     = $this->getConf('depth');
     }
 
     /**
@@ -64,9 +65,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function get_flags($setflags) {
         // load defaults
-        $flags = array();
         $flags = $this->defaults;
         foreach ($setflags as $flag) {
+            $value = '';
+            if (strpos($flag, '=') !== -1) {
+                list($flag, $value) = explode('=', $flag, 2);
+            }
             switch ($flag) {
                 case 'footer':
                     $flags['footer'] = 1;
@@ -168,6 +172,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'noparlink':
                     $flags['parlink'] = 0;
+                    break;
+                case 'depth':
+                    $flags['depth'] = $value;
                     break;
             }
         }
@@ -564,13 +571,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_included_pages($mode, $page, $sect, $parent_id) {
+    function _get_included_pages($mode, $page, $sect, $parent_id, $flags) {
         global $conf;
         $pages = array();
         switch($mode) {
         case 'namespace':
             $ns    = str_replace(':', '/', cleanID($page));
-            search($pagearrays, $conf['datadir'], 'search_list', '', $ns);
+            search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $flags['depth']), $ns);
             if (is_array($pagearrays)) {
                 foreach ($pagearrays as $pagearray) {
                     $pages[] = $pagearray['id'];
@@ -615,8 +622,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_included_pages_from_meta_instructions($instructions) {
         $pages = array();
         foreach ($instructions as $instruction) {
-            extract($instruction);
-            $pages = array_merge($pages, $this->_get_included_pages($mode, $page, $sect, $parent_id));
+            $mode      = $instruction['mode'];
+            $page      = $instruction['page'];
+            $sect      = $instruction['sect'];
+            $parent_id = $instruction['parent_id'];
+            $flags     = $instruction['flags'];
+            $pages = array_merge($pages, $this->_get_included_pages($mode, $page, $sect, $parent_id, $flags));
         }
         return $pages;
     }
