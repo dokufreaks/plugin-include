@@ -76,7 +76,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
         // break the pattern up into its parts 
         list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3); 
-        $check = null;
+        $check = false;
         if (isset($sect)) $sect = sectionID($sect, $check);
         return array($mode, $page, $sect, explode('&', $flags));
     }
@@ -87,7 +87,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      * @author Michael Hamann <michael@content-space.de>
      */
     function render($format, &$renderer, $data) {
-        global $ID, $conf;
+        global $ID;
 
         // static stack that records all ancestors of the child pages
         static $page_stack = array();

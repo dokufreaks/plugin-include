@@ -44,6 +44,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['pageexists']  = $this->getConf('pageexists');
         $this->defaults['parlink']   = $this->getConf('parlink');
         $this->defaults['inline']    = false;
+        $this->defaults['order']     = $this->getConf('order');
+        $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
     }
 
@@ -172,6 +174,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'noparlink':
                     $flags['parlink'] = 0;
+                    break;
+                case 'order':
+                    $flags['order'] = $value;
+                    break;
+                case 'sort':
+                    $flags['rsort'] = 0;
+                    break;
+                case 'rsort':
+                    $flags['rsort'] = 1;
                     break;
                 case 'depth':
                     $flags['depth'] = $value;
@@ -328,6 +339,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         case 'linkback':                // skip linkbacks
                         case 'data_entry':              // skip data plugin
                         case 'meta':                    // skip meta plugin
+                        case 'indexmenu_tag':           // skip indexmenu sort tag
+                        case 'include_sorttag':         // skip include plugin sort tag
                             unset($ins[$i]);
                             break;
                         // adapt indentation level of nested includes
@@ -576,8 +589,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $pages = array();
         switch($mode) {
         case 'namespace':
-            $ns    = str_replace(':', '/', cleanID($page));
-            search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $flags['depth']), $ns);
+            $page  = cleanID($page);
+            $ns    = utf8_encodeFN(str_replace(':', '/', $page));
+            // depth is absolute depth, not relative depth, but 0 has a special meaning.
+            $depth = $flags['depth'] ? $flags['depth'] + substr_count($page, ':') + ($page ? 1 : 0) : 0;
+            search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $depth), $ns);
             if (is_array($pagearrays)) {
                 foreach ($pagearrays as $pagearray) {
                     if (!isHiddenPage($pagearray['id'])) // skip hidden pages
@@ -606,7 +622,49 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $pages[] = $page;
         }
 
-        sort($pages);
+        if (count($pages) > 1) {
+            if ($flags['order'] === 'id') {
+                if ($flags['rsort']) {
+                    rsort($pages);
+                } else {
+                    sort($pages);
+                }
+            } else {
+                $ordered_pages = array();
+                foreach ($pages as $page) {
+                    $key = '';
+                    switch ($flags['order']) {
+                        case 'title':
+                            $key = p_get_first_heading($page);
+                            break;
+                        case 'created':
+                            $key = p_get_metadata($page, 'date created', METADATA_DONT_RENDER);
+                            break;
+                        case 'modified':
+                            $key = p_get_metadata($page, 'date modified', METADATA_DONT_RENDER);
+                            break;
+                        case 'indexmenu':
+                            $key = p_get_metadata($page, 'indexmenu_n', METADATA_RENDER_USING_SIMPLE_CACHE);
+                            if ($key === null)
+                                $key = '';
+                            break;
+                        case 'custom':
+                            $key = p_get_metadata($page, 'include_n', METADATA_RENDER_USING_SIMPLE_CACHE);
+                            if ($key === null)
+                                $key = '';
+                            break;
+                    }
+                    $key .= '_'.$page;
+                    $ordered_pages[$key] = $page;
+                }
+                if ($flags['rsort']) {
+                    krsort($ordered_pages);
+                } else {
+                    ksort($ordered_pages);
+                }
+                $pages = $ordered_pages;
+            }
+        }
 
         $result = array();
         foreach ($pages as $page) {

@@ -24,5 +24,7 @@ $meta['title']         = array('onoff');
 $meta['pageexists']    = array('onoff');
 $meta['parlink']       = array('onoff');
 $meta['safeindex']     = array('onoff');
+$meta['order']         = array('multichoice', '_choices' => array('id', 'title', 'created', 'modified', 'indexmenu', 'custom'));
+$meta['rsort']         = array('onoff');
 $meta['depth']         = array('numeric', '_min' => 0);
 //Setup VIM: ex: et ts=2 :

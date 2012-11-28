@@ -21,5 +21,7 @@ $conf['title']        = 0;       // use first header of page in link
 $conf['pageexists']   = 0;       // no link if page does not exist
 $conf['parlink']      = 1;       // paragraph around link
 $conf['safeindex']    = 1;       // prevent indexing of protected metadata
+$conf['order']        = 'id';    // order in which the pages are included in the case of multiple pages
+$conf['rsort']        = 0;       // reverse sort order
 $conf['depth']        = 1;       // maximum depth of namespace includes, 0 for unlimited depth
 //Setup VIM: ex: et ts=2 :
