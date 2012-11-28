@@ -580,7 +580,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $flags['depth']), $ns);
             if (is_array($pagearrays)) {
                 foreach ($pagearrays as $pagearray) {
-                    $pages[] = $pagearray['id'];
+                    if (!isHiddenPage($pagearray['id'])) // skip hidden pages
+                        $pages[] = $pagearray['id'];
                 }
             }
             break;
