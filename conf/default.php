@@ -8,6 +8,7 @@ $conf['showfooter']    = 1;      // display meta line below blog entries
 $conf['showlink']      = 0;      // link headlines of blog entries
 $conf['showpermalink'] = 0;      // show permalink below blog entries
 $conf['showdate']      = 1;      // show date below blog entries
+$conf['showmdate']     = 0;      // show modification date below blog entries
 $conf['showuser']      = 1;      // show username below blog entries
 $conf['showcomments']  = 1;      // show number of comments below blog entries
 $conf['showlinkbacks'] = 1;      // show number of linkbacks below blog entries

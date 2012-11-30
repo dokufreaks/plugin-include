@@ -32,6 +32,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['footer']    = $this->getConf('showfooter');
         $this->defaults['redirect']  = $this->getConf('doredirect');
         $this->defaults['date']      = $this->getConf('showdate');
+        $this->defaults['mdate']     = $this->getConf('showmdate');
         $this->defaults['user']      = $this->getConf('showuser');
         $this->defaults['comments']  = $this->getConf('showcomments');
         $this->defaults['linkbacks'] = $this->getConf('showlinkbacks');
@@ -145,6 +146,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'nodate':
                     $flags['date'] = 0;
+                    break;
+                case 'mdate':
+                    $flags['mdate'] = 1;
+                    break;
+                case 'nomdate':
+                    $flags['mdate'] = 0;
                     break;
                 case 'indent':
                     $flags['indent'] = 1;

@@ -53,7 +53,6 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
         $meta  = p_get_metadata($page);
         $xhtml = array();
-
         // permalink
         if ($flags['permalink']) {
             $class = (page_exists($page) ? 'wikilink1' : 'wikilink2');
@@ -78,6 +77,16 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
             if ($date) {
                 $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $date).'">'
                        . strftime($conf['dformat'], $date)
+                       . '</abbr>';
+            }
+        }
+        
+        // modified date
+        if ($flags['mdate']) {
+            $mdate = $meta['date']['modified'];
+            if ($mdate) {
+                $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $mdate).'">'
+                       . strftime($conf['dformat'], $mdate)
                        . '</abbr>';
             }
         }

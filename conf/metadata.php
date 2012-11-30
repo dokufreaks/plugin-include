@@ -11,6 +11,7 @@ $meta['showfooter']    = array('onoff');
 $meta['showlink']      = array('onoff');
 $meta['showpermalink'] = array('onoff');
 $meta['showdate']      = array('onoff');
+$meta['showmdate']     = array('onoff');
 $meta['showuser']      = array('onoff');
 $meta['showcomments']  = array('onoff');
 $meta['showlinkbacks'] = array('onoff');
