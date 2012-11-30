@@ -13,6 +13,7 @@ $lang['showfooter']    = 'show info about included page below';
 $lang['showlink']      = 'link first headline of included page';
 $lang['showpermalink'] = 'show permalinks below included page';
 $lang['showdate']      = 'show dates below included page';
+$lang['showmdate']     = 'show modified dates below included page';
 $lang['showuser']      = 'show usernames below included page';
 $lang['showcomments']  = 'show comments below included page (Discussion plugin needed)';
 $lang['showlinkbacks'] = 'show linkbacks below included page (Linkback Plugin needed)';
