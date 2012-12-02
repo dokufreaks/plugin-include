@@ -7,6 +7,7 @@
  */
  
 // for the configuration manager
+$lang['noheader']      = 'Don\'t show the first header of included pages/sections';
 $lang['firstseconly']  = 'show only the first section of included pages';
 $lang['showtaglogos']  = 'show image for first tag';
 $lang['showfooter']    = 'show info about included page below';

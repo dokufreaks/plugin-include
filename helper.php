@@ -26,6 +26,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Constructor loads default config settings once
      */
     function helper_plugin_include() {
+        $this->defaults['noheader']  = $this->getConf('noheader');
         $this->defaults['firstsec']  = $this->getConf('firstseconly');
         $this->defaults['editbtn']   = $this->getConf('showeditbtn');
         $this->defaults['taglogos']  = $this->getConf('showtaglogos');
@@ -87,6 +88,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'fullpage':
                     $flags['firstsec'] = 0;
+                    break;
+                case 'showheader':
+                case 'header':
+                    $flags['noheader'] = 0;
                     break;
                 case 'noheader':
                     $flags['noheader'] = 1;
