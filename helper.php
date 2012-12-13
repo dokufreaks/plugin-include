@@ -177,12 +177,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'title':
                     $flags['title'] = 1;
                     break;
+                case 'notitle':
+                    $flags['title'] = 0;
+                    break;
                 case 'pageexists':
                     $flags['pageexists'] = 1;
+                    break;
+                case 'nopageexists':
+                    $flags['pageexists'] = 0;
                     break;
                 case 'existlink':
                     $flags['pageexists'] = 1;
                     $flags['linkonly'] = 1;
+                    break;
+                case 'parlink':
+                    $flags['parlink'] = 1;
                     break;
                 case 'noparlink':
                     $flags['parlink'] = 0;
