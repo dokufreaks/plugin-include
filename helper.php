@@ -208,6 +208,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'depth':
                     $flags['depth'] = max(intval($value), 0);
                     break;
+                case 'beforeeach':
+                    $flags['beforeeach'] = $value;
+                    break;
+                case 'aftereach':
+                    $flags['aftereach'] = $value;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -484,7 +490,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add instructions entry wrapper
         array_unshift($ins, array('plugin', array('include_wrap', array('open', $page, $flags['redirect']))));
+        if (isset($flags['beforeeach']))
+            array_unshift($ins, array('entity', array($flags['beforeeach'])));
         array_push($ins, array('plugin', array('include_wrap', array('close'))));
+        if (isset($flags['aftereach']))
+            array_push($ins, array('entity', array($flags['aftereach'])));
 
         // close previous section if any and re-open after inclusion
         if($lvl != 0 && $this->sec_close && !$flags['inline']) {
