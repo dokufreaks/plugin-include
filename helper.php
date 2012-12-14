@@ -206,7 +206,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $flags['rsort'] = 1;
                     break;
                 case 'depth':
-                    $flags['depth'] = $value;
+                    $flags['depth'] = max(intval($value), 0);
                     break;
             }
         }
