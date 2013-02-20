@@ -156,7 +156,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             case 'plugin':
                 switch($ins[$i][1][0]) {
                 case 'include_include':
-                    $ins[$i][1][1][] = $level;
+                    $ins[$i][1][1][4] = $level;
                     break;
                     /* FIXME: this doesn't work anymore that way with the new structure
                     // some plugins already close open sections
