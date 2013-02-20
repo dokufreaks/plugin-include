@@ -260,7 +260,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 global $ID;
                 $backupID = $ID;
                 $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
-                $ins = p_cached_instructions(wikiFN($page));
+                $ins = p_cached_instructions(wikiFN($page), false, $page);
                 $ID = $backupID;
             } else {
                 $ins = array();
