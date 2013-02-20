@@ -7,11 +7,7 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-if (!defined('DOKU_INC'))
-    define('DOKU_INC', realpath(dirname(__FILE__) . '/../../') . '/');
-if (!defined('DOKU_PLUGIN'))
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-require_once (DOKU_PLUGIN . 'syntax.php');
+if (!defined('DOKU_INC')) die('must be used inside DokuWiki');
 
 class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
 
