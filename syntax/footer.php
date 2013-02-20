@@ -52,10 +52,11 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         if(!$flags['footer']) return '';
 
         $meta  = p_get_metadata($page);
+        $exists = page_exists($page);
         $xhtml = array();
         // permalink
         if ($flags['permalink']) {
-            $class = (page_exists($page) ? 'wikilink1' : 'wikilink2');
+            $class = ($exists ? 'wikilink1' : 'wikilink2');
             $url   = ($sect) ? wl($page) . '#' . $sect : wl($page);
             $name  = ($sect) ? $sect_title : $page;
             $title = ($sect) ? $page . '#' . $sect : $page;
@@ -72,7 +73,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         }
 
         // date
-        if ($flags['date']) {
+        if ($flags['date'] && $exists) {
             $date = $meta['date']['created'];
             if ($date) {
                 $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $date).'">'
@@ -82,7 +83,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         }
         
         // modified date
-        if ($flags['mdate']) {
+        if ($flags['mdate'] && $exists) {
             $mdate = $meta['date']['modified'];
             if ($mdate) {
                 $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $mdate).'">'
@@ -92,7 +93,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         }
 
         // author
-        if ($flags['user']) {
+        if ($flags['user'] && $exists) {
             $author   = $meta['creator'];
             if ($author) {
                 $userpage = cleanID($this->getConf('usernamespace').':'.$author);
