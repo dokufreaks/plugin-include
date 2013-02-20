@@ -228,7 +228,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null) {
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = array()) {
         $key = ($sect) ? $page . '#' . $sect : $page;
         $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
 
@@ -266,7 +266,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
         }
         return $ins;
     }
@@ -284,7 +284,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array()) {
         global $conf;
 
         // filter instructions if needed
@@ -357,6 +357,33 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if ($link_id{0} != ':') $link_id = ':'.$link_id;
                     // restore parameters
                     $ins[$i][1][0] = ($link_params != '') ? $link_id.'?'.$link_params : $link_id;
+                    if ($ins[$i][0] == 'internallink' && !empty($included_pages)) {
+                        // change links to included pages into local links
+                        $link_id = $ins[$i][1][0];
+                        $link_parts = explode('?', $link_id, 2);
+                        // only adapt links without parameters
+                        if (count($link_parts) === 1) {
+                            $link_parts = explode('#', $link_id, 2);
+                            $hash = '';
+                            if (count($link_parts) === 2) {
+                                list($link_id, $hash) = $link_parts;
+                            }
+                            $exists = false;
+                            resolve_pageid($ns, $link_id, $exists);
+                            if (array_key_exists($link_id, $included_pages)) {
+                                if ($hash) {
+                                    // hopefully the hash is also unique in the including page (otherwise this might be the wrong link target)
+                                    $ins[$i][0] = 'locallink';
+                                    $ins[$i][1][0] = $hash;
+                                } else {
+                                    // the include section ids are different from normal section ids (so they won't conflict) but this
+                                    // also means that the normal locallink function can't be used
+                                    $ins[$i][0] = 'plugin';
+                                    $ins[$i][1] = array('include_locallink', array($included_pages[$link_id]['hid'], $ins[$i][1][1]));
+                                }
+                            }
+                        }
+                    }
                     break;
                 case 'plugin':
                     // FIXME skip other plugins?
@@ -489,7 +516,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add instructions entry wrapper
-        array_unshift($ins, array('plugin', array('include_wrap', array('open', $page, $flags['redirect']))));
+        $include_secid = (isset($flags['include_secid']) ? $flags['include_secid'] : NULL);
+        array_unshift($ins, array('plugin', array('include_wrap', array('open', $page, $flags['redirect'], $include_secid))));
         if (isset($flags['beforeeach']))
             array_unshift($ins, array('entity', array($flags['beforeeach'])));
         array_push($ins, array('plugin', array('include_wrap', array('close'))));

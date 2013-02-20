@@ -32,18 +32,27 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, &$renderer, $data) {
         if ($mode == 'xhtml') {
-            switch($data[0]) {
+            list($state, $page, $redirect, $secid) = $data;
+            switch($state) {
                 case 'open':
-                    if ($data[2]) { // $data[2] = $flags['redirect']
-                        $renderer->startSectionEdit(0, 'plugin_include_start', $data[1]);
+                    if ($redirect) {
+                        $renderer->startSectionEdit(0, 'plugin_include_start', $page);
                     } else {
-                        $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $data[1]);
+                        $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $page);
                     }
                     $renderer->finishSectionEdit();
                     // Start a new section with type != section so headers in the included page
                     // won't print section edit buttons of the parent page
-                    $renderer->startSectionEdit(0, 'plugin_include_end', $data[1]);
-                    $renderer->doc .= '<div class="plugin_include_content plugin_include__' . $data[1] . '">' . DOKU_LF;
+                    $renderer->startSectionEdit(0, 'plugin_include_end', $page);
+                    if ($secid === NULL) {
+                        $id = '';
+                    } else {
+                        $id = ' id="'.$secid.'"';
+                    }
+                    $renderer->doc .= '<div class="plugin_include_content plugin_include__' . $page .'"'.$id.'>' . DOKU_LF;
+                    if (is_a($renderer,'renderer_plugin_dw2pdf')) {
+                        $renderer->doc .= '<a name="'.$secid.'" />';
+                    }
                     break;
                 case 'close':
                     $renderer->finishSectionEdit();
