@@ -31,10 +31,10 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
         global $ID;
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
-            list($hash, $name, $default) = $data;
+            list($hash, $name, $id) = $data;
             // construct title in the same way it would be done for internal links
-            $default = $renderer->_simpleTitle($default);
-            $name    = $renderer->_getLinkTitle($name, $default, $isImage);
+            $default = $renderer->_simpleTitle($id);
+            $name    = $renderer->_getLinkTitle($name, $default, $isImage, $id);
             $title   = $ID.' ↵';
             $renderer->doc .= '<a href="#'.$hash.'" title="'.$title.'" class="wikilink1">';
             $renderer->doc .= $name;
