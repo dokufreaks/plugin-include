@@ -28,12 +28,14 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
      * @author Michael Hamann <michael@content-space.de>
      */
     function render($mode, &$renderer, $data) {
+        global $ID;
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
-            list($hash, $name) = $data;
-            global $ID;
-            $name  = $renderer->_getLinkTitle($name, $hash, $isImage);
-            $title = $ID.' ↵';
+            list($hash, $name, $default) = $data;
+            // construct title in the same way it would be done for internal links
+            $default = $renderer->_simpleTitle($default);
+            $name    = $renderer->_getLinkTitle($name, $default, $isImage);
+            $title   = $ID.' ↵';
             $renderer->doc .= '<a href="#'.$hash.'" title="'.$title.'" class="wikilink1">';
             $renderer->doc .= $name;
             $renderer->doc .= '</a>';

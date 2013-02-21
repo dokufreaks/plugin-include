@@ -379,7 +379,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                                     // the include section ids are different from normal section ids (so they won't conflict) but this
                                     // also means that the normal locallink function can't be used
                                     $ins[$i][0] = 'plugin';
-                                    $ins[$i][1] = array('include_locallink', array($included_pages[$link_id]['hid'], $ins[$i][1][1]));
+                                    $ins[$i][1] = array('include_locallink', array($included_pages[$link_id]['hid'], $ins[$i][1][1], $ins[$i][1][0]));
                                 }
                             }
                         }
