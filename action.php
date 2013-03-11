@@ -363,6 +363,21 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $includedPages = array();
         preg_match_all('/\{\{(?:page|section)\>(.+?)\}\}/', $wikiPage, $includedPages);
         foreach ($includedPages[1] as $page) {
+
+            $pos = strpos($page, '#');
+            if ($pos !== false) {
+                $page = substr($page, 0, $pos);
+            }
+
+            $pos = strpos($page, '&');
+            if ($pos !== false) {
+                $page = substr($page, 0, $pos);
+            }
+
+            if (strpos($page, '@') !== false) {
+                continue; // skip macros
+            }
+            $page = cleanID($page);
             $this->plugin_orphans_wanted_add_page($data, $page);
         }
     }
