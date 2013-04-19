@@ -385,6 +385,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         }
                     }
                     break;
+                case 'locallink':
+                    /* Convert local links to internal links if the page hasn't been fully included */
+                    if ($included_pages == null || !array_key_exists($page, $included_pages)) {
+                        $ins[$i][0] = 'internallink';
+                        $ins[$i][1][0] = ':'.$page.'#'.$ins[$i][1][0];
+                    }
+                    break;
                 case 'plugin':
                     // FIXME skip other plugins?
                     switch($ins[$i][1][0]) {
