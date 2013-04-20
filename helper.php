@@ -307,6 +307,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $endpos     = null; // end position of the raw wiki text
 
         for($i=0; $i<$num; $i++) {
+            // adjust links with image titles
+            if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1])) {
+                // resolve relative ids, but without cleaning in order to preserve the name
+                $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
+                // make sure that after resolving the link again it will be the same link
+                if ($media_id{0} != ':') $media_id = ':'.$media_id;
+                $ins[$i][1][1]['src'] = $media_id;
+            }
+
             switch($ins[$i][0]) {
                 case 'document_start':
                 case 'document_end':
