@@ -19,6 +19,7 @@ class plugin_include_media_linktitle_conversion_test extends DokuWikiTest {
   * [[test|{{dokuwiki.png}}]]
   * [[#test|{{dokuwiki.png?w=200}}]]
   * [[doku>test|{{dokuwiki.png?w=300}}]]
+  * [[test|{{https://www.dokuwiki.org/lib/tpl/dokuwiki/images/logo.png}}]]
 EOF
             , 'Test setup');
         idx_addPage('wiki:included');
@@ -40,5 +41,10 @@ EOF
     public function testInterWikiLinkTitleConversion() {
         $html = p_wiki_xhtml('test:include');
         $this->assertContains('src="'.ml('wiki:dokuwiki.png', array('w' => '300')).'"', $html);
+    }
+
+    public function testExternalMediaNotConverted() {
+        $html = p_wiki_xhtml('test:include');
+        $this->assertContains('src="'.ml('https://www.dokuwiki.org/lib/tpl/dokuwiki/images/logo.png').'"', $html);
     }
 }

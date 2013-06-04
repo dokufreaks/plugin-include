@@ -308,7 +308,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         for($i=0; $i<$num; $i++) {
             // adjust links with image titles
-            if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1])) {
+            if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1]) && $ins[$i][1][1]['type'] == 'internalmedia') {
                 // resolve relative ids, but without cleaning in order to preserve the name
                 $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
                 // make sure that after resolving the link again it will be the same link
