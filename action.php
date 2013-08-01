@@ -30,19 +30,20 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * plugin should use this method to register its handlers with the dokuwiki's event controller
      */
-    function register(&$controller) {
-        /* @var Doku_event_handler $controller */
+    function register(Doku_Event_Handler &$controller) {
         $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
         $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handle_indexer_version');
-      $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
-      $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
-      $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
-      $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
-      $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
-      $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
-      $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
-      $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
+        $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
+        $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+        $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+        $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+        $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
+        $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
+        $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
+        $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
         $controller->register_hook('PAGEMOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_pagemove_register');
+
+        $controller->register_hook('PLUGIN_ORPHANS_WANTED_PROCESS_PAGE', 'BEFORE', $this, 'handle_plugin_orphans_wanted');
     }
 
     /**
@@ -350,6 +351,43 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $result .= '}}';
             return $result;
         }
+    }
+
+    public function handle_plugin_orphans_wanted(Doku_Event $event, $params) {
+        global $conf;
+        $data = &$event->data['data'];
+        $file = &$event->data['file'];
+
+        $wikiPage = io_readFile($conf['datadir'] . $file);
+
+        $includedPages = array();
+        preg_match_all('/\{\{(?:page|section)\>(.+?)\}\}/', $wikiPage, $includedPages);
+        foreach ($includedPages[1] as $page) {
+
+            $pos = strpos($page, '#');
+            if ($pos !== false) {
+                $page = substr($page, 0, $pos);
+            }
+
+            $pos = strpos($page, '&');
+            if ($pos !== false) {
+                $page = substr($page, 0, $pos);
+            }
+
+            if (strpos($page, '@') !== false) {
+                continue; // skip macros
+            }
+            $page = cleanID($page);
+            $this->plugin_orphans_wanted_add_page($data, $page);
+        }
+    }
+
+    private function plugin_orphans_wanted_add_page(&$data, $id) {
+        if (trim($id) === '') return;
+        if (!isset($data[$id])) {
+            $data[$id] = array('exists' => false, 'links' => 0);
+        }
+        $data[$id]['links']++;
     }
 }
 // vim:ts=4:sw=4:et:
