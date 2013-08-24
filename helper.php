@@ -4,6 +4,7 @@
  * @author     Esther Brunner <wikidesign@gmail.com>
  * @author     Christopher Smith <chris@jalakai.co.uk>
  * @author     Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
+ * @author     Michael Hamann <michael@content-space.de>
  */
 
 // must be run within Dokuwiki
@@ -13,12 +14,14 @@ if (!defined('DOKU_LF')) define('DOKU_LF', "\n");
 if (!defined('DOKU_TAB')) define('DOKU_TAB', "\t");
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC.'lib/plugins/');
 
-require_once(DOKU_INC.'inc/search.php');
-
+/**
+ * Helper functions for the include plugin and other plugins that want to include pages.
+ */
 class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     var $defaults  = array();
     var $sec_close = true;
+    /** @var helper_plugin_tag $taghelper */
     var $taghelper = null;
     var $includes  = array(); // deprecated - compatibility code for the blog plugin
 
@@ -476,7 +479,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 // set footer level
                 if(!$footer_lvl && ($idx == $first_header) && !$no_header) {
-                    if($flags['indent']) {
+                    if($flags['indent'] && isset($lvl_new)) {
                         $footer_lvl = $lvl_new;
                     } else {
                         $footer_lvl = $lvl_max;
@@ -491,7 +494,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
                 // check if noheader is used and set the footer level to the first section
                 if($no_header && !$footer_lvl) {
-                    if($flags['indent']) {
+                    if($flags['indent'] && isset($lvl_new)) {
                         $footer_lvl = $lvl_new;
                     } else {
                         $footer_lvl = $lvl_max;
