@@ -370,6 +370,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     ) {
                         // Maximum paragraph count reached. Stop processing.
                         $skip_mode = true;
+
+                        $ins[] = array('p_close', array());
+                        $ins[] = array('plugin', array('include_readmore',
+                            array($page)));
                     }
                     break;
                 case 'internallink':
