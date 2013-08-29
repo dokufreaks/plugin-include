@@ -310,6 +310,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $endpos     = null; // end position of the raw wiki text
         $paragraphs = 0;
         $skip_mode  = false;
+        $open_sects = 0;
 
         for($i=0; $i<$num; $i++) {
 
@@ -353,12 +354,14 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     }
                     break;
                 case 'section_open':
+                    $open_sects++;
                     if ($flags['inline'])
                         unset($ins[$i]);
                     else
                         $conv_idx[] = $i;
                     break;
                 case 'section_close':
+                    $open_sects--;
                     if ($flags['inline'])
                         unset($ins[$i]);
                     break;
@@ -374,6 +377,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         $ins[] = array('p_close', array());
                         $ins[] = array('plugin', array('include_readmore',
                             array($page)));
+
+                        for ($a=0; $a<$open_sects; $a++) {
+
+                            $ins[] = array('section_close', array());
+
+                        }
                     }
                     break;
                 case 'internallink':
