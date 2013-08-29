@@ -214,6 +214,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'aftereach':
                     $flags['aftereach'] = $value;
                     break;
+                case 'paragraphs':
+                    $flags['paragraphs'] = $value;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -305,8 +308,17 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $no_header  = false;
         $sect_title = false;
         $endpos     = null; // end position of the raw wiki text
+        $paragraphs = 0;
+        $skip_mode  = false;
 
         for($i=0; $i<$num; $i++) {
+
+            if ($skip_mode) {
+
+                unset($ins[$i]);
+
+            }
+
             // adjust links with image titles
             if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1]) && $ins[$i][1][1]['type'] == 'internalmedia') {
                 // resolve relative ids, but without cleaning in order to preserve the name
@@ -349,6 +361,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'section_close':
                     if ($flags['inline'])
                         unset($ins[$i]);
+                    break;
+                case 'p_open':
+                    $paragraphs++;
+                    if (
+                        ($flags['paragraphs']) &&
+                        ($paragraphs > $flags['paragraphs'])
+                    ) {
+                        // Maximum paragraph count reached. Stop processing.
+                        $skip_mode = true;
+                    }
                     break;
                 case 'internallink':
                 case 'internalmedia':
