@@ -25,7 +25,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
         return 50;
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler &$handler) {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -35,7 +35,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      * Code heavily copied from the header renderer from inc/parser/xhtml.php, just
      * added an href parameter to the anchor tag linking to the wikilink.
      */
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer &$renderer, $data) {
         global $conf;
 
         list($headline, $lvl, $pos, $page, $sect, $flags) = $data;

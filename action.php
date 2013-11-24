@@ -30,7 +30,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * plugin should use this method to register its handlers with the dokuwiki's event controller
      */
-    function register(&$controller) {
+    function register(Doku_Event_Handler $controller) {
         /* @var Doku_event_handler $controller */
         $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
         $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handle_indexer_version');

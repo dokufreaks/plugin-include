@@ -16,11 +16,11 @@ class syntax_plugin_include_readmore extends DokuWiki_Syntax_Plugin {
         return 50;
     }
 
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler &$handler) {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
-    function render($mode, &$renderer, $data) {
+    function render($mode, Doku_Renderer &$renderer, $data) {
         list($page) = $data;
 
         if ($mode == 'xhtml') {

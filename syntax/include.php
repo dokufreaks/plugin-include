@@ -69,7 +69,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      * @param Doku_Handler $handler The hanlder object
      * @return array The instructions of the plugin
      */
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler &$handler) {
 
         $match = substr($match, 2, -2); // strip markup
         list($match, $flags) = explode('&', $match, 2);
@@ -87,7 +87,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function render($format, &$renderer, $data) {
+    function render($format, Doku_Renderer &$renderer, $data) {
         global $ID;
 
         // static stack that records all ancestors of the child pages
@@ -102,7 +102,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         list($mode, $page, $sect, $flags, $level, $pos) = $data;
 
         if (!$this->helper)
-            $this->helper =& plugin_load('helper', 'include');
+            $this->helper = plugin_load('helper', 'include');
         $flags = $this->helper->get_flags($flags);
 
         $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags);
