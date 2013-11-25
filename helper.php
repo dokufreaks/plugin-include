@@ -869,6 +869,15 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         return str_replace(array_keys($replace), array_values($replace), $id);
     }
     
+    
+    /**
+     * returns the revsision of a page 
+     * based on configuration($flags), $REV and $DATE_AT
+     *
+     * @param string $page page id
+     * @param array  $flags configuration array see get_flags()
+     * @return string revision ('' if current)
+     **/
     function _get_revision($page,$flags) {
         global $DATE_AT;
         global $REV;
@@ -885,6 +894,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 }
 
+/******************************************************************************
+ * Following code is copied from inc/changelog.php from diff_navigation branch
+ ******************************************************************************/
 
 /**
  * Class ChangeLog
