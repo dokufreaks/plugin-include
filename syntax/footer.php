@@ -57,10 +57,8 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         // permalink
         if ($flags['permalink']) {
             $class = ($exists ? 'wikilink1' : 'wikilink2');
-            $url_params = '';
-            if($page_rev) {
-                $url_params = array('rev'=>$page_rev);
-            }
+            
+            $url_params = $page_rev ? array('rev'=>$page_rev) : '';
             $url   = ($sect) ? wl($page,$url_params) . '#' . $sect : wl($page,$url_params);
             $name  = ($sect) ? $sect_title : $page;
             $title = ($sect) ? $page . '#' . $sect : $page;

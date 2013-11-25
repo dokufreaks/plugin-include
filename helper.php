@@ -900,9 +900,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
 /**
  * Class ChangeLog
- * methods for handling of changelog of pages or media files
+ * methods for handling of changelog of pages
  */
-abstract class helper_plugin_include_ChangeLog {
+class helper_plugin_include_PageChangelog {
 
     /** @var string */
     protected $id;
@@ -942,189 +942,24 @@ abstract class helper_plugin_include_ChangeLog {
         $this->chunk_size = (int) max($chunk_size, 0);
     }
 
-    /**
+        /**
      * Returns path to changelog
      *
      * @return string path to file
      */
-    abstract protected function getChangelogFilename();
+    protected function getChangelogFilename() {
+        return metaFN($this->id, '.changes');
+    }
 
     /**
      * Returns path to current page/media
      *
      * @return string path to file
      */
-    abstract protected function getFilename();
-
-    /**
-     * Get the changelog information for a specific page id and revision (timestamp)
-     *
-     * Adjacent changelog lines are optimistically parsed and cached to speed up
-     * consecutive calls to getRevisionInfo. For large changelog files, only the chunk
-     * containing the requested changelog line is read.
-     *
-     * @param int $rev        revision timestamp
-     * @return bool|array false or array with entries:
-     *      - date:  unix timestamp
-     *      - ip:    IPv4 address (127.0.0.1)
-     *      - type:  log line type
-     *      - id:    page id
-     *      - user:  user name
-     *      - sum:   edit summary (or action reason)
-     *      - extra: extra data (varies by line type)
-     *
-     * @author Ben Coburn <btcoburn@silicodon.net>
-     * @author Kate Arzamastseva <pshns@ukr.net>
-     */
-    public function getRevisionInfo($rev) {
-        $rev = max($rev, 0);
-
-        // check if it's already in the memory cache
-        if(isset($this->cache[$this->id]) && isset($this->cache[$this->id][$rev])) {
-            return $this->cache[$this->id][$rev];
-        }
-
-        //read lines from changelog
-        list($fp, $lines) = $this->readloglines($rev);
-        if($fp) {
-            fclose($fp);
-        }
-        if(empty($lines)) return false;
-
-        // parse and cache changelog lines
-        foreach($lines as $value) {
-            $tmp = parseChangelogLine($value);
-            if($tmp !== false) {
-                $this->cache[$this->id][$tmp['date']] = $tmp;
-            }
-        }
-        if(!isset($this->cache[$this->id][$rev])) {
-            return false;
-        }
-        return $this->cache[$this->id][$rev];
+    protected function getFilename() {
+        return wikiFN($this->id);
     }
 
-    /**
-     * Return a list of page revisions numbers
-     *
-     * Does not guarantee that the revision exists in the attic,
-     * only that a line with the date exists in the changelog.
-     * By default the current revision is skipped.
-     *
-     * The current revision is automatically skipped when the page exists.
-     * See $INFO['meta']['last_change'] for the current revision.
-     * A negative $first let read the current revision too.
-     *
-     * For efficiency, the log lines are parsed and cached for later
-     * calls to getRevisionInfo. Large changelog files are read
-     * backwards in chunks until the requested number of changelog
-     * lines are recieved.
-     *
-     * @param int $first      skip the first n changelog lines
-     * @param int $num        number of revisions to return
-     * @return array with the revision timestamps
-     *
-     * @author Ben Coburn <btcoburn@silicodon.net>
-     * @author Kate Arzamastseva <pshns@ukr.net>
-     */
-    public function getRevisions($first, $num) {
-        $revs = array();
-        $lines = array();
-        $count = 0;
-
-        $num = max($num, 0);
-        if($num == 0) {
-            return $revs;
-        }
-
-        if($first < 0) {
-            $first = 0;
-        } else if(@file_exists($this->getFilename())) {
-            // skip current revision if the page exists
-            $first = max($first + 1, 0);
-        }
-
-        $file = $this->getChangelogFilename();
-
-        if(!@file_exists($file)) {
-            return $revs;
-        }
-        if(filesize($file) < $this->chunk_size || $this->chunk_size == 0) {
-            // read whole file
-            $lines = file($file);
-            if($lines === false) {
-                return $revs;
-            }
-        } else {
-            // read chunks backwards
-            $fp = fopen($file, 'rb'); // "file pointer"
-            if($fp === false) {
-                return $revs;
-            }
-            fseek($fp, 0, SEEK_END);
-            $tail = ftell($fp);
-
-            // chunk backwards
-            $finger = max($tail - $this->chunk_size, 0);
-            while($count < $num + $first) {
-                $nl = $this->getNewlinepointer($fp, $finger);
-
-                // was the chunk big enough? if not, take another bite
-                if($nl > 0 && $tail <= $nl) {
-                    $finger = max($finger - $this->chunk_size, 0);
-                    continue;
-                } else {
-                    $finger = $nl;
-                }
-
-                // read chunk
-                $chunk = '';
-                $read_size = max($tail - $finger, 0); // found chunk size
-                $got = 0;
-                while($got < $read_size && !feof($fp)) {
-                    $tmp = @fread($fp, max($read_size - $got, 0)); //todo why not use chunk_size?
-                    if($tmp === false) {
-                        break;
-                    } //error state
-                    $got += strlen($tmp);
-                    $chunk .= $tmp;
-                }
-                $tmp = explode("\n", $chunk);
-                array_pop($tmp); // remove trailing newline
-
-                // combine with previous chunk
-                $count += count($tmp);
-                $lines = array_merge($tmp, $lines);
-
-                // next chunk
-                if($finger == 0) {
-                    break;
-                } // already read all the lines
-                else {
-                    $tail = $finger;
-                    $finger = max($tail - $this->chunk_size, 0);
-                }
-            }
-            fclose($fp);
-        }
-
-        // skip parsing extra lines
-        $num = max(min(count($lines) - $first, $num), 0);
-        if     ($first > 0 && $num > 0)  { $lines = array_slice($lines, max(count($lines) - $first - $num, 0), $num); }
-        else if($first > 0 && $num == 0) { $lines = array_slice($lines, 0, max(count($lines) - $first, 0)); }
-        else if($first == 0 && $num > 0) { $lines = array_slice($lines, max(count($lines) - $num, 0)); }
-
-        // handle lines in reverse order
-        for($i = count($lines) - 1; $i >= 0; $i--) {
-            $tmp = parseChangelogLine($lines[$i]);
-            if($tmp !== false) {
-                $this->cache[$this->id][$tmp['date']] = $tmp;
-                $revs[] = $tmp['date'];
-            }
-        }
-
-        return $revs;
-    }
 
     /**
      * Get the nth revision left or right handside  for a specific page id and revision (timestamp)
@@ -1368,24 +1203,4 @@ abstract class helper_plugin_include_ChangeLog {
     }
 }
 
-class helper_plugin_include_PageChangelog extends helper_plugin_include_ChangeLog {
-
-    /**
-     * Returns path to changelog
-     *
-     * @return string path to file
-     */
-    protected function getChangelogFilename() {
-        return metaFN($this->id, '.changes');
-    }
-
-    /**
-     * Returns path to current page/media
-     *
-     * @return string path to file
-     */
-    protected function getFilename() {
-        return wikiFN($this->id);
-    }
-}
 // vim:ts=4:sw=4:et:
