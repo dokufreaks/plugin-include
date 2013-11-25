@@ -42,7 +42,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
       $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
       $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
-        $controller->register_hook('MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_move_register');
+        $controller->register_hook('PLUGIN_MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_move_register');
     }
 
     /**
