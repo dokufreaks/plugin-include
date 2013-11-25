@@ -49,6 +49,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['order']     = $this->getConf('order');
         $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
+        $this->defaults['revision']  = $this->getConf('revision');
     }
 
     /**
@@ -68,6 +69,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Overrides standard values for showfooter and firstseconly settings
      */
     function get_flags($setflags) {
+        global $REV;
+        global $DATE_AT;
         // load defaults
         $flags = $this->defaults;
         foreach ($setflags as $flag) {
@@ -219,6 +222,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // the include_content URL parameter overrides flags
         if (isset($_REQUEST['include_content']))
             $flags['linkonly'] = 0;
+        
+        //we have to disable some functions
+        if (($flags['revision'] && $REV) || $DATE_AT) {
+            $flags['editbtn']  = 0;
+        }
+
         return $flags;
     }
 
@@ -237,9 +246,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             global $ID;
             $root_id = $ID;
         }
-
+        $page_rev = '';
+        if(in_array($mode,array('page','section'))) {
+            $page_rev = $this->_get_revision($page,$flags);
+        }
         if ($flags['linkonly']) {
-            if (page_exists($page) || $flags['pageexists']  == 0) {
+            if (page_exists($page,$page_rev) || $flags['pageexists']  == 0) {
                 $title = '';
                 if ($flags['title'])
                     $title = p_get_first_heading($page);
@@ -256,17 +268,22 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
         } else {
-            if (page_exists($page)) {
+            if (page_exists($page,$page_rev)) {
                 global $ID;
                 $backupID = $ID;
                 $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
-                $ins = p_cached_instructions(wikiFN($page), false, $page);
+                if($page_rev){
+                    $ins = p_get_instructions(io_readWikiPage(wikiFN($page,$page_rev),$page,$page_rev));
+                } else {
+                    $ins = p_cached_instructions(wikiFN($page), false, $page);
+                }
+                
                 $ID = $backupID;
             } else {
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages, $page_rev);
         }
         return $ins;
     }
@@ -284,7 +301,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array()) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array(), $page_rev = '') {
         global $conf;
 
         // filter instructions if needed
@@ -512,7 +529,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add footer
         if($flags['footer']) {
-            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id);
+            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id, $page_rev);
         }
 
         // wrap content at the beginning of the include that is not in a section in a section
@@ -552,10 +569,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id) {
+    function _footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id, $page_rev) {
         $footer = array();
         $footer[0] = 'plugin';
-        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $root_id, $footer_lvl));
+        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $root_id, $footer_lvl, $page_rev));
         return $footer;
     }
 
@@ -661,6 +678,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _get_included_pages($mode, $page, $sect, $parent_id, $flags) {
         global $conf;
+        global $REV;
+        global $DATE_AT;
         $pages = array();
         switch($mode) {
         case 'namespace':
@@ -691,7 +710,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
             break;
         default:
-            $page = $this->_apply_macro($page);
+            $page = $this->_apply_macro($page,$flags);
             resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
@@ -743,7 +762,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $result = array();
         foreach ($pages as $page) {
-            $exists = page_exists($page);
+            $page_rev = $this->_get_revision($page,$flags);
+            $exists = page_exists($page,$page_rev);
             $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
         }
         return $result;
@@ -784,7 +804,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     /**
      * Makes user or date dependent includes possible
      */
-    function _apply_macro($id) {
+    function _apply_macro($id,$flags) {
         global $INFO;
         global $auth;
         
@@ -794,32 +814,36 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $user     = $_SERVER['REMOTE_USER'];
         $group    = $INFO['userinfo']['grps'][0];
 
-        $time_stamp = time();
+        if(($flags['revision'] && $REV) || $DATE_AT) { 
+            $time_stamp = max($REV,$DATE_AT);
+        } else {
+            $time_stamp = time();
+        }
         if(preg_match('/@DATE(\w+)@/',$id,$matches)) {
             switch($matches[1]) {
             case 'PMONTH':
-                $time_stamp = strtotime("-1 month");
+                $time_stamp = strtotime("-1 month",$time_stamp);
                 break;
             case 'NMONTH':
-                $time_stamp = strtotime("+1 month");
+                $time_stamp = strtotime("+1 month",$time_stamp);
                 break;
             case 'NWEEK':
-                $time_stamp = strtotime("+1 week");
+                $time_stamp = strtotime("+1 week",$time_stamp);
                 break;
             case 'PWEEK':
-                $time_stamp = strtotime("-1 week");
+                $time_stamp = strtotime("-1 week",$time_stamp);
                 break;
             case 'TOMORROW':
-                $time_stamp = strtotime("+1 day");
+                $time_stamp = strtotime("+1 day",$time_stamp);
                 break;
             case 'YESTERDAY':
-                $time_stamp = strtotime("-1 day");
+                $time_stamp = strtotime("-1 day",$time_stamp);
                 break;
             case 'NYEAR':
-                $time_stamp = strtotime("+1 year");
+                $time_stamp = strtotime("+1 year",$time_stamp);
                 break;
             case 'PYEAR':
-                $time_stamp = strtotime("-1 year");
+                $time_stamp = strtotime("-1 year",$time_stamp);
                 break;
             }
             $id = preg_replace('/@DATE(\w+)@/','', $id);
@@ -833,16 +857,30 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@MONTH@' => date('m',$time_stamp),
                 '@WEEK@' => date('W',$time_stamp),
                 '@DAY@'   => date('d',$time_stamp),
-                '@YEARPMONTH@' => date('Ym',strtotime("-1 month")),
-                '@PMONTH@' => date('m',strtotime("-1 month")),
-                '@NMONTH@' => date('m',strtotime("+1 month")),
-                '@YEARNMONTH@' => date('Ym',strtotime("+1 month")),
-                '@YEARPWEEK@' => date('YW',strtotime("-1 week")),
-                '@PWEEK@' => date('W',strtotime("-1 week")),
-                '@NWEEK@' => date('W',strtotime("+1 week")),
-                '@YEARNWEEK@' => date('YW',strtotime("+1 week")),
+                '@YEARPMONTH@' => date('Ym',strtotime("-1 month",$time_stamp)),
+                '@PMONTH@' => date('m',strtotime("-1 month",$time_stamp)),
+                '@NMONTH@' => date('m',strtotime("+1 month",$time_stamp)),
+                '@YEARNMONTH@' => date('Ym',strtotime("+1 month",$time_stamp)),
+                '@YEARPWEEK@' => date('YW',strtotime("-1 week",$time_stamp)),
+                '@PWEEK@' => date('W',strtotime("-1 week",$time_stamp)),
+                '@NWEEK@' => date('W',strtotime("+1 week",$time_stamp)),
+                '@YEARNWEEK@' => date('YW',strtotime("+1 week",$time_stamp)),
                 );
         return str_replace(array_keys($replace), array_values($replace), $id);
+    }
+    
+    function _get_revision($page,$flags) {
+        global $DATE_AT;
+        global $REV;
+        $page_rev = '';
+        if($DATE_AT) {
+            $pagelog = new PageChangeLog($page);
+            $page_rev = $pagelog->getLastRevisionAt($DATE_AT);
+        } else if($flags['revision'] && $REV) {
+            $pagelog = new PageChangeLog($page);
+            $page_rev = $pagelog->getLastRevisionAt($REV);
+        }
+        return $page_rev; 
     }
 }
 // vim:ts=4:sw=4:et:

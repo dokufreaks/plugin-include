@@ -26,4 +26,5 @@ $conf['safeindex']    = 1;       // prevent indexing of protected metadata
 $conf['order']        = 'id';    // order in which the pages are included in the case of multiple pages
 $conf['rsort']        = 0;       // reverse sort order
 $conf['depth']        = 1;       // maximum depth of namespace includes, 0 for unlimited depth
+$conf['revision']     = 01;       // show included pages with respect to revision
 //Setup VIM: ex: et ts=2 :

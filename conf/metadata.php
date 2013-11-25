@@ -29,4 +29,5 @@ $meta['safeindex']     = array('onoff');
 $meta['order']         = array('multichoice', '_choices' => array('id', 'title', 'created', 'modified', 'indexmenu', 'custom'));
 $meta['rsort']         = array('onoff');
 $meta['depth']         = array('numeric', '_min' => 0);
+$meta['revision']      = array('onoff');
 //Setup VIM: ex: et ts=2 :

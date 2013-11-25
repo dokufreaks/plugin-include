@@ -34,10 +34,10 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, Doku_Renderer &$renderer, $data) {
 
-        list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl) = $data;
+        list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl, $page_rev) = $data;
         
         if ($mode == 'xhtml') {
-            $renderer->doc .= $this->html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $renderer);
+            $renderer->doc .= $this->html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $page_rev, $renderer);
 	        return true;
         }
         return false;
@@ -46,7 +46,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
     /**
      * Returns the meta line below the included page
      */
-    function html_footer($page, $sect, $sect_title, $flags, $footer_lvl, &$renderer) {
+    function html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $page_rev, &$renderer) {
         global $conf, $ID;
 
         if(!$flags['footer']) return '';
@@ -57,7 +57,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         // permalink
         if ($flags['permalink']) {
             $class = ($exists ? 'wikilink1' : 'wikilink2');
-            $url   = ($sect) ? wl($page) . '#' . $sect : wl($page);
+            $url   = ($sect) ? wl($page,array('rev'=>$page_rev)) . '#' . $sect : wl($page,array('rev'=>$page_rev));
             $name  = ($sect) ? $sect_title : $page;
             $title = ($sect) ? $page . '#' . $sect : $page;
             if (!$title) $title = str_replace('_', ' ', noNS($page));
@@ -84,7 +84,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         
         // modified date
         if ($flags['mdate'] && $exists) {
-            $mdate = $meta['date']['modified'];
+            $mdate = $page_rev ? $page_rev : $meta['date']['modified'];
             if ($mdate) {
                 $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $mdate).'">'
                        . strftime($conf['dformat'], $mdate)
