@@ -294,8 +294,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
             // Special handling for the edittable plugin
             if ($data['target'] == 'table' && !plugin_isdisabled('edittable')) {
-                /* @var action_plugin_edittable $edittable */
-                $edittable =& plugin_load('action', 'edittable');
+                /* @var action_plugin_edittable_editor $edittable */
+                $edittable =& plugin_load('action', 'edittable_editor');
+                if (is_null($edittable))
+                    $edittable =& plugin_load('action', 'edittable');
                 $data['name'] = $edittable->getLang('secedit_name');
             }
 
