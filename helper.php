@@ -52,6 +52,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['order']     = $this->getConf('order');
         $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
+        $this->defaults['revision']  = $this->getConf('revision');
     }
 
     /**
@@ -71,6 +72,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Overrides standard values for showfooter and firstseconly settings
      */
     function get_flags($setflags) {
+        global $REV;
+        global $DATE_AT;
         // load defaults
         $flags = $this->defaults;
         foreach ($setflags as $flag) {
@@ -222,6 +225,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // the include_content URL parameter overrides flags
         if (isset($_REQUEST['include_content']))
             $flags['linkonly'] = 0;
+        
+        //we have to disable some functions
+        if (($flags['revision'] && $REV) || $DATE_AT) {
+            $flags['editbtn']  = 0;
+        }
+
         return $flags;
     }
 
@@ -240,9 +249,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             global $ID;
             $root_id = $ID;
         }
-
+        $page_rev = '';
+        if(in_array($mode,array('page','section'))) {
+            $page_rev = $this->_get_revision($page,$flags);
+        }
         if ($flags['linkonly']) {
-            if (page_exists($page) || $flags['pageexists']  == 0) {
+            if (page_exists($page,$page_rev) || $flags['pageexists']  == 0) {
                 $title = '';
                 if ($flags['title'])
                     $title = p_get_first_heading($page);
@@ -259,17 +271,22 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
         } else {
-            if (page_exists($page)) {
+            if (page_exists($page,$page_rev)) {
                 global $ID;
                 $backupID = $ID;
                 $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
-                $ins = p_cached_instructions(wikiFN($page), false, $page);
+                if($page_rev){
+                    $ins = p_get_instructions(io_readWikiPage(wikiFN($page,$page_rev),$page,$page_rev));
+                } else {
+                    $ins = p_cached_instructions(wikiFN($page), false, $page);
+                }
+                
                 $ID = $backupID;
             } else {
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages, $page_rev);
         }
         return $ins;
     }
@@ -287,7 +304,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array()) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array(), $page_rev = '') {
         global $conf;
 
         // filter instructions if needed
@@ -515,7 +532,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // add footer
         if($flags['footer']) {
-            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id);
+            $ins[] = $this->_footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id, $page_rev);
         }
 
         // wrap content at the beginning of the include that is not in a section in a section
@@ -555,10 +572,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id) {
+    function _footer($page, $sect, $sect_title, $flags, $footer_lvl, $root_id, $page_rev) {
         $footer = array();
         $footer[0] = 'plugin';
-        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $root_id, $footer_lvl));
+        $footer[1] = array('include_footer', array($page, $sect, $sect_title, $flags, $root_id, $footer_lvl, $page_rev));
         return $footer;
     }
 
@@ -664,6 +681,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     function _get_included_pages($mode, $page, $sect, $parent_id, $flags) {
         global $conf;
+        global $REV;
+        global $DATE_AT;
         $pages = array();
         switch($mode) {
         case 'namespace':
@@ -694,7 +713,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
             break;
         default:
-            $page = $this->_apply_macro($page);
+            $page = $this->_apply_macro($page,$flags);
             resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
@@ -746,7 +765,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $result = array();
         foreach ($pages as $page) {
-            $exists = page_exists($page);
+            $page_rev = $this->_get_revision($page,$flags);
+            $exists = page_exists($page,$page_rev);
             $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
         }
         return $result;
@@ -787,7 +807,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     /**
      * Makes user or date dependent includes possible
      */
-    function _apply_macro($id) {
+    function _apply_macro($id,$flags) {
         global $INFO;
         global $auth;
         
@@ -797,32 +817,36 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $user     = $_SERVER['REMOTE_USER'];
         $group    = $INFO['userinfo']['grps'][0];
 
-        $time_stamp = time();
+        if(($flags['revision'] && $REV) || $DATE_AT) { 
+            $time_stamp = max($REV,$DATE_AT);
+        } else {
+            $time_stamp = time();
+        }
         if(preg_match('/@DATE(\w+)@/',$id,$matches)) {
             switch($matches[1]) {
             case 'PMONTH':
-                $time_stamp = strtotime("-1 month");
+                $time_stamp = strtotime("-1 month",$time_stamp);
                 break;
             case 'NMONTH':
-                $time_stamp = strtotime("+1 month");
+                $time_stamp = strtotime("+1 month",$time_stamp);
                 break;
             case 'NWEEK':
-                $time_stamp = strtotime("+1 week");
+                $time_stamp = strtotime("+1 week",$time_stamp);
                 break;
             case 'PWEEK':
-                $time_stamp = strtotime("-1 week");
+                $time_stamp = strtotime("-1 week",$time_stamp);
                 break;
             case 'TOMORROW':
-                $time_stamp = strtotime("+1 day");
+                $time_stamp = strtotime("+1 day",$time_stamp);
                 break;
             case 'YESTERDAY':
-                $time_stamp = strtotime("-1 day");
+                $time_stamp = strtotime("-1 day",$time_stamp);
                 break;
             case 'NYEAR':
-                $time_stamp = strtotime("+1 year");
+                $time_stamp = strtotime("+1 year",$time_stamp);
                 break;
             case 'PYEAR':
-                $time_stamp = strtotime("-1 year");
+                $time_stamp = strtotime("-1 year",$time_stamp);
                 break;
             }
             $id = preg_replace('/@DATE(\w+)@/','', $id);
@@ -836,16 +860,350 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@MONTH@' => date('m',$time_stamp),
                 '@WEEK@' => date('W',$time_stamp),
                 '@DAY@'   => date('d',$time_stamp),
-                '@YEARPMONTH@' => date('Ym',strtotime("-1 month")),
-                '@PMONTH@' => date('m',strtotime("-1 month")),
-                '@NMONTH@' => date('m',strtotime("+1 month")),
-                '@YEARNMONTH@' => date('Ym',strtotime("+1 month")),
-                '@YEARPWEEK@' => date('YW',strtotime("-1 week")),
-                '@PWEEK@' => date('W',strtotime("-1 week")),
-                '@NWEEK@' => date('W',strtotime("+1 week")),
-                '@YEARNWEEK@' => date('YW',strtotime("+1 week")),
+                '@YEARPMONTH@' => date('Ym',strtotime("-1 month",$time_stamp)),
+                '@PMONTH@' => date('m',strtotime("-1 month",$time_stamp)),
+                '@NMONTH@' => date('m',strtotime("+1 month",$time_stamp)),
+                '@YEARNMONTH@' => date('Ym',strtotime("+1 month",$time_stamp)),
+                '@YEARPWEEK@' => date('YW',strtotime("-1 week",$time_stamp)),
+                '@PWEEK@' => date('W',strtotime("-1 week",$time_stamp)),
+                '@NWEEK@' => date('W',strtotime("+1 week",$time_stamp)),
+                '@YEARNWEEK@' => date('YW',strtotime("+1 week",$time_stamp)),
                 );
         return str_replace(array_keys($replace), array_values($replace), $id);
     }
+    
+    
+    /**
+     * returns the revsision of a page 
+     * based on configuration($flags), $REV and $DATE_AT
+     *
+     * @param string $page page id
+     * @param array  $flags configuration array see get_flags()
+     * @return string revision ('' if current)
+     **/
+    function _get_revision($page,$flags) {
+        global $DATE_AT;
+        global $REV;
+        $page_rev = '';
+        if(($flags['revision'] && $REV) || $DATE_AT) {
+            if (method_exists('PageChangeLog', 'getLastRevisionAt')) {
+                $pagelog = new PageChangeLog($page);
+            } else { 
+                $pagelog = new helper_plugin_include_PageChangelog($page);
+            }
+            $page_rev = $pagelog->getLastRevisionAt($DATE_AT ? $DATE_AT : $REV);
+        }
+        return $page_rev; 
+    }
 }
+
+/******************************************************************************
+ * Following code is copied from inc/changelog.php from diff_navigation branch
+ ******************************************************************************/
+
+/**
+ * Class ChangeLog
+ * methods for handling of changelog of pages
+ */
+class helper_plugin_include_PageChangelog {
+
+    /** @var string */
+    protected $id;
+    /** @var int */
+    protected $chunk_size;
+    /** @var array */
+    protected $cache;
+
+    /**
+     * Constructor
+     *
+     * @param string $id         page id
+     * @param int $chunk_size maximum block size read from file
+     */
+    public function __construct($id, $chunk_size = 8192) {
+        global $cache_revinfo;
+
+        $this->cache =& $cache_revinfo;
+        if(!isset($this->cache[$id])) {
+            $this->cache[$id] = array();
+        }
+
+        $this->id = $id;
+        $this->setChunkSize($chunk_size);
+
+    }
+
+    /**
+     * Set chunk size for file reading
+     * Chunk size zero let read whole file at once
+     *
+     * @param int $chunk_size maximum block size read from file
+     */
+    public function setChunkSize($chunk_size) {
+        if(!is_numeric($chunk_size)) $chunk_size = 0;
+
+        $this->chunk_size = (int) max($chunk_size, 0);
+    }
+
+        /**
+     * Returns path to changelog
+     *
+     * @return string path to file
+     */
+    protected function getChangelogFilename() {
+        return metaFN($this->id, '.changes');
+    }
+
+    /**
+     * Returns path to current page/media
+     *
+     * @return string path to file
+     */
+    protected function getFilename() {
+        return wikiFN($this->id);
+    }
+
+
+    /**
+     * Get the nth revision left or right handside  for a specific page id and revision (timestamp)
+     *
+     * For large changelog files, only the chunk containing the
+     * reference revision $rev is read and sometimes a next chunck.
+     *
+     * Adjacent changelog lines are optimistically parsed and cached to speed up
+     * consecutive calls to getRevisionInfo.
+     *
+     * @param int $rev        revision timestamp used as startdate (doesn't need to be revisionnumber)
+     * @param int $direction  give position of returned revision with respect to $rev; positive=next, negative=prev
+     * @return bool|int
+     *      timestamp of the requested revision
+     *      otherwise false
+     */
+    public function getRelativeRevision($rev, $direction) {
+        $rev = max($rev, 0);
+        $direction = (int) $direction;
+
+        //no direction given or last rev, so no follow-up
+        if(!$direction || ($direction > 0 && $this->isCurrentRevision($rev))) {
+            return false;
+        }
+
+        //get lines from changelog
+        list($fp, $lines, $head, $tail, $eof) = $this->readloglines($rev);
+        if(empty($lines)) return false;
+
+        // look for revisions later/earlier then $rev, when founded count till the wanted revision is reached
+        // also parse and cache changelog lines for getRevisionInfo().
+        $revcounter = 0;
+        $relativerev = false;
+        $checkotherchunck = true; //always runs once
+        while(!$relativerev && $checkotherchunck) {
+            $tmp = array();
+            //parse in normal or reverse order
+            $count = count($lines);
+            if($direction > 0) {
+                $start = 0;
+                $step = 1;
+            } else {
+                $start = $count - 1;
+                $step = -1;
+            }
+            for($i = $start; $i >= 0 && $i < $count; $i = $i + $step) {
+                $tmp = parseChangelogLine($lines[$i]);
+                if($tmp !== false) {
+                    $this->cache[$this->id][$tmp['date']] = $tmp;
+                    //look for revs older/earlier then reference $rev and select $direction-th one
+                    if(($direction > 0 && $tmp['date'] > $rev) || ($direction < 0 && $tmp['date'] < $rev)) {
+                        $revcounter++;
+                        if($revcounter == abs($direction)) {
+                            $relativerev = $tmp['date'];
+                        }
+                    }
+                }
+            }
+
+            //true when $rev is found, but not the wanted follow-up.
+            $checkotherchunck = $fp
+                && ($tmp['date'] == $rev || ($revcounter > 0 && !$relativerev))
+                && !(($tail == $eof && $direction > 0) || ($head == 0 && $direction < 0));
+
+            if($checkotherchunck) {
+                //search bounds of chunck, rounded on new line, but smaller than $chunck_size
+                if($direction > 0) {
+                    $head = $tail;
+                    $tail = $head + floor($this->chunk_size * (2 / 3));
+                    $tail = $this->getNewlinepointer($fp, $tail);
+                } else {
+                    $tail = $head;
+                    $head = max($tail - $this->chunk_size, 0);
+                    while(true) {
+                        $nl = $this->getNewlinepointer($fp, $head);
+                        // was the chunk big enough? if not, take another bite
+                        if($nl > 0 && $tail <= $nl) {
+                            $head = max($head - $this->chunk_size, 0);
+                        } else {
+                            $head = $nl;
+                            break;
+                        }
+                    }
+                }
+
+                //load next chunck
+                $lines = $this->readChunk($fp, $head, $tail);
+                if(empty($lines)) break;
+            }
+        }
+        if($fp) {
+            fclose($fp);
+        }
+
+        return $relativerev;
+    }
+
+    /**
+     * Returns lines from changelog.
+     * If file larger than $chuncksize, only chunck is read that could contain $rev.
+     *
+     * @param int $rev   revision timestamp
+     * @return array(fp, array(changeloglines), $head, $tail, $eof)|bool
+     *     returns false when not succeed. fp only defined for chuck reading, needs closing.
+     */
+    protected function readloglines($rev) {
+        $file = $this->getChangelogFilename();
+
+        if(!@file_exists($file)) {
+            return false;
+        }
+
+        $fp = null;
+        $head = 0;
+        $tail = 0;
+        $eof = 0;
+
+        if(filesize($file) < $this->chunk_size || $this->chunk_size == 0) {
+            // read whole file
+            $lines = file($file);
+            if($lines === false) {
+                return false;
+            }
+        } else {
+            // read by chunk
+            $fp = fopen($file, 'rb'); // "file pointer"
+            if($fp === false) {
+                return false;
+            }
+            $head = 0;
+            fseek($fp, 0, SEEK_END);
+            $eof = ftell($fp);
+            $tail = $eof;
+
+            // find chunk
+            while($tail - $head > $this->chunk_size) {
+                $finger = $head + floor(($tail - $head) / 2.0);
+                $finger = $this->getNewlinepointer($fp, $finger);
+                $tmp = fgets($fp);
+                if($finger == $head || $finger == $tail) {
+                    break;
+                }
+                $tmp = parseChangelogLine($tmp);
+                $finger_rev = $tmp['date'];
+
+                if($finger_rev > $rev) {
+                    $tail = $finger;
+                } else {
+                    $head = $finger;
+                }
+            }
+
+            if($tail - $head < 1) {
+                // cound not find chunk, assume requested rev is missing
+                fclose($fp);
+                return false;
+            }
+
+            $lines = $this->readChunk($fp, $head, $tail);
+        }
+        return array(
+            $fp,
+            $lines,
+            $head,
+            $tail,
+            $eof
+        );
+    }
+
+    /**
+     * Read chunk and return array with lines of given chunck.
+     * Has no check if $head and $tail are really at a new line
+     *
+     * @param $fp resource filepointer
+     * @param $head int start point chunck
+     * @param $tail int end point chunck
+     * @return array lines read from chunck
+     */
+    protected function readChunk($fp, $head, $tail) {
+        $chunk = '';
+        $chunk_size = max($tail - $head, 0); // found chunk size
+        $got = 0;
+        fseek($fp, $head);
+        while($got < $chunk_size && !feof($fp)) {
+            $tmp = @fread($fp, max(min($this->chunk_size, $chunk_size - $got), 0));
+            if($tmp === false) { //error state
+                break;
+            }
+            $got += strlen($tmp);
+            $chunk .= $tmp;
+        }
+        $lines = explode("\n", $chunk);
+        array_pop($lines); // remove trailing newline
+        return $lines;
+    }
+
+    /**
+     * Set pointer to first new line after $finger and return its position
+     *
+     * @param $fp resource filepointer
+     * @param $finger int a pointer
+     * @return int pointer
+     */
+    protected function getNewlinepointer($fp, $finger) {
+        fseek($fp, $finger);
+        $nl = $finger;
+        if($finger > 0) {
+            fgets($fp); // slip the finger forward to a new line
+            $nl = ftell($fp);
+        }
+        return $nl;
+    }
+
+    /**
+     * Check whether given revision is the current page
+     *
+     * @param int $rev   timestamp of current page
+     * @return bool true if $rev is current revision, otherwise false
+     */
+    public function isCurrentRevision($rev) {
+        return $rev == @filemtime($this->getFilename());
+    }
+    
+    /**
+    * Return an existing revision for a specific date which is 
+    * the current one or younger or equal then the date
+    *
+    * @param string $id 
+    * @param number $date_at timestamp
+    * @return string revision ('' for current)
+    */
+    function getLastRevisionAt($date_at){
+        //requested date_at(timestamp) younger or equal then modified_time($this->id) => load current
+        if($date_at >= @filemtime($this->getFilename())) { 
+            return '';
+        } else if ($rev = $this->getRelativeRevision($date_at+1, -1)) { //+1 to get also the requested date revision
+            return $rev;
+        } else {
+            return false;
+        }
+    }
+}
+
 // vim:ts=4:sw=4:et:
