@@ -19,7 +19,6 @@ require_once(DOKU_PLUGIN.'action.php');
  */
 class action_plugin_include extends DokuWiki_Action_Plugin {
  
-    var $supportedModes = array('xhtml', 'metadata');
     /* @var helper_plugin_include $helper */
     var $helper = null;
 
@@ -210,7 +209,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $cache =& $event->data;
 
         if(!isset($cache->page)) return;
-        if(!isset($cache->mode) || !in_array($cache->mode, $this->supportedModes)) return;
+        if(!isset($cache->mode) || $cache->mode == 'i') return;
 
         $depends = p_get_metadata($cache->page, 'plugin_include');
         
