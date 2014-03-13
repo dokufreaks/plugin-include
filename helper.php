@@ -797,6 +797,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $user     = $_SERVER['REMOTE_USER'];
         $group    = $INFO['userinfo']['grps'][0];
 
+        // set group for unregistered users
+        if (!isset($group)) {
+            $group = 'ALL';
+        }
+
         $time_stamp = time();
         if(preg_match('/@DATE(\w+)@/',$id,$matches)) {
             switch($matches[1]) {
