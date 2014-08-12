@@ -52,6 +52,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['order']     = $this->getConf('order');
         $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
+        $this->defaults['readmore']  = $this->getConf('readmore');
     }
 
     /**
@@ -217,6 +218,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'aftereach':
                     $flags['aftereach'] = $value;
                     break;
+                case 'readmore':
+                    $flags['readmore'] = 1;
+                    break;
+                case 'noreadmore':
+                    $flags['readmore'] = 0;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -296,7 +303,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         if($flags['firstsec']) {
-            $this->_get_firstsec($ins, $page);  // only first section 
+            $this->_get_firstsec($ins, $page, $flags);  // only first section 
         }
         
         $ns  = getNS($page);
@@ -628,7 +635,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _get_firstsec(&$ins, $page) {
+    function _get_firstsec(&$ins, $page, $flags) {
         $num = count($ins);
         $first_sect = false;
         $endpos = null; // end position in the input text
@@ -649,7 +656,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             // more than that first section
             if(($first_sect) && ($ins[$i][0] == 'section_open')) {
                 $ins = array_slice($ins, 0, $first_sect);
-                $ins[] = array('plugin', array('include_readmore', array($page)));
+                if ($flags['readmore']) {
+                    $ins[] = array('plugin', array('include_readmore', array($page)));
+                }
                 $ins[] = array('section_close', array());
                 // store the end position in the include_closelastsecedit instruction so it can generate a matching button
                 $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));

@@ -37,4 +37,5 @@ $lang['order_o_indexmenu'] = 'custom order with indexmenu syntax';
 $lang['order_o_custom'] = 'custom order with include syntax';
 $lang['rsort']         = 'reverse the sort order of the included pages';
 $lang['depth']         = 'maximum depth of namespace includes, 0 for unlimited depth';
+$lang['readmore']       = 'Show or not the \'Read More\' link in case of firstsection only';
 //Setup VIM: ex: et ts=2 :
