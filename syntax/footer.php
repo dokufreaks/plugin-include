@@ -22,7 +22,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         return 300;
     }
 
-    function handle($match, $state, $pos, Doku_Handler &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -32,7 +32,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
      * Code heavily copied from the header renderer from inc/parser/xhtml.php, just
      * added an href parameter to the anchor tag linking to the wikilink.
      */
-    function render($mode, Doku_Renderer &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
 
         list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl) = $data;
         

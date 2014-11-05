@@ -18,7 +18,7 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
         return 50;
     }
 
-    function handle($match, $state, $pos, Doku_Handler &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -27,7 +27,7 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function render($mode, Doku_Renderer &$renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data) {
         global $ID;
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
