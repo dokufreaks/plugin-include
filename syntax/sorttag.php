@@ -45,7 +45,7 @@ class syntax_plugin_include_sorttag extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    public function handle($match, $state, $pos, Doku_Handler &$handler){
+    public function handle($match, $state, $pos, Doku_Handler $handler){
         $match = substr($match,12,-2);
         return array($match);
     }
@@ -53,7 +53,7 @@ class syntax_plugin_include_sorttag extends DokuWiki_Syntax_Plugin {
     /**
      * Render output
      */
-    public function render($mode, Doku_Renderer &$renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data) {
         if ($mode === 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
             $renderer->meta['include_n'] = $data[0];

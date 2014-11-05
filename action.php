@@ -144,7 +144,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function handle_parser(Doku_Event &$event, $param) {
+    function handle_parser(Doku_Event $event, $param) {
         global $ID;
 
         $level = 0;
