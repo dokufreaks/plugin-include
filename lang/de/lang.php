@@ -5,4 +5,4 @@
  * 
  * @author     Esther Brunner <wikidesign@gmail.com>
  */
-$lang['readmore']              = '→ Weiter lesen...';
+$lang['readmore']              = '→ Weiterlesen...';
