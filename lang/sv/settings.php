@@ -11,6 +11,5 @@ $lang['firstseconly']  = 'visa endast första delen av inlägg';
 $lang['showlink']      = 'visa permalinks under inlägg';
 $lang['showdate']      = 'visa datum under inlägg';
 $lang['showuser']      = 'visa användarnamn under inlägg';
-$lang['usernamespace'] = 'vy för användarsidor';
 
 //Setup VIM: ex: et ts=2 :

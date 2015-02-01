@@ -19,7 +19,6 @@ $lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantılar�
 $lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
 $lang['showeditbtn']           = 'düzenle düğmesini göster';
 $lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['usernamespace']         = 'kullanıcı sayfaları için isimalanı';
 $lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
 $lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
 $lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';

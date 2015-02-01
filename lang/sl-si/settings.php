@@ -13,6 +13,4 @@ $lang['showlink']      = 'prikaži permalinke pod blog vnosi';
 $lang['showdate']      = 'prikaži datume pod blog vnosi';
 $lang['showuser']      = 'prikaži uporabniška imena pod blog vnosi';
 
-$lang['usernamespace'] = 'namespace za uporabniške strani';
-
 //Setup VIM: ex: et ts=2 :

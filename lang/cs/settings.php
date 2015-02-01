@@ -17,6 +17,5 @@ $lang['showcomments']  = 'zobrazovat dole komentář u vkládaných stránek vy�
 $lang['showlinkbacks'] = 'zobrazovat dole zpětné odkazy vkládaných stránek (vyžadován Linkback plugin)';
 $lang['showtags']      = 'zobrazovat dole tagy vkládaných stránek (vyžadován Tag plugin)';
 $lang['showeditbtn']   = 'zobrazovat tlačítko pro editaci';
-$lang['usernamespace'] = 'jmenný prostor pro uživatelské stránky';
 
 //Setup VIM: ex: et ts=2 :

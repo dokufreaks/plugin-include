@@ -23,7 +23,6 @@ $lang['showlinkbacks']         = 'Afficher les liens pointants vers la page sous
 $lang['showtags']              = 'Afficher les étiquettes (tags) sous la page incluse (Plugin Tag requis)';
 $lang['showeditbtn']           = 'afficher le bouton d\'édition';
 $lang['doredirect']            = 'rediriger vers la page d\'origine après l\'édition de la page incluse';
-$lang['usernamespace']         = 'espace de nom pour les pages des utilisateurs';
 $lang['doindent']              = 'Indenter les pages incluses par rapport à la page où elles sont incluses';
 $lang['linkonly']              = 'faire un lien vers la page incluse plutôt que d\'afficher son contenu';
 $lang['title']                 = 'utiliser la première en-tête de la page pour le lien même si l\'option \'useheading\' n\'est pas activée (ne concerne que le mode \'lien seul\')';

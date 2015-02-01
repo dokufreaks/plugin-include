@@ -21,7 +21,6 @@ $lang['showlinkbacks'] = 'show linkbacks below included page (Linkback Plugin ne
 $lang['showtags']      = 'show tags below included page (Tag Plugin needed)';
 $lang['showeditbtn']   = 'show edit button';
 $lang['doredirect']    = 'redirect to the original page after editing the included page';
-$lang['usernamespace'] = 'namespace for user pages';
 $lang['doindent']      = 'indent included pages relative to the page they get included in';
 $lang['linkonly']      = 'link only to the included page instead of showing the content';
 $lang['title']         = 'use first heading of page in link even if useheading is off (only affects linkonly mode)';

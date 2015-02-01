@@ -19,7 +19,6 @@ $meta['showlinkbacks'] = array('onoff');
 $meta['showtags']      = array('onoff');
 $meta['showeditbtn']   = array('onoff');
 $meta['doredirect']    = array('onoff');
-$meta['usernamespace'] = array('string');
 $meta['doindent']      = array('onoff');
 $meta['linkonly']      = array('onoff');
 $meta['title']         = array('onoff');
