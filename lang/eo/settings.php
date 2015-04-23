@@ -4,6 +4,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
  * @author Robert Bogenschneider <bogi@uea.org>
+ * @author Robert Bogenschneider <robog@gmx.de>
  */
 $lang['noheader']              = 'Ne montri la unuan alineon de inkluditaj paĝoj/sekcioj';
 $lang['firstseconly']          = 'montri nur la unuan sekcion de inkluditaj paĝoj';
@@ -35,3 +36,4 @@ $lang['order_o_indexmenu']     = 'propra ordo per indexmenu-sintakso';
 $lang['order_o_custom']        = 'propra ordo per include-sintakso';
 $lang['rsort']                 = 'inversigi la ordon de la inkluditaj paĝoj';
 $lang['depth']                 = 'maksimuma profundeco de nomspaco-inkludoj, 0 por senlima profundeco';
+$lang['readmore']              = 'Ĉu montri la \'Legi plu\'-ligilon por la opcio unua alineo';
