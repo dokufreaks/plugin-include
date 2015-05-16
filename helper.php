@@ -696,9 +696,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 msg('You have to install the tag plugin to use this functionality!', -1);
                 return array();
             }
-            $tag   = $page;
             $sect  = '';
-            $pagearrays = $this->taghelper->getTopic('', null, $tag);
+            $tags   = explode(',',$page);
+            $pagearrays = $this->taghelper->getTopic('', null, $tags[0]);
+			foreach ($tags as $tag )
+			{
+				$pagearrays= $this->taghelper->tagRefine($pagearrays,$tag);
+			}
             foreach ($pagearrays as $pagearray) {
                 $pages[] = $pagearray['id'];
             }
