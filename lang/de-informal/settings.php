@@ -21,7 +21,6 @@ $lang['showlinkbacks'] = 'Linkbacks unter eingebundener Seite anzeigen (Linkback
 $lang['showtags']      = 'Tags unter eingebundener Seite anzeigen (Tag Plugin wird benötigt)';
 $lang['showeditbtn']   = 'Bearbeiten-Tasten anzeigen';
 $lang['doredirect']    = 'Nach dem Bearbeiten der eingebundenen Seite zur ursprünglichen Seite weiterleiten';
-$lang['usernamespace'] = 'Namensraum für Benutzerseiten';
 $lang['doindent']      = 'Eingebundene Seiten relativ zur Seite, in der sie eingebunden sind einrücken';
 $lang['linkonly']      = 'Nur einen Link anzeigen statt dem Inhalt der eingebundenen Seite';
 $lang['title']         = 'Erste Überschrift im Link benutzen auch wenn "useheading" ausgeschaltet ist (betrifft nur den "linkonly"-Modus)';

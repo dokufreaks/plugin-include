@@ -15,6 +15,5 @@ $lang['showdate']      = 'mostrar la fecha a continuación de las entradas al bl
 $lang['showuser']      = 'mostrar los nombres de usuarios a continuación de las entradas al blog';
 $lang['showcomments']  = 'mostrar comentarios a continuación de las entradas al blog';
 $lang['showtags']      = 'mostrar etiquetas a continuación de la entrada al blog';
-$lang['usernamespace'] = 'namespace para las páginas de usuario';
 
 //Setup VIM: ex: et ts=2 :

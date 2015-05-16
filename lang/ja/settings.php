@@ -21,7 +21,6 @@ $lang['showlinkbacks'] = 'フッター情報: バックリンク(linkback) を�
 $lang['showtags']      = 'フッター情報: タグ(tag) を表示 (Tag Plugin が必要)';
 $lang['showeditbtn']   = 'インクルード先を編集するボタンを表示';
 $lang['doredirect']    = 'インクルード先の編集後、元のページにリダイレクトして戻る';
-$lang['usernamespace'] = 'ユーザーページの名前空間';
 $lang['doindent']      = 'インクルード部を元ページの当該位置での見出しレベルより1段階下げる';
 $lang['linkonly']      = 'linkonly モードをデフォルトにする： インクルードせず、指定ページまたはセクションへのリンクだけを表示';
 $lang['title']         = '(linkonly モード時)： リンクタイトルに最初の見出しを使う（useheading の指定によらず適用）';

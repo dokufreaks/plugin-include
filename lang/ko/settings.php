@@ -19,7 +19,6 @@ $lang['showlinkbacks']         = '포함된 문서 아래에 링크백 보이기
 $lang['showtags']              = '포함된 문서 아래에 태그 보이기 (Tag 플러그인 필요)';
 $lang['showeditbtn']           = '편집 버튼 보이기';
 $lang['doredirect']            = '포함된 문서를 편집하고 나서 원래 문서로 넘겨주기';
-$lang['usernamespace']         = '사용자 문서에 대한 이름공간';
 $lang['doindent']              = '원래 문서의 해당 위치에서 포함된 문서를 들여쓰기';
 $lang['linkonly']              = '내용을 보여주는 대신 포함된 문서에만 링크';
 $lang['title']                 = 'useheading이 꺼져 있어도 링크에서 문서의 첫 문단 제목을 사용 (linkonly 모드만 영향을 줍니다)';

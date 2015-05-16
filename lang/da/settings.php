@@ -19,7 +19,6 @@ $lang['showlinkbacks']         = 'vis linkbacks nedenfor inkluderet side (Linkba
 $lang['showtags']              = 'vis tags nedenfor inkluderet side (Tag Plugin nødvendigt)';
 $lang['showeditbtn']           = 'vis redigér-knap';
 $lang['doredirect']            = 'henvis til original side efter redigering af den inkluderede side';
-$lang['usernamespace']         = 'navnerum for brugersider';
 $lang['doindent']              = 'indryk inkluderede sider relativt i forhold til siden de inkluderes i';
 $lang['linkonly']              = 'link udelukkende til den inkluderede side i stedet for at vise indholdet';
 $lang['title']                 = 'benyt sidens første overskrift i link, selvom useheading er slået fra (har kun effekt på linkonly-tilstand)';

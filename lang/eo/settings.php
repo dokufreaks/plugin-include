@@ -20,7 +20,6 @@ $lang['showlinkbacks']         = 'montri retroligilojn sub inkludita paĝo (krom
 $lang['showtags']              = 'montri etikedojn sub inkludita paĝo (kromaĵo tag bezonata)';
 $lang['showeditbtn']           = 'montri butonon por modifi';
 $lang['doredirect']            = 'redirekti al la origina paĝo post modifado de la inkludita paĝo';
-$lang['usernamespace']         = 'nomspaco por uzantopaĝoj';
 $lang['doindent']              = 'ŝovi inkluditajn paĝojn relative al la inkludanta paĝo';
 $lang['linkonly']              = 'nur ligi, ne montri la enhavon de la inkludita paĝo';
 $lang['title']                 = 'uzi la unuan titolon de paĝo en ligilo eĉ se useheading estas blokita (koncernas nur linkonly-moduson)';

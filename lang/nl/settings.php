@@ -20,7 +20,6 @@ $lang['showlinkbacks']         = 'toon linkbacks onder de ingesloten pagina (Lin
 $lang['showtags']              = 'toon labels onder de ingesloten pagina (Tag plugin vereist)';
 $lang['showeditbtn']           = 'toon aanpassen knop';
 $lang['doredirect']            = 'verwijs naar de originele pagina na aanpassen van de ingesloten pagina';
-$lang['usernamespace']         = 'naamruimte voor gebruikers pagina\'s';
 $lang['doindent']              = 'spring ingesloten pagina\'s in relatief aan de pagina waarin ze ingesloten worden';
 $lang['linkonly']              = 'alleen een link naar de ingesloten pagina opnemen en niet de inhoud';
 $lang['title']                 = 'gebruik de eerste kop als link ook al staat useheading uit (alleen van toepassing op linkonly modus)';

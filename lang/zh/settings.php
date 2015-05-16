@@ -19,7 +19,6 @@ $lang['showlinkbacks']         = '在下方显示所包含页面的 linkback';
 $lang['showtags']              = '在下方显示所包含页面的标签';
 $lang['showeditbtn']           = '显示编辑按钮';
 $lang['doredirect']            = '编辑所包含的页面后转向到原始页面';
-$lang['usernamespace']         = '用户页的命名空间';
 $lang['doindent']              = '相对所在页面对包含的页面进行缩进';
 $lang['linkonly']              = '仅显示到所包含页面的链接而不显示内容';
 $lang['title']                 = '即使 useheading 选项关闭也使用页面的第一个标题进行超链接 (仅影响 linkonly 模式)';

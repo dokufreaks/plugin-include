@@ -30,6 +30,12 @@ div.dokuwiki div.inclmeta span.author {
   padding: 1px 0px 1px 16px;
 }
 
+/* Disable the default interwiki icon for the user link (if there is any) */
+div.dokuwiki div.inclmeta span.author a.interwiki {
+    background: none;
+    padding: 0;
+}
+
 div.dokuwiki div.inclmeta span.comment {
   background: transparent url(images/comment.gif) 0px 1px no-repeat;
   padding: 1px 0px 1px 16px;

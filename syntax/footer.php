@@ -45,6 +45,8 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
     /**
      * Returns the meta line below the included page
+     * @param $renderer Doku_Renderer_xhtml The (xhtml) renderer
+     * @return string The HTML code of the footer
      */
     function html_footer($page, $sect, $sect_title, $flags, $footer_lvl, &$renderer) {
         global $conf, $ID;
@@ -94,21 +96,13 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
         // author
         if ($flags['user'] && $exists) {
-            $author   = $meta['creator'];
+            $author   = $meta['user'];
             if ($author) {
-                $userpage = cleanID($this->getConf('usernamespace').':'.$author);
-                resolve_pageid(getNS($ID), $userpage, $exists);
-                $class = ($exists ? 'wikilink1' : 'wikilink2');
-                $link = array(
-                        'url'    => wl($userpage),
-                        'title'  => $userpage,
-                        'name'   => hsc($author),
-                        'target' => $conf['target']['wiki'],
-                        'class'  => $class.' url fn',
-                        'pre'    => '<span class="vcard author">',
-                        'suf'    => '</span>',
-                        );
-                $xhtml[]    = $renderer->_formatLink($link);
+                if (function_exists('userlink')) {
+                    $xhtml[] = '<span class="vcard author">' . userlink($author) . '</span>';
+                } else { // DokuWiki versions < 2014-05-05 doesn't have userlink support, fall back to not providing a link
+                    $xhtml[] = '<span class="vcard author">' . editorinfo($author) . '</span>';
+                }
             }
         }
 
