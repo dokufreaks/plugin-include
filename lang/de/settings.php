@@ -5,6 +5,7 @@
  * 
  * @author     Esther Brunner <wikidesign@gmail.com>
  * @author Dominik Eckelmann <deckelmann@gmail.com>
+ * @author     Christian Paul <info@jaller.de>
  */
 $lang['noheader']              = 'Verstecke die erste Überschrift der eingefügten Seite/Sektion';
 $lang['firstseconly']          = 'Nur erster Abschnitt von eingebundenen Seiten';
@@ -35,3 +36,4 @@ $lang['order_o_indexmenu']     = 'Benutzerdefinierte Reihenfolge mit Indexmenu S
 $lang['order_o_custom']        = 'Benutzerdefinierte Reihenfolge mit Include Syntax';
 $lang['rsort']                 = 'Umgekehrte Reihenfolge bei der Sortierung von eingefügten Seiten';
 $lang['depth']                 = 'Maximale Tiefe von Namensräumen, 0 für unendliche Tiefe';
+$lang['readmore']              = 'Zeige einen \'Weiterlesen\'-Link bei aktiviertem "firstseconly"-Modus';
