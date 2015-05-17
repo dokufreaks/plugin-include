@@ -7,4 +7,4 @@
  */
 
 // custom language strings for the plugin
-$lang['readmore']   = '→ Weiter lesen...';
+$lang['readmore']   = '→ Weiterlesen...';
