@@ -704,7 +704,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
             break;
         default:
-            $page = $this->_apply_macro($page);
+            $page = $this->_apply_macro($page, $parent_id);
             resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
@@ -793,11 +793,42 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
         return $pages;
     }
-
+    
+    /**
+     *  Get wiki language from "HTTP_ACCEPT_LANGUAGE"
+     *  We allow the pattern e.g. "ja,en-US;q=0.7,en;q=0.3"
+     */
+    function _get_language_of_wiki($id, $parent_id) {
+       global $conf;
+       $result = $conf['lang'];
+       if(strpos($id, '@LANG@') !== false){
+           $brlangp = "/(^|,)([a-z][a-z](-[A-Z][A-Z])?)(;q=(0.[0-9]+))?/";
+           if(preg_match_all(
+               $brlangp, $_SERVER["HTTP_ACCEPT_LANGUAGE"],
+               $matches, PREG_SET_ORDER
+           )){
+               $langs = array();
+               foreach($matches as $match){
+                   $langs[$match[2]] = $match[5]==''?1.0:$match[5];
+               }
+               arsort($langs);
+               foreach($langs as $lang => $langq){
+                   $testpage = $this->_apply_macro(str_replace('@LANG@', $lang, $id), $parent_id);
+                   resolve_pageid(getNS($parent_id), $testpage, $exists);
+                   if($exists){
+                       $result = $lang;
+                       break;
+                   }
+               }
+           }                                                                                   
+       }                                                                                       
+       return cleanID($result);                                                                
+    }                                                                                          
+    
     /**
      * Makes user or date dependent includes possible
      */
-    function _apply_macro($id) {
+    function _apply_macro($id, $parent_id) {
         global $INFO;
         global $auth;
         
@@ -847,6 +878,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@USER@'  => cleanID($user),
                 '@NAME@'  => cleanID($INFO['userinfo']['name']),
                 '@GROUP@' => cleanID($group),
+                '@LANG@'  => _get_language_of_wiki($id, $parent_id),
                 '@YEAR@'  => date('Y',$time_stamp),
                 '@MONTH@' => date('m',$time_stamp),
                 '@WEEK@' => date('W',$time_stamp),
