@@ -878,7 +878,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@USER@'  => cleanID($user),
                 '@NAME@'  => cleanID($INFO['userinfo']['name']),
                 '@GROUP@' => cleanID($group),
-                '@LOCALE@'  => _get_language_of_wiki($id, $parent_id),
+                '@LOCALE@'  => $this->_get_language_of_wiki($id, $parent_id),
                 '@YEAR@'  => date('Y',$time_stamp),
                 '@MONTH@' => date('m',$time_stamp),
                 '@WEEK@' => date('W',$time_stamp),
