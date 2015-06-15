@@ -131,7 +131,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      */
     function handle_metadata(&$event, $param) {
         global $conf;
-        if($conf['allowdebug']) {
+        if($conf['allowdebug'] && $this->getConf('debugoutput')) {
             dbglog('---- PLUGIN INCLUDE META DATA START ----');
             dbglog($event->data);
             dbglog('---- PLUGIN INCLUDE META DATA END ----');
@@ -212,8 +212,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         if(!isset($cache->mode) || $cache->mode == 'i') return;
 
         $depends = p_get_metadata($cache->page, 'plugin_include');
-        
-        if($conf['allowdebug']) {
+
+        if($conf['allowdebug'] && $this->getConf('debugoutput')) {
             dbglog('---- PLUGIN INCLUDE CACHE DEPENDS START ----');
             dbglog($depends);
             dbglog('---- PLUGIN INCLUDE CACHE DEPENDS END ----');
@@ -228,7 +228,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $depends['include_content'] != isset($_REQUEST['include_content'])) {
 
             $cache->depends['purge'] = true; // included pages changed or old metadata - request purge.
-            if($conf['allowdebug']) {
+            if($conf['allowdebug'] && $this->getConf('debugoutput')) {
                 dbglog('---- PLUGIN INCLUDE: REQUESTING CACHE PURGE ----');
                 dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META START ----');
                 dbglog($depends['pages']);
