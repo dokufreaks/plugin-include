@@ -34,3 +34,4 @@ $lang['order_o_indexmenu']     = 'indexmenu 문법 사용자 지정 정렬';
 $lang['order_o_custom']        = 'include 문법 사용자 지정 정렬';
 $lang['rsort']                 = '포함된 문서의 정렬 순서를 반대로';
 $lang['depth']                 = '이름공간 포함의 최대 깊이, 제한 없는 깊이는 0';
+$lang['readmore']              = '첫문단일 경우에만 \'더 읽기\' 링크를 보이거나 보이지 않기';
