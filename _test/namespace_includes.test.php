@@ -81,7 +81,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
         // test include of the root namespace
         $flags = $this->helper->get_flags(array());
         $pages = $this->helper->_get_included_pages('namespace', ':', '', '', $flags);
-        $this->assertEquals(array(), $pages);
+        $this->assertEquals(array(array('id' => 'mailinglist', 'exists' => true, 'parent_id' => '')), $pages);
         $flags = $this->helper->get_flags(array('depth=2'));
         $pages = $this->helper->_get_included_pages('namespace', ':', '', '', $flags);
         $this->assertEquals(array(
@@ -91,6 +91,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  array('id' => 'inclorder:page3', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'inclorder:page4', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'incltest:level1', 'exists' => true, 'parent_id' => ''),
+                                 array('id' => 'mailinglist', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'wiki:dokuwiki', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'wiki:syntax', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
