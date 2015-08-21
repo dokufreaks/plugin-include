@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Tests the editx support for adapting the syntax of the include plugin
+ * Tests the move support for adapting the syntax of the include plugin
  *
  * @group plugin_include
  * @group plugins
@@ -16,7 +16,10 @@ class plugin_include_pagemove_support_test extends DokuWikiTest {
     public function test_relative_include() {
         /** @var $move helper_plugin_move_op */
         $move = plugin_load('helper', 'move_op');
-        if (!$move) return; // disable the test when move is not installed
+        if (!$move) {
+            $this->markTestSkipped('the move plugin is not installed');
+            return;
+        }
         saveWikiText('editx', '{{page>start#start}} %%{{page>start}}%% {{section>wiki:syntax#tables&nofooter}} {{page>:}} {{section>test:start#test}}', 'Testcase created');
         idx_addPage('editx');
         $this->assertTrue($move->movePage('editx', 'test:editx'));
@@ -26,7 +29,10 @@ class plugin_include_pagemove_support_test extends DokuWikiTest {
     public function test_rename() {
         /** @var $move helper_plugin_move_op */
         $move = plugin_load('helper', 'move_op');
-        if (!$move) return; // disable the test when move is not installed
+        if (!$move) {
+            $this->markTestSkipped('the move plugin is not installed');
+            return;
+        }
         saveWikiText('editx', 'Page to rename', 'Testcase create');
         saveWikiText('links', '{{section>links#foo}} {{page>editx}} {{page>:eDitX&nofooter}} {{section>editx#test}} {{page>editx&nofooter}}', 'Testcase created');
         idx_addPage('editx');
