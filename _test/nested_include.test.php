@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class plugin_include_nested_test
+ *
+ * @group plugin_include
+ * @group plugins
+ */
 class plugin_include_nested_test extends DokuWikiTest {
     private $ids = array(
         'test:plugin_include:nested:start',
@@ -48,17 +54,17 @@ class plugin_include_nested_test extends DokuWikiTest {
     }
 
     private function _createPages() {
-        saveWikiText('test:plugin_include:nested:start', 
+        saveWikiText('test:plugin_include:nested:start',
             '====== Main Test Page ======'.DOKU_LF.DOKU_LF
             .'Main Content'.rand().DOKU_LF.DOKU_LF
             .'{{page>second}}'.DOKU_LF,
             'setup for test');
-        saveWikiText('test:plugin_include:nested:second', 
+        saveWikiText('test:plugin_include:nested:second',
             '====== Second Test Page ======'.DOKU_LF.DOKU_LF
             .'Second Content'.rand().DOKU_LF.DOKU_LF
             .'{{page>third}}'.DOKU_LF,
             'setup for test');
-        saveWikiText('test:plugin_include:nested:third', 
+        saveWikiText('test:plugin_include:nested:third',
             '====== Third Test Page ======'.DOKU_LF.DOKU_LF
             .'Third Content'.rand().DOKU_LF.DOKU_LF
             .'{{page>third}}'.DOKU_LF,

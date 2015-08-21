@@ -2,6 +2,9 @@
 
 /**
  * Tests the editx support for adapting the syntax of the include plugin
+ *
+ * @group plugin_include
+ * @group plugins
  */
 class plugin_include_pagemove_support_test extends DokuWikiTest {
     public function setup() {

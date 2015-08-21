@@ -4,6 +4,9 @@ if (!defined('DOKU_INC')) die();
 
 /**
  * Test the conversion of local links to internal links if the page hasn't been fully included
+ *
+ * @group plugin_include
+ * @group plugins
  */
 class plugin_include_locallink_conversion_test extends DokuWikiTest {
     /** @var helper_plugin_include $helper */

@@ -4,6 +4,9 @@ if (!defined('DOKU_INC')) die();
 
 /**
  * Test namespace includes
+ *
+ * @group plugin_include
+ * @group plugins
  */
 class plugin_include_namespaces_includes_test extends DokuWikiTest {
     /**

@@ -4,6 +4,9 @@ if (!defined('DOKU_INC')) die();
 
 /**
  * Test the conversion of media references in link titles
+ *
+ * @group plugin_include
+ * @group plugins
  */
 class plugin_include_media_linktitle_conversion_test extends DokuWikiTest {
     /** @var helper_plugin_include $helper */

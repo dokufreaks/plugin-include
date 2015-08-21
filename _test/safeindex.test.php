@@ -1,5 +1,8 @@
 <?php
-
+/*
+ * @group plugin_include
+ * @group plugins
+ */
 class plugin_include_safeindex_test extends DokuWikiTest {
     public function setup() {
         $this->pluginsEnabled[] = 'include';
