@@ -802,14 +802,16 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
        global $conf;
        $result = $conf['lang'];
        if(strpos($id, '@BROWSER_LANG@') !== false){
-           $brlangp = "/(^|,)([a-z][a-z](-[A-Z][A-Z])?)(;q=(0.[0-9]+))?/";
+           $brlangp = "/([a-zA-Z]{1,8}(-[a-zA-Z]{1,8})*|\*)(;q=(0(.[0-9]{0,3})?|1(.0{0,3})?))?/";
            if(preg_match_all(
                $brlangp, $_SERVER["HTTP_ACCEPT_LANGUAGE"],
                $matches, PREG_SET_ORDER
            )){
                $langs = array();
                foreach($matches as $match){
-                   $langs[$match[2]] = $match[5]==''?1.0:$match[5];
+                   $langname = $match[1] == '*' ? $conf['lang'] : $match[1];
+                   $qvalue = $match[4] == '' ? 1.0 : $match[4];
+                   $langs[$langname] = $qvalue;
                }
                arsort($langs);
                foreach($langs as $lang => $langq){
@@ -823,7 +825,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
            }                                                                                   
        }                                                                                       
        return cleanID($result);                                                                
-    }                                                                                          
+    }
     
     /**
      * Makes user or date dependent includes possible
