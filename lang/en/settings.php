@@ -37,4 +37,5 @@ $lang['order_o_custom'] = 'custom order with include syntax';
 $lang['rsort']         = 'Reverse the sort order of the included pages';
 $lang['depth']         = 'Maximum depth of namespace includes, 0 for unlimited depth';
 $lang['readmore']       = 'Show or not the \'Read More\' link in case of firstsection only';
+$lang['debugoutput']    = 'Print verbose debug information to the dokuwiki debuglog if the global "allowdebug" option is enabled';
 //Setup VIM: ex: et ts=2 :

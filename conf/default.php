@@ -26,4 +26,5 @@ $conf['order']        = 'id';    // order in which the pages are included in the
 $conf['rsort']        = 0;       // reverse sort order
 $conf['depth']        = 1;       // maximum depth of namespace includes, 0 for unlimited depth
 $conf['readmore']     = 1;       // Show readmore link in case of firstsection only
+$conf['debugoutput']  = 0;       // print debug information to debuglog if global allowdebug is enabled
 //Setup VIM: ex: et ts=2 :

@@ -29,4 +29,5 @@ $meta['order']         = array('multichoice', '_choices' => array('id', 'title',
 $meta['rsort']         = array('onoff');
 $meta['depth']         = array('numeric', '_min' => 0);
 $meta['readmore']      = array('onoff');
+$meta['debugoutput']   = array('onoff');
 //Setup VIM: ex: et ts=2 :
