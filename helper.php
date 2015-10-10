@@ -801,7 +801,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _get_language_of_wiki($id, $parent_id) {
        global $conf;
        $result = $conf['lang'];
-       if(strpos($id, '@LOCALE@') !== false){
+       if(strpos($id, '@BROWSER_LANG@') !== false){
            $brlangp = "/(^|,)([a-z][a-z](-[A-Z][A-Z])?)(;q=(0.[0-9]+))?/";
            if(preg_match_all(
                $brlangp, $_SERVER["HTTP_ACCEPT_LANGUAGE"],
@@ -813,7 +813,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                }
                arsort($langs);
                foreach($langs as $lang => $langq){
-                   $testpage = $this->_apply_macro(str_replace('@LOCALE@', $lang, $id), $parent_id);
+                   $testpage = $this->_apply_macro(str_replace('@BROWSER_LANG@', $lang, $id), $parent_id);
                    resolve_pageid(getNS($parent_id), $testpage, $exists);
                    if($exists){
                        $result = $lang;
@@ -878,7 +878,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 '@USER@'  => cleanID($user),
                 '@NAME@'  => cleanID($INFO['userinfo']['name']),
                 '@GROUP@' => cleanID($group),
-                '@LOCALE@'  => $this->_get_language_of_wiki($id, $parent_id),
+                '@BROWSER_LANG@'  => $this->_get_language_of_wiki($id, $parent_id),
                 '@YEAR@'  => date('Y',$time_stamp),
                 '@MONTH@' => date('m',$time_stamp),
                 '@WEEK@' => date('W',$time_stamp),
