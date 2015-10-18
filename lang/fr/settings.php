@@ -8,6 +8,7 @@
  * @author bruno <bruno@ninesys.fr>
  * @author Christian "Na_kai" Sueur <sueur.christian@gmail.com>
  * @author Fabrice Dejaigher <fabrice@chtiland.com>
+ * @author Schplurtz le Déboulonné <schplurtz@laposte.net>
  */
 $lang['noheader']              = 'Ne pas afficher le premier en-tête de pages / sections inclus';
 $lang['firstseconly']          = 'afficher uniquement la première section des billets';
@@ -39,3 +40,4 @@ $lang['order_o_custom']        = 'ordre personnalisé avec la syntaxe inclure';
 $lang['rsort']                 = 'inverser l\'ordre de tri des pages incluses';
 $lang['depth']                 = 'profondeur maximale d\'inclusion de l\'espace de nom (namespace), 0 pour une profondeur illimitée';
 $lang['readmore']              = 'Affiche ou pas le lien \'Lire la suite\' dans le cas de l\'affichage de la première section seule';
+$lang['debugoutput']           = 'Afficher des informations de débugage verbeuses dans le journal de débugage de DokuWiki lorsque l\'option globale "allowdebug" est activée.';
