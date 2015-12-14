@@ -4,6 +4,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
  * @author Myeongjin <aranet100@gmail.com>
+ * @author Erial <erial2@gmail.com>
  */
 $lang['noheader']              = '포함된 문서/문단의 첫 문단 제목을 보이지 않기';
 $lang['firstseconly']          = '포함된 문서의 첫 문단만 보이기';
@@ -35,3 +36,5 @@ $lang['order_o_custom']        = 'include 문법 사용자 지정 정렬';
 $lang['rsort']                 = '포함된 문서의 정렬 순서를 반대로';
 $lang['depth']                 = '이름공간 포함의 최대 깊이, 제한 없는 깊이는 0';
 $lang['readmore']              = '첫문단일 경우에만 \'더 읽기\' 링크를 보이거나 보이지 않기';
+$lang['debugoutput']           = '전역 설정인 "디버그 허용"이 설정된 경우 상세한 디버그 정보를 도쿠위키 디버그로그에 출력합니다
+';
