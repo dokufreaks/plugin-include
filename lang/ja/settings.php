@@ -36,3 +36,4 @@ $lang['order_o_custom']        = 'include プラグイン互換のソート方�
 $lang['rsort']                 = '(名前空間インクルード時) ページソートを逆順にする';
 $lang['depth']                 = '(名前空間インクルード時) インクルード対象とする名前空間の最大深さ （0:制限なし）';
 $lang['readmore']              = '最初のセクションだけの場合、「→ 続き...」リンクを表示する';
+$lang['debugoutput']           = '"allowdebug" オプションが有効な場合、DokuWiki の DEBUGLOG に詳細なデバッグ情報を出力する';
