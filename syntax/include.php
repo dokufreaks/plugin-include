@@ -124,7 +124,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         }
 
         $secids = array();
-        if ($format == 'xhtml') {
+        if ($format == 'xhtml' || $format == 'odt') {
             $secids = p_get_metadata($ID, 'plugin_include secids');
         }
 
