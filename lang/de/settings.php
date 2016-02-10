@@ -3,9 +3,10 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
- * @author     Esther Brunner <wikidesign@gmail.com>
+ * @author Esther Brunner <wikidesign@gmail.com>
  * @author Dominik Eckelmann <deckelmann@gmail.com>
- * @author     Christian Paul <info@jaller.de>
+ * @author Christian Paul <info@jaller.de>
+ * @author Dana <dannax3@gmx.de>
  */
 $lang['noheader']              = 'Verstecke die erste Überschrift der eingefügten Seite/Sektion';
 $lang['firstseconly']          = 'Nur erster Abschnitt von eingebundenen Seiten';
@@ -37,3 +38,4 @@ $lang['order_o_custom']        = 'Benutzerdefinierte Reihenfolge mit Include Syn
 $lang['rsort']                 = 'Umgekehrte Reihenfolge bei der Sortierung von eingefügten Seiten';
 $lang['depth']                 = 'Maximale Tiefe von Namensräumen, 0 für unendliche Tiefe';
 $lang['readmore']              = 'Zeige einen \'Weiterlesen\'-Link bei aktiviertem "firstseconly"-Modus';
+$lang['debugoutput']           = 'Ausgeben ausführlicher Debug-Informationen Debuglog des Dokuwikis, sofern die globale Option "allowdebug" aktiviert ist';
