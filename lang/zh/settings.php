@@ -4,6 +4,7 @@
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * 
  * @author lainme <lainme993@gmail.com>
+ * @author Test2g <zccnexus@gmail.com>
  */
 $lang['noheader']              = '不要显示所包含的页面/章节中的第一个标题';
 $lang['firstseconly']          = '仅显示所包含页面的第一个章节';
@@ -23,6 +24,7 @@ $lang['doindent']              = '相对所在页面对包含的页面进行缩�
 $lang['linkonly']              = '仅显示到所包含页面的链接而不显示内容';
 $lang['title']                 = '即使 useheading 选项关闭也使用页面的第一个标题进行超链接 (仅影响 linkonly 模式)';
 $lang['pageexists']            = '不要显示不存在的页面的链接 (仅影响 linkonly 模式)';
+$lang['parlink']               = '将一个段落环绕显示在链接旁（仅对linkonly模式有效）';
 $lang['order_o_id']            = '页面 ID';
 $lang['order_o_title']         = '标题';
 $lang['order_o_created']       = '创建日期';
