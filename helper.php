@@ -28,7 +28,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     /**
      * Constructor loads default config settings once
      */
-    function helper_plugin_include() {
+    function __construct() {
         $this->defaults['noheader']  = $this->getConf('noheader');
         $this->defaults['firstsec']  = $this->getConf('firstseconly');
         $this->defaults['editbtn']   = $this->getConf('showeditbtn');

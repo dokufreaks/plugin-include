@@ -22,7 +22,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /* @var helper_plugin_include $helper */
     var $helper = null;
 
-    function action_plugin_include() {
+    function __construct() {
         $this->helper = plugin_load('helper', 'include');
     }
  
