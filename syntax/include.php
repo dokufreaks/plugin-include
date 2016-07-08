@@ -153,7 +153,16 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
             $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
 
+            if (!$flags['editbtn']) {
+                global $conf;
+                $maxseclevel_org = $conf['maxseclevel'];
+                $conf['maxseclevel'] = 0;
+            }
             $renderer->nest($instructions);
+            if (isset($maxseclevel_org)) {
+                $conf['maxseclevel'] = $maxseclevel_org;
+                unset($maxseclevel_org);
+            }
 
             array_pop($page_stack);
         }
