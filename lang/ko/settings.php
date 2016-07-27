@@ -2,7 +2,7 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Myeongjin <aranet100@gmail.com>
  * @author Erial <erial2@gmail.com>
  */
@@ -23,7 +23,7 @@ $lang['doredirect']            = '포함된 문서를 편집하고 나서 원래
 $lang['doindent']              = '원래 문서의 해당 위치에서 포함된 문서를 들여쓰기';
 $lang['linkonly']              = '내용을 보여주는 대신 포함된 문서에만 링크';
 $lang['title']                 = 'useheading이 꺼져 있어도 링크에서 문서의 첫 문단 제목을 사용 (linkonly 모드만 영향을 줍니다)';
-$lang['pageexists']            = '문서가 존재하지 않을 때 링크를 보이지 않기 (linkonly 모드만 영향을 줍니다)';
+$lang['pageexists']            = '문서가 존재하지 않을 때 링크를 표시하지 않기 (linkonly 모드만 영향을 줍니다)';
 $lang['parlink']               = '링크 주위에 문단 넣기 (linkonly 모드만 영향을 줍니다)';
 $lang['safeindex']             = '공개되지 않은 포함된 문서에서 메타데이터의 색인을 방지';
 $lang['order']                 = '여러 문서로 포함의 조건 정렬';
