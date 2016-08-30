@@ -2,9 +2,10 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
  * @author Mark Prins <mprins@users.sf.net>
  * @author Johan Wijnker <johan@wijnker.eu>
+ * @author Gerrit Uitslag <klapinklapin@gmail.com>
  */
 $lang['noheader']              = 'toon de eerste kop van de ingesloten pagina/sectie niet';
 $lang['firstseconly']          = 'toon alleen de eerste sectie van de ingesloten pagina\'s';
@@ -36,3 +37,4 @@ $lang['order_o_custom']        = 'aangepaste volgorde met include syntax';
 $lang['rsort']                 = 'draai de sorteervolgorde van de ingesloten pagina\'s om';
 $lang['depth']                 = 'maximum diepte van de naamruimte insluitingen, 0 voor onbeperkt';
 $lang['readmore']              = 'Toon de \'Lees verder\' link als er alleen een eerste deel is of niet';
+$lang['debugoutput']           = 'Schrijf uitgebreide debug informatie naar de DokuWiki debuglog als de globale "allowdebug" configuratieoptie is ingeschakeld';
