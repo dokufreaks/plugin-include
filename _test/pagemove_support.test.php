@@ -41,4 +41,35 @@ class plugin_include_pagemove_support_test extends DokuWikiTest {
         $this->assertTrue($move->movePage('editx', 'test:edit'));
         $this->assertEquals('{{section>links#foo}} {{page>test:edit}} {{page>test:edit&nofooter}} {{section>test:edit#test}} {{page>test:edit&nofooter}}', rawWiki('links'));
     }
+
+    public function test_relative_include_adaption() {
+        /** @var $move helper_plugin_move_op */
+        $move = plugin_load('helper', 'move_op');
+        if (!$move) {
+            $this->markTestSkipped('the move plugin is not installed');
+            return;
+        }
+
+        $text = '====== Main ======
+
+This is a test page
+
+[[.1:page_1|link]]
+
+{{page>.1:page_1&nofooter&noeditbutton}}
+
+{{page>.1:page_2&nofooter&noeditbutton}}';
+
+        saveWikiText('old:namespace:main', $text, 'Created');
+        saveWikiText('old:namespace:1:page_1', 'Page 1', 'Created');
+        saveWikiText('old:namespace:1:page_2', 'Page 2', 'Created');
+        idx_addPage('old:namespace:main');
+        idx_addPage('old:namespace:1:page_1');
+        idx_addPage('old:namespace:1:page_2');
+
+        $this->assertTrue($move->movePage('old:namespace:main', 'new:namespace:main'));
+        $this->assertTrue($move->movePage('old:namespace:1:page_1', 'new:namespace:1:page_1'));
+        $this->assertTrue($move->movePage('old:namespace:1:page_2', 'new:namespace:1:page_2'));
+        $this->assertEquals($text, rawWiki('new:namespace:main'));
+    }
 }
