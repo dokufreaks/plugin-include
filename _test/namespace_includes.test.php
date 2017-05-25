@@ -42,6 +42,25 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
     }
 
     /**
+     * Helper function to read dir content
+     */
+    protected function getDirContent ($dir) {
+        if (is_dir($dir)) {
+            $pages = array();
+            if ($handle = opendir($dir)) {
+                while (($file = readdir($handle)) !== false) {
+                    if ($file != '.' && $file != '..') {
+                        $pages [] = $file;
+                    }
+                }
+                closedir($handle);
+                return $pages;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Test hiding of hidden pages in namespace includes
      */
     public function test_hidden() {
@@ -87,7 +106,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
         $this->assertEquals(array(array('id' => 'mailinglist', 'exists' => true, 'parent_id' => '')), $pages);
         $flags = $this->helper->get_flags(array('depth=2'));
         $pages = $this->helper->_get_included_pages('namespace', ':', '', '', $flags);
-        $this->assertEquals(array(
+        $expected = array(
                                  array('id' => 'inclhidden:visible', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'inclorder:page1', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'inclorder:page2', 'exists' => true, 'parent_id' => ''),
@@ -95,9 +114,22 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  array('id' => 'inclorder:page4', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'incltest:level1', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'mailinglist', 'exists' => true, 'parent_id' => ''),
-                                 array('id' => 'wiki:dokuwiki', 'exists' => true, 'parent_id' => ''),
-                                 array('id' => 'wiki:syntax', 'exists' => true, 'parent_id' => ''),
-                            ), $pages);
+                                 //array('id' => 'wiki:dokuwiki', 'exists' => true, 'parent_id' => ''),
+                                 //array('id' => 'wiki:syntax', 'exists' => true, 'parent_id' => ''),
+                                 //$wikiPages,
+                            );
+
+        // Add pages in namespace wiki
+        $dir = $this->getDirContent(dirname(__FILE__).'/../../../../_test/data/pages/wiki');
+        $this->assertTrue($dir !== null);
+        foreach ($dir as $page) {
+            $page = substr($page, 0, -4);
+            $expected [] = array('id' => 'wiki:'.$page, 'exists' => true, 'parent_id' => '');
+        }
+
+        array_multisort($expected);
+        array_multisort($pages);
+        $this->assertEquals($expected, $pages);
     }
 
     /**
