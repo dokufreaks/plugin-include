@@ -241,7 +241,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     protected function _shorten_instructions(&$ins, $flags) {
         // Cut off page content if required
-        $length = $flags['length'];
+        $length = false;
+        if (!empty($flags['length'])) {
+            $length = $flags['length'];
+        }
         $stop = false;
         $tr_closed = false;
         $t_closed = false;
@@ -261,7 +264,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'cdata':
                     $entryLength = strlen($entry[1][0]);
-                    if (!$stop && $sum+$entryLength > $length) {
+                    if (!$stop && $length !== false && $sum+$entryLength > $length) {
                         if ($sum < $length) {
                             $max = $length - $sum;
                             $entry[1][0] = substr ($entry[1][0], 0, $max).'...';
