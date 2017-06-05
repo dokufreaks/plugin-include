@@ -224,12 +224,140 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noreadmore':
                     $flags['readmore'] = 0;
                     break;
+                case 'length':
+                    $flags['length'] = max(intval($value), 0);
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
         if (isset($_REQUEST['include_content']))
             $flags['linkonly'] = 0;
         return $flags;
+    }
+
+    /**
+     * Shortens page instructions if it finds a 'includestop'
+     * or content is longer than $flags['length'].
+     */
+    protected function _shorten_instructions(&$ins, $flags) {
+        // Cut off page content if required
+        $length = $flags['length'];
+        $stop = false;
+        $tr_closed = false;
+        $t_closed = false;
+        $li_closed = false;
+        $l_closed = false;
+        $max_entries = count($ins);
+        $sum = 0;
+
+        for ($index = 0 ; $index < $max_entries ; $index++) {
+            $entry = &$ins[$index];
+            switch ($entry[0]) {
+                case 'plugin':
+                    if ($entry[1][0] == 'include_stop') {
+                        $stop = true;
+                        unset($ins[$index]);
+                    }
+                    break;
+                case 'cdata':
+                    $entryLength = strlen($entry[1][0]);
+                    if (!$stop && $sum+$entryLength > $length) {
+                        if ($sum < $length) {
+                            $max = $length - $sum;
+                            $entry[1][0] = substr ($entry[1][0], 0, $max).'...';
+                            $sum = $length;
+                            $stop = true;
+                        } else {
+                            unset($ins[$index]);
+                        }
+                    } else {
+                        if ($stop) {
+                            unset($ins[$index]);
+                        }
+                    }
+                    $sum += $entryLength;
+                    break;
+                case 'tablerow_close':
+                    if ($stop) {
+                        if ($t_closed || $tr_closed) {
+                            unset ($ins[$index]);
+                        } else {
+                            $tr_closed = true;
+                        }
+                    }
+                    break;
+                case 'table_close':
+                    if ($stop) {
+                        if ($t_closed) {
+                            unset ($ins[$index]);
+                        } else {
+                            $t_closed = true;
+                        }
+                    }
+                    break;
+                case 'table_open':
+                case 'tablerow_open':
+                case 'tablethead_open':
+                case 'tableheader_open':
+                    if ($stop) {
+                        unset ($ins[$index]);
+                    }
+                    break;
+                case 'tablethead_close':
+                case 'tableheader_close':
+                case 'tablecell_open':
+                case 'tablecell_close':
+                    if ($t_closed || $tr_closed) {
+                        unset ($ins[$index]);
+                    }
+                    break;
+                case 'listitem_close':
+                    if ($stop) {
+                        if ($l_closed || $li_closed) {
+                            unset ($ins[$index]);
+                        } else {
+                            $li_closed = true;
+                        }
+                    }
+                    break;
+                case 'listu_close':
+                case 'listo_close':
+                    if ($stop) {
+                        if ($l_closed) {
+                            unset ($ins[$index]);
+                        } else {
+                            $l_closed = true;
+                        }
+                    }
+                    break;
+                case 'listu_open':
+                case 'listo_open':
+                case 'listitem_open':
+                    if ($stop) {
+                        unset ($ins[$index]);
+                    }
+                    break;
+                case 'listcontent_open':
+                case 'listcontent_close':
+                    if ($l_closed || $li_closed) {
+                        unset ($ins[$index]);
+                    }
+                    break;
+                case 'section_close':
+                    if ($stop) {
+                        // Delete everything behind this point
+                        for ($del = $index++ ; $del < $max_entries ; $del++) {
+                            unset($ins[$del]);
+                        }
+                        // Leave switch and for loop!
+                        break 2;
+                    }
+                break;
+            }
+        }
+
+        // Return if content was cut of or not
+        return $stop;
     }
 
     /**
@@ -277,6 +405,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
 
             $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
+        }
+
+        if ($this->_shorten_instructions($ins, $flags) && $flags['readmore']) {
+            $ins[] = array('plugin', array('include_readmore', array($page)));
         }
         return $ins;
     }
