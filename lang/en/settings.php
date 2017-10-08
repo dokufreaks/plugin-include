@@ -38,5 +38,5 @@ $lang['rsort']         = 'Reverse the sort order of the included pages';
 $lang['depth']         = 'Maximum depth of namespace includes, 0 for unlimited depth';
 $lang['readmore']       = 'Show or not the \'Read More\' link in case of firstsection only';
 $lang['debugoutput']    = 'Print verbose debug information to the dokuwiki debuglog if the global "allowdebug" option is enabled';
-$lang['honourmainrevision'] = 'Honour the main page revision. If a revision of the main page is shown, pass this revision date to include pages and get the appropiate revision of those pages as well';
+$lang['honourmainrevision'] = 'Honour the main page revision. If a revision of the main page is shown, pass this revision date to include pages and get the appropriate revision of those pages as well';
 //Setup VIM: ex: et ts=2 :

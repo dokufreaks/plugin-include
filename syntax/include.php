@@ -89,7 +89,6 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      */
     function render($format, Doku_Renderer $renderer, $data) {
         global $ID;
-        global $conf;
 
         // static stack that records all ancestors of the child pages
         static $page_stack = array();
@@ -129,7 +128,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             $secids = p_get_metadata($ID, 'plugin_include secids');
         }
 
-
+        
 
         foreach ($pages as $page) {
             extract($page);
@@ -140,7 +139,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             array_push($page_stack, $id);
 
             // check if the include plugin should honour the main page revision
-            if ($conf['honourmainrevision']) {
+            if ($this->getConf('honourmainrevision')) {
 
                 // initialize variables with empty string
                 $wanted_revision = '';  
@@ -185,6 +184,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 }
             } else {
                 $wanted_revision = null;
+                msg('nope');
             }
 
 
