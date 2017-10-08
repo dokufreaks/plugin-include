@@ -177,14 +177,13 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                     if ($wanted_revision == '') { // no suitable revision found with approval
                         if ($revision_before_main_revision != '') { // a revision is found before $REV, use this revision
                             $wanted_revision = $revision_before_main_revision; 
-                        } else { // simply use the oldest revision, despite the revision date is newer than the main page revision date
+                        } else { // simply use the oldest revision of the included page, despite the revision date is newer than the main page revision date
                             $wanted_revision = $first_revision;
                         }
                     }
                 }
             } else {
                 $wanted_revision = null;
-                msg('nope');
             }
 
 
