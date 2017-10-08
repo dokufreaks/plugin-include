@@ -151,7 +151,12 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($flags['include_secid']);
             }
 
-            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
+            // add configuration option to honour top page revision or not
+            // if (not configuration_option_honour_revision) {
+            //    $wanted_revision = null;
+            // }
+            $wanted_revision = null;
+            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids, $wanted_revision);
 
             if (!$flags['editbtn']) {
                 global $conf;
