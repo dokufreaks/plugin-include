@@ -2,25 +2,26 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author F. Mueller-Donath <j.felix@mueller-donath.de>
  * @author Esther Brunner <wikidesign@gmail.com>
  * @author Dominik Eckelmann <deckelmann@gmail.com>
  * @author Christian Paul <info@jaller.de>
  * @author Dana <dannax3@gmx.de>
  */
-$lang['noheader']              = 'Verstecke die erste Überschrift der eingefügten Seite/Sektion';
-$lang['firstseconly']          = 'Nur erster Abschnitt von eingebundenen Seiten';
+$lang['noheader']              = 'Erste Überschrift von eingeschlossenen Seiten/Sektionen nicht anzeigen';
+$lang['firstseconly']          = 'Nur ersten Abschnitt von eingebundenen Seiten anzeigen';
 $lang['showtaglogos']          = 'Bild für erstes Tag anzeigen';
 $lang['showfooter']            = 'Infos über eingebundene Seite darunter anzeigen';
 $lang['showlink']              = 'Erste Überschrift der eingebundenen Seite als Link anzeigen';
 $lang['showpermalink']         = 'Permalink unter eingebunderer Seite anzeigen';
 $lang['showdate']              = 'Datum unter eingebunderer Seite anzeigen';
-$lang['showmdate']             = 'Zeige das Änderungsdatum unter eingefügten Seiten an';
-$lang['showuser']              = 'Autorenname unter eingebunderer Seite anzeigen';
+$lang['showmdate']             = 'Änderungsdatum unter eingebundener Seite anzeigen';
+$lang['showuser']              = 'Autorenname unter eingebundener Seite anzeigen';
 $lang['showcomments']          = 'Kommentare unter eingebundener Seite anzeigen (Discussion Plugin wird benötigt)';
 $lang['showlinkbacks']         = 'Linkbacks unter eingebundener Seite anzeigen (Linkback Plugin wird benötigt)';
 $lang['showtags']              = 'Tags unter eingebundener Seite anzeigen (Tag Plugin wird benötigt)';
-$lang['showeditbtn']           = 'Bearbeiten-Tasten anzeigen';
+$lang['showeditbtn']           = 'Bearbeiten-Button anzeigen';
 $lang['doredirect']            = 'Nach dem Bearbeiten der eingebundenen Seite zur ursprünglichen Seite weiterleiten';
 $lang['doindent']              = 'Eingebundene Seiten relativ zur Seite, in der sie eingebunden sind einrücken';
 $lang['linkonly']              = 'Nur einen Link anzeigen statt dem Inhalt der eingebundenen Seite';
@@ -36,6 +37,6 @@ $lang['order_o_modified']      = 'Änderungsdatum';
 $lang['order_o_indexmenu']     = 'Benutzerdefinierte Reihenfolge mit Indexmenu Syntax.';
 $lang['order_o_custom']        = 'Benutzerdefinierte Reihenfolge mit Include Syntax';
 $lang['rsort']                 = 'Umgekehrte Reihenfolge bei der Sortierung von eingefügten Seiten';
-$lang['depth']                 = 'Maximale Tiefe von Namensräumen, 0 für unendliche Tiefe';
+$lang['depth']                 = 'Maximale Tiefe von Namensräumen, 0 für alle Ebenen';
 $lang['readmore']              = 'Zeige einen \'Weiterlesen\'-Link bei aktiviertem "firstseconly"-Modus';
-$lang['debugoutput']           = 'Ausgeben ausführlicher Debug-Informationen Debuglog des Dokuwikis, sofern die globale Option "allowdebug" aktiviert ist';
+$lang['debugoutput']           = 'Ausführliche Informationen in das Debuglog des Dokuwikis schreiben (setzt voraus, dass die globale Option "allowdebug" aktiviert ist).';
