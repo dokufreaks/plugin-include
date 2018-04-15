@@ -101,12 +101,12 @@ class plugin_include_nested_test extends DokuWikiTest {
         saveWikiText('test:plugin_include:nested:second',
             '====== Second Test Page ======'.DOKU_LF.DOKU_LF
             .'Second Content'.rand().DOKU_LF.DOKU_LF
-            .'{{page>third}}this-should-be-included2{{includestop}} this-should-be-cut-off'.DOKU_LF,
+            .'{{page>third}}this-should-be-included2{{includestop}} this-should-be-cut-off [[this-should-be-cut-off]]'.DOKU_LF,
             'setup for test');
         saveWikiText('test:plugin_include:nested:third',
             '====== Third Test Page ======'.DOKU_LF.DOKU_LF
             .'Third Content'.rand().DOKU_LF.DOKU_LF
-            .'{{page>third}}this-should-be-included3{{includestop}} this-should-be-cut-off'.DOKU_LF,
+            .'{{page>third}}this-should-be-included3{{includestop}} this-should-be-cut-off [[this-should-be-cut-off]]'.DOKU_LF,
             'setup for test');
     }
 }
