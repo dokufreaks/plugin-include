@@ -316,16 +316,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $sect_title = false;
         $endpos     = null; // end position of the raw wiki text
 
-        for($i=0; $i<$num; $i++) {
-            // adjust links with image titles
-            if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1]) && $ins[$i][1][1]['type'] == 'internalmedia') {
-                // resolve relative ids, but without cleaning in order to preserve the name
-                $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
-                // make sure that after resolving the link again it will be the same link
-                if ($media_id{0} != ':') $media_id = ':'.$media_id;
-                $ins[$i][1][1]['src'] = $media_id;
-            }
+        $this->adapt_links($ins, $page, $included_pages);
 
+        for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
                 case 'document_start':
                 case 'document_end':
@@ -360,56 +353,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     if ($flags['inline'])
                         unset($ins[$i]);
                     break;
-                case 'internallink':
-                case 'internalmedia':
-                    // make sure parameters aren't touched
-                    $link_params = '';
-                    $link_id = $ins[$i][1][0];
-                    $link_parts = explode('?', $link_id, 2);
-                    if (count($link_parts) === 2) {
-                        $link_id = $link_parts[0];
-                        $link_params = $link_parts[1];
-                    }
-                    // resolve the id without cleaning it
-                    $link_id = resolve_id($ns, $link_id, false);
-                    // this id is internal (i.e. absolute) now, add ':' to make resolve_id work again
-                    if ($link_id{0} != ':') $link_id = ':'.$link_id;
-                    // restore parameters
-                    $ins[$i][1][0] = ($link_params != '') ? $link_id.'?'.$link_params : $link_id;
-                    if ($ins[$i][0] == 'internallink' && !empty($included_pages)) {
-                        // change links to included pages into local links
-                        $link_id = $ins[$i][1][0];
-                        $link_parts = explode('?', $link_id, 2);
-                        // only adapt links without parameters
-                        if (count($link_parts) === 1) {
-                            $link_parts = explode('#', $link_id, 2);
-                            $hash = '';
-                            if (count($link_parts) === 2) {
-                                list($link_id, $hash) = $link_parts;
-                            }
-                            $exists = false;
-                            resolve_pageid($ns, $link_id, $exists);
-                            if (array_key_exists($link_id, $included_pages)) {
-                                if ($hash) {
-                                    // hopefully the hash is also unique in the including page (otherwise this might be the wrong link target)
-                                    $ins[$i][0] = 'locallink';
-                                    $ins[$i][1][0] = $hash;
-                                } else {
-                                    // the include section ids are different from normal section ids (so they won't conflict) but this
-                                    // also means that the normal locallink function can't be used
-                                    $ins[$i][0] = 'plugin';
-                                    $ins[$i][1] = array('include_locallink', array($included_pages[$link_id]['hid'], $ins[$i][1][1], $ins[$i][1][0]));
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case 'locallink':
-                    /* Convert local links to internal links if the page hasn't been fully included */
-                    if ($included_pages == null || !array_key_exists($page, $included_pages)) {
-                        $ins[$i][0] = 'internallink';
-                        $ins[$i][1][0] = ':'.$page.'#'.$ins[$i][1][0];
-                    }
+                case 'nest':
+                    $this->adapt_links($ins[$i][1][0], $page, $included_pages);
                     break;
                 case 'plugin':
                     // FIXME skip other plugins?
@@ -591,6 +536,84 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     function _permalink(&$ins, $page, $sect, $flags) {
         $ins[0] = 'plugin';
         $ins[1] = array('include_header', array($ins[1][0], $ins[1][1], $ins[1][2], $page, $sect, $flags));
+    }
+
+    /**
+     * Convert internal and local links depending on the included pages
+     *
+     * @param array  $ins            The instructions that shall be adapted
+     * @param string $page           The included page
+     * @param array  $included_pages The array of pages that are included
+     */
+    private function adapt_links(&$ins, $page, $included_pages = null) {
+        $num = count($ins);
+        $ns  = getNS($page);
+
+        for($i=0; $i<$num; $i++) {
+            // adjust links with image titles
+            if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1]) && $ins[$i][1][1]['type'] == 'internalmedia') {
+                // resolve relative ids, but without cleaning in order to preserve the name
+                $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
+                // make sure that after resolving the link again it will be the same link
+                if ($media_id{0} != ':') $media_id = ':'.$media_id;
+                $ins[$i][1][1]['src'] = $media_id;
+            }
+            switch($ins[$i][0]) {
+                case 'internallink':
+                case 'internalmedia':
+                    // make sure parameters aren't touched
+                    $link_params = '';
+                    $link_id = $ins[$i][1][0];
+                    $link_parts = explode('?', $link_id, 2);
+                    if (count($link_parts) === 2) {
+                        $link_id = $link_parts[0];
+                        $link_params = $link_parts[1];
+                    }
+                    // resolve the id without cleaning it
+                    $link_id = resolve_id($ns, $link_id, false);
+                    // this id is internal (i.e. absolute) now, add ':' to make resolve_id work again
+                    if ($link_id{0} != ':') $link_id = ':'.$link_id;
+                    // restore parameters
+                    $ins[$i][1][0] = ($link_params != '') ? $link_id.'?'.$link_params : $link_id;
+
+                    if ($ins[$i][0] == 'internallink' && !empty($included_pages)) {
+                        // change links to included pages into local links
+                        // only adapt links without parameters
+                        $link_id = $ins[$i][1][0];
+                        $link_parts = explode('?', $link_id, 2);
+                        if (count($link_parts) === 1) {
+                            $exists = false;
+                            resolve_pageid($ns, $link_id, $exists);
+
+                            $link_parts = explode('#', $link_id, 2);
+                            $hash = '';
+                            if (count($link_parts) === 2) {
+                                list($link_id, $hash) = $link_parts;
+                            }
+                            if (array_key_exists($link_id, $included_pages)) {
+                                if ($hash) {
+                                    // hopefully the hash is also unique in the including page (otherwise this might be the wrong link target)
+                                    $ins[$i][0] = 'locallink';
+                                    $ins[$i][1][0] = $hash;
+                                } else {
+                                    // the include section ids are different from normal section ids (so they won't conflict) but this
+                                    // also means that the normal locallink function can't be used
+                                    $ins[$i][0] = 'plugin';
+                                    $ins[$i][1] = array('include_locallink', array($included_pages[$link_id]['hid'], $ins[$i][1][1], $ins[$i][1][0]));
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 'locallink':
+                    /* Convert local links to internal links if the page hasn't been fully included */
+                    if ($included_pages == null || !array_key_exists($page, $included_pages)) {
+                        $ins[$i][0] = 'internallink';
+                        $ins[$i][1][0] = ':'.$page.'#'.$ins[$i][1][0];
+                    }
+                    break;
+            }
+        }
     }
 
     /** 
