@@ -56,7 +56,11 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
             // the include header instruction is always at the beginning of the first section edit inside the include
             // wrap so there is no need to close a previous section edit.
             if ($lvl <= $conf['maxseclevel']) {
-                $classes[] = $renderer->startSectionEdit($pos, 'section', $headline);
+                if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
+                    $classes[] = $renderer->startSectionEdit($pos, array('target' => 'section', 'name' => $headline, 'hid' => $hid));
+                } else {
+                    $classes[] = $renderer->startSectionEdit($pos, 'section', $headline);
+                }
             }
             if ($classes) {
                 $renderer->doc .= ' class="'. implode(' ', $classes) . '"';
