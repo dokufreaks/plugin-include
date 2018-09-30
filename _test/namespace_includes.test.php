@@ -119,6 +119,11 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  //$wikiPages,
                             );
 
+        // page int:editandsavetest exists in DokuWiki after September 2017
+        if (page_exists('int:editandsavetest')) {
+            $expected [] = array('id' => 'int:editandsavetest', 'exists' => true, 'parent_id' => '');
+        }
+
         // Add pages in namespace wiki
         $dir = $this->getDirContent(dirname(__FILE__).'/../../../../_test/data/pages/wiki');
         $this->assertTrue($dir !== null);
