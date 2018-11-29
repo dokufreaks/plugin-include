@@ -704,7 +704,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $ns    = utf8_encodeFN(str_replace(':', '/', $page));
             // depth is absolute depth, not relative depth, but 0 has a special meaning.
             $depth = $flags['depth'] ? $flags['depth'] + substr_count($page, ':') + ($page ? 1 : 0) : 0;
-            search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $depth), $ns);
+            search($pagearrays, $conf['datadir'], 'search_allpages', array('depth' => $depth, 'skipacl' => false), $ns);
             if (is_array($pagearrays)) {
                 foreach ($pagearrays as $pagearray) {
                     if (!isHiddenPage($pagearray['id'])) // skip hidden pages
