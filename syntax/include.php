@@ -109,6 +109,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
         if ($format == 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
+            $renderer->meta['plugin']['include'] = [];
+            $metadata =& $renderer->meta['plugin']['include'];
 
             // remove old persistent metadata of previous versions of the include plugin
             if (isset($renderer->persistent['plugin_include'])) {
@@ -116,16 +118,17 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($renderer->meta['plugin_include']);
             }
 
-            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', $flags);
-            if (!isset($renderer->meta['plugin_include']['pages']))
-               $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
-            $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
-            $renderer->meta['plugin_include']['include_content'] = isset($_REQUEST['include_content']);
+            $metadata['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', $flags);
+            if (!isset($metadata['pages']))
+               $metadata['pages'] = array(); // add an array for array_merge
+            $metadata['pages'] = array_merge($metadata['pages'], $pages);
+            $metadata['include_content'] = isset($_REQUEST['include_content']);
         }
 
         $secids = array();
         if ($format == 'xhtml' || $format == 'odt') {
-            $secids = p_get_metadata($ID, 'plugin_include secids');
+            global $INFO;
+            $secids = $INFO['meta']['plugin']['include']['secids'];
         }
 
         foreach ($pages as $page) {
@@ -140,8 +143,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             if ($format == 'metadata') {
                 $renderer->meta['relation']['references'][$id] = $exists;
                 $renderer->meta['relation']['haspart'][$id]    = $exists;
-                if (!$sect && !$flags['firstsec'] && !$flags['linkonly'] && !isset($renderer->meta['plugin_include']['secids'][$id])) {
-                    $renderer->meta['plugin_include']['secids'][$id] = array('hid' => 'plugin_include__'.str_replace(':', '__', $id), 'pos' => $pos);
+                if (!$sect && !$flags['firstsec'] && !$flags['linkonly'] && !isset($metadata['secids'][$id])) {
+                    $metadata['secids'][$id] = array('hid' => 'plugin_include__'.str_replace(':', '__', $id), 'pos' => $pos);
                 }
             }
 

@@ -68,7 +68,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         if (is_null($USERINFO) && !isset($_SERVER['REMOTE_USER'])) return;
 
         // get the include metadata in order to see which pages were included
-        $inclmeta = p_get_metadata($event->data['page'], 'plugin_include', METADATA_RENDER_UNLIMITED);
+        $inclmeta = p_get_metadata($event->data['page'], 'plugin include', METADATA_RENDER_UNLIMITED);
         $all_public = true; // are all included pages public?
         // check if the current metadata indicates that non-public pages were included
         if ($inclmeta !== null && isset($inclmeta['pages'])) {
@@ -211,7 +211,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         if(!isset($cache->page)) return;
         if(!isset($cache->mode) || $cache->mode == 'i') return;
 
-        $depends = p_get_metadata($cache->page, 'plugin_include');
+        $depends = p_get_metadata($cache->page, 'plugin include');
 
         if($conf['allowdebug'] && $this->getConf('debugoutput')) {
             dbglog('---- PLUGIN INCLUDE CACHE DEPENDS START ----');
