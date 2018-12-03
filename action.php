@@ -48,7 +48,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * Add a version string to the index so it is rebuilt
      * whenever the handler is updated or the safeindex setting is changed
      */
-    public function handle_indexer_version($event, $param) {
+    public function handle_indexer_version(Doku_Event $event, $param) {
         $event->data['plugin_include'] = '0.1.safeindex='.$this->getConf('safeindex');
     }
 
@@ -129,7 +129,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Used for debugging purposes only
      */
-    function handle_metadata(&$event, $param) {
+    function handle_metadata(Doku_Event $event, $param) {
         global $conf;
         if($conf['allowdebug'] && $this->getConf('debugoutput')) {
             dbglog('---- PLUGIN INCLUDE META DATA START ----');
@@ -176,7 +176,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Add a hidden input to the form to preserve the redirect_id
      */
-    function handle_form(Doku_Event &$event, $param) {
+    function handle_form(Doku_Event $event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
         $event->data->addHidden('redirect_id', cleanID($_REQUEST['redirect_id']));
       }
@@ -185,7 +185,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Modify the data for the redirect when there is a redirect_id set
      */
-    function handle_redirect(Doku_Event &$event, $param) {
+    function handle_redirect(Doku_Event $event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
         // Render metadata when this is an older DokuWiki version where
         // metadata is not automatically re-rendered as the page has probably
@@ -202,7 +202,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * prepare the cache object for default _useCache action
      */
-    function _cache_prepare(Doku_Event &$event, $param) {
+    function _cache_prepare(Doku_Event $event, $param) {
         global $conf;
 
         /* @var cache_renderer $cache */
@@ -256,7 +256,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
      * and replace normal section edit buttons when the current page is different from the
      * global $ID.
      */
-    function handle_secedit_button(Doku_Event &$event, $params) {
+    function handle_secedit_button(Doku_Event $event, $params) {
         // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
         static $page_stack = array();
 
