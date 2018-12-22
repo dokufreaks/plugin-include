@@ -128,7 +128,9 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $secids = array();
         if ($format == 'xhtml' || $format == 'odt') {
             global $INFO;
-            $secids = $INFO['meta']['plugin']['include']['secids'];
+            if (isset($INFO['meta']['plugin']['include']['secids'])) {
+                $secids = $INFO['meta']['plugin']['include']['secids'];
+            }
         }
 
         foreach ($pages as $page) {

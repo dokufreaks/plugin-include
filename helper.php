@@ -545,7 +545,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @param string $page           The included page
      * @param array  $included_pages The array of pages that are included
      */
-    private function adapt_links(&$ins, $page, $included_pages = null) {
+    private function adapt_links(&$ins, $page, $included_pages = array()) {
         $num = count($ins);
         $ns  = getNS($page);
 
@@ -607,7 +607,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
                 case 'locallink':
                     /* Convert local links to internal links if the page hasn't been fully included */
-                    if ($included_pages == null || !array_key_exists($page, $included_pages)) {
+                    if (!array_key_exists($page, $included_pages)) {
                         $ins[$i][0] = 'internallink';
                         $ins[$i][1][0] = ':'.$page.'#'.$ins[$i][1][0];
                     }
