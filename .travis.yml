@@ -1,6 +1,7 @@
 language: php
 sudo: false
 php:
+  - "7.3"
   - "7.2"
   - "7.1"
   - "7.0"
@@ -14,4 +15,4 @@ matrix:
       env: DOKUWIKI=old-stable
 before_install: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
 install: sh travis.sh
-script: cd _test && phpunit --stderr --group plugin_include
+script: cd _test && ./phpunit.phar --stderr --group plugin_include
