@@ -36,14 +36,26 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
             switch($state) {
                 case 'open':
                     if ($redirect) {
-                        $renderer->startSectionEdit(0, 'plugin_include_start', $page);
+                        if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
+                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start', 'name' => $page));
+                        } else {
+                            $renderer->startSectionEdit(0, 'plugin_include_start', $page);
+                        }
                     } else {
-                        $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $page);
+                        if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
+                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start_noredirect', 'name' => $page));
+                        } else {
+                            $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $page);
+                        }
                     }
                     $renderer->finishSectionEdit();
                     // Start a new section with type != section so headers in the included page
                     // won't print section edit buttons of the parent page
-                    $renderer->startSectionEdit(0, 'plugin_include_end', $page);
+                    if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
+                        $renderer->startSectionEdit(0, array('target' => 'plugin_include_end', 'name' => $page));
+                    } else {
+                        $renderer->startSectionEdit(0, 'plugin_include_end', $page);
+                    }
                     if ($secid === NULL) {
                         $id = '';
                     } else {
