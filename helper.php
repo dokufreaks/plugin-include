@@ -849,7 +849,49 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
        }                                                                                       
        return cleanID($result);                                                                
     }
-    
+    /**
+     * calc ip-adress to in_addr-representation
+     * @link http://www.php.net/manual/de/function.inet-pton.php#93501 source and idea
+     */
+    function ip2pton($ipaddr) {
+
+        // Strip out the netmask, if there is one.
+        $cx = strpos($ipaddr, '/');
+        if ($cx)
+        {
+            $subnet = (int)(substr($ipaddr, $cx+1));
+            $ipaddr = substr($ipaddr, 0, $cx);
+        }
+        else $subnet = null; // No netmask present
+                
+        // Convert address to packed format
+        $addr = inet_pton($ipaddr);
+     
+        // Convert the netmask
+        if (is_integer($subnet))
+        {
+            // Maximum netmask length = same as packed address
+            $len = 8*strlen($addr);
+            if ($subnet > $len) $subnet = $len;
+                        
+            // Create a hex expression of the subnet mask
+            $mask  = str_repeat('f', $subnet>>2);
+            switch($subnet & 3)
+            {
+                case 3: $mask .= 'e'; break;
+                case 2: $mask .= 'c'; break;
+                case 1: $mask .= '8'; break;
+            }
+            $mask = str_pad($mask, $len>>2, '0');
+
+            // Packed representation of netmask
+            $mask = pack('H*', $mask);
+        }
+        
+        // Return logical and of addr and mask
+            return ($addr & $mask);
+    }
+
     /**
      * Makes user or date dependent includes possible
      */
@@ -897,6 +939,22 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 break;
             }
             $id = preg_replace('/@DATE(\w+)@/','', $id);
+        }
+
+        if(preg_match('/@IP_(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/(\d{1,2}))?@/',$id,$matches)) {
+
+            $ipadd=$matches[1];
+            $mask='24';//default mask
+            if(count($matches)>2){
+              $mask=$matches[3];
+            }
+            //dbglog('$ipadd='.$ipadd.' $mask='.$mask);
+
+            if($this->ip2pton($ipadd.'/'.$mask) === $this->ip2pton(clientIP(true).'/'.$mask)){
+        	$id = preg_replace('/@IP_(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(\/(\d{1,2}))?@/',$ipadd.'_'.$mask, $id);
+        	//dbglog('found!!! '.$id);
+            }
+
         }
 
         $replace = array(
