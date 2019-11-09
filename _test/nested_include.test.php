@@ -34,7 +34,23 @@ class plugin_include_nested_test extends DokuWikiTest {
         $this->_validateContent($mainHTML, $secondHTML, $thirdHTML);
     }
 
-    private function _validateContent($mainHTML, $secondHTML, $thirdHTML) {
+    public function test_outer_to_inner_cut_off() {
+        $this->_createCutOffPages();
+        $mainHTML = p_wiki_xhtml('test:plugin_include:nested:start');
+        $secondHTML = p_wiki_xhtml('test:plugin_include:nested:second');
+        $thirdHTML = p_wiki_xhtml('test:plugin_include:nested:third');
+        $this->_validateContent($mainHTML, $secondHTML, $thirdHTML, true);
+    }
+
+    public function test_inner_to_outer_cut_off() {
+        $this->_createCutOffPages();
+        $thirdHTML = p_wiki_xhtml('test:plugin_include:nested:third');
+        $secondHTML = p_wiki_xhtml('test:plugin_include:nested:second');
+        $mainHTML = p_wiki_xhtml('test:plugin_include:nested:start');
+        $this->_validateContent($mainHTML, $secondHTML, $thirdHTML, true);
+    }
+
+    private function _validateContent($mainHTML, $secondHTML, $thirdHTML, $cutOff=false) {
         $this->assertTrue(strpos($mainHTML, 'Main Content') !== false, 'Main content contains "Main Content"');
         $this->assertTrue($this->_matchHeader('1', 'Main Test Page', $mainHTML), 'Main page header is h1');
         $this->assertTrue(strpos($mainHTML, 'Second Content') !== false, 'Main content contains "Second Content"');
@@ -47,6 +63,11 @@ class plugin_include_nested_test extends DokuWikiTest {
         $this->assertTrue($this->_matchHeader('2', 'Third Test Page', $secondHTML), 'Third page header on second page is h2');
         $this->assertTrue(strpos($thirdHTML, 'Third Content') !== false, 'Third content contains "Third Content"');
         $this->assertTrue($this->_matchHeader('1', 'Third Test Page', $thirdHTML), 'Third page header on third page is h1');
+        if ($cutOff) {
+            $this->assertTrue(strpos($mainHTML, 'this-should-be-cut-off') === false, 'Main content contains "this-should-be-cut-off"');
+            $this->assertTrue(strpos($mainHTML, 'this-should-be-included2') !== false, 'Main content does not contain "this-should-be-included2"');
+            $this->assertTrue(strpos($mainHTML, 'this-should-be-included3') !== false, 'Main content does not contain "this-should-be-included3"');
+        }
     }
 
     private function _matchHeader($level, $text, $html) {
@@ -68,6 +89,24 @@ class plugin_include_nested_test extends DokuWikiTest {
             '====== Third Test Page ======'.DOKU_LF.DOKU_LF
             .'Third Content'.rand().DOKU_LF.DOKU_LF
             .'{{page>third}}'.DOKU_LF,
+            'setup for test');
+    }
+
+    private function _createCutOffPages() {
+        saveWikiText('test:plugin_include:nested:start',
+            '====== Main Test Page ======'.DOKU_LF.DOKU_LF
+            .'Main Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>second}}'.DOKU_LF,
+            'setup for test');
+        saveWikiText('test:plugin_include:nested:second',
+            '====== Second Test Page ======'.DOKU_LF.DOKU_LF
+            .'Second Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>third}}this-should-be-included2{{includestop}} this-should-be-cut-off [[this-should-be-cut-off]]'.DOKU_LF,
+            'setup for test');
+        saveWikiText('test:plugin_include:nested:third',
+            '====== Third Test Page ======'.DOKU_LF.DOKU_LF
+            .'Third Content'.rand().DOKU_LF.DOKU_LF
+            .'{{page>third}}this-should-be-included3{{includestop}} this-should-be-cut-off [[this-should-be-cut-off]]'.DOKU_LF,
             'setup for test');
     }
 }
