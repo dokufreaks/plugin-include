@@ -165,7 +165,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                             }
 
                             // check for approved in summary (works only if approval plugin is enabled)
-                            if ($ch['sum'] == APPROVED) {
+                            if ($ch['sum'] == "APPROVED") {
                                 // revision found before the $REV date with APPROVAL in summary
                                 $wanted_revision = $rev;
                                 break;
