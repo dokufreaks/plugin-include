@@ -224,6 +224,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noreadmore':
                     $flags['readmore'] = 0;
                     break;
+                case 'exclude':
+                    $flags['exclude'] = $value;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -303,9 +306,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         if($flags['firstsec']) {
-            $this->_get_firstsec($ins, $page, $flags);  // only first section 
+            $this->_get_firstsec($ins, $page, $flags);  // only first section
         }
-        
+
         $ns  = getNS($page);
         $num = count($ins);
 
@@ -452,7 +455,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     } else {
                         $footer_lvl = $lvl_max;
                     }
-                } 
+                }
             }
         }
 
@@ -530,7 +533,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     /**
      * Convert instruction item for a permalink header
-     * 
+     *
      * @author Michael Klier <chi@chimeric.de>
      */
     function _permalink(&$ins, $page, $sect, $flags) {
@@ -616,11 +619,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
     }
 
-    /** 
-     * Get a section including its subsections 
+    /**
+     * Get a section including its subsections
      *
      * @author Michael Klier <chi@chimeric.de>
-     */ 
+     */
     function _get_section(&$ins, $sect) {
         $num = count($ins);
         $offset = false;
@@ -631,12 +634,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $check = array(); // used for sectionID() in order to get the same ids as the xhtml renderer
 
         for($i=0; $i<$num; $i++) {
-            if ($ins[$i][0] == 'header') { 
+            if ($ins[$i][0] == 'header') {
 
-                // found the right header 
+                // found the right header
                 if (sectionID($ins[$i][1][0], $check) == $sect) {
                     $offset = $i;
-                    $lvl    = $ins[$i][1][1]; 
+                    $lvl    = $ins[$i][1][1];
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
                     $end = $i - $offset;
                     $endpos = $ins[$i][1][2]; // the position directly after the found section, needed for the section edit button
@@ -651,7 +654,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             // store the end position in the include_closelastsecedit instruction so it can generate a matching button
             $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));
         }
-    } 
+    }
 
     /**
      * Only display the first section of a page and a readmore link
@@ -816,7 +819,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
         return $pages;
     }
-    
+
     /**
      *  Get wiki language from "HTTP_ACCEPT_LANGUAGE"
      *  We allow the pattern e.g. "ja,en-US;q=0.7,en;q=0.3"
@@ -845,18 +848,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                        break;
                    }
                }
-           }                                                                                   
-       }                                                                                       
-       return cleanID($result);                                                                
+           }
+       }
+       return cleanID($result);
     }
-    
+
     /**
      * Makes user or date dependent includes possible
      */
     function _apply_macro($id, $parent_id) {
         global $INFO;
         global $auth;
-        
+
         // if we don't have an auth object, do nothing
         if (!$auth) return $id;
 
