@@ -736,11 +736,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $pages[] = $page;
         }
 
-        $pages = array_filter($pages, function ($page) use ($flags) {
-            if (isset($flags['exclude']) && @preg_match($flags['exclude'], $page))
-                return FALSE;
-            return TRUE;
-        });
+        if (isset($flags['exclude']))
+            $pages = array_filter($pages, function ($page) use ($flags) {
+                if (@preg_match($flags['exclude'], $page))
+                    return FALSE;
+                return TRUE;
+            });
 
         if (count($pages) > 1) {
             if ($flags['order'] === 'id') {
