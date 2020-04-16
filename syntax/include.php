@@ -133,8 +133,6 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             $id = $page['id'];
             $exists = $page['exists'];
 
-            if (isset($flags['exclude']) && @preg_match($flags['exclude'], $id)) continue;
-
             if (in_array($id, $page_stack)) continue;
             array_push($page_stack, $id);
 
