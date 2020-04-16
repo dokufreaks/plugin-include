@@ -1,28 +1,28 @@
-<?php 
-/** 
- * Include Plugin: displays a wiki page within another 
- * Usage: 
- * {{page>page}} for "page" in same namespace 
- * {{page>:page}} for "page" in top namespace 
- * {{page>namespace:page}} for "page" in namespace "namespace" 
- * {{page>.namespace:page}} for "page" in subnamespace "namespace" 
- * {{page>page#section}} for a section of "page" 
- * 
- * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html) 
+<?php
+/**
+ * Include Plugin: displays a wiki page within another
+ * Usage:
+ * {{page>page}} for "page" in same namespace
+ * {{page>:page}} for "page" in top namespace
+ * {{page>namespace:page}} for "page" in namespace "namespace"
+ * {{page>.namespace:page}} for "page" in subnamespace "namespace"
+ * {{page>page#section}} for a section of "page"
+ *
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <wikidesign@gmail.com>
  * @author     Christopher Smith <chris@jalakai.co.uk>
  * @author     Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
- */ 
- 
-if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/'); 
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/'); 
-require_once(DOKU_PLUGIN.'syntax.php'); 
-  
-/** 
- * All DokuWiki plugins to extend the parser/rendering mechanism 
- * need to inherit from this class 
- */ 
-class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin { 
+ */
+
+if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../').'/');
+if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
+require_once(DOKU_PLUGIN.'syntax.php');
+
+/**
+ * All DokuWiki plugins to extend the parser/rendering mechanism
+ * need to inherit from this class
+ */
+class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
     /** @var $helper helper_plugin_include */
     var $helper = null;
@@ -53,11 +53,11 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      *
      * @param $mode mixed The current mode
      */
-    function connectTo($mode) {  
-        $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');  
-        $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include'); 
-        $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include'); 
-        $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include'); 
+    function connectTo($mode) {
+        $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');
+        $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include');
+        $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include');
+        $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include');
     }
 
     /**
@@ -74,8 +74,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $match = substr($match, 2, -2); // strip markup
         list($match, $flags) = explode('&', $match, 2);
 
-        // break the pattern up into its parts 
-        list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3); 
+        // break the pattern up into its parts
+        list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3);
         $check = false;
         if (isset($sect)) $sect = sectionID($sect, $check);
         $level = NULL;
