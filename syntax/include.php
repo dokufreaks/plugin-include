@@ -58,6 +58,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include');
+        $this->Lexer->addSpecialPattern("{{backlinks>.+?}}", $mode, 'plugin_include_include');
     }
 
     /**
