@@ -729,6 +729,26 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $pages[] = $pagearray['id'];
             }
             break;
+        case 'backlinks':
+            $page = $this->_apply_macro($page, $parent_id);
+            resolve_pageid(getNS($parent_id), $page, $exists);
+            @require_once(DOKU_INC.'inc/fulltext.php');
+            $pagearrays = ft_backlinks($page,true);
+            $this->taghelper =& plugin_load('helper', 'tag');
+            $tags = $this->taghelper->getTopic('notes', null, 'note');
+            foreach ($tags as $tag){
+                $tagss[] = $tag['id'];
+            }
+            if(!empty($pagearrays)){
+                foreach ($pagearrays as $pagearray) {
+                    if(in_array($pagearray,$tagss)){
+                        $pages[] = $pagearray;
+                    }
+                 }
+            }else{
+                $pages[] = 'dummy';
+            }
+            break;
         default:
             $page = $this->_apply_macro($page, $parent_id);
             resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
