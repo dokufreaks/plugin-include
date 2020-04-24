@@ -7,6 +7,8 @@
  * {{page>namespace:page}} for "page" in namespace "namespace"
  * {{page>.namespace:page}} for "page" in subnamespace "namespace"
  * {{page>page#section}} for a section of "page"
+ * {{backlinks>page#tag}} for backlinks to "page" tagged "tag"
+ * {{WRAP>page#class}} for WRAP of type "class" on "page", supports multiple instances
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Esther Brunner <wikidesign@gmail.com>
@@ -59,6 +61,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{tagtopic>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{backlinks>.+?}}", $mode, 'plugin_include_include');
+        $this->Lexer->addSpecialPattern("{{WRAP>.+?}}", $mode, 'plugin_include_include'); 
     }
 
     /**
