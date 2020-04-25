@@ -76,7 +76,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $flags = $this->defaults;
         foreach ($setflags as $flag) {
             $value = '';
-            if (strpos($flag, '=') !== -1) {
+            if (strpos($flag, '=') !== false) {
                 list($flag, $value) = explode('=', $flag, 2);
             }
             switch ($flag) {
