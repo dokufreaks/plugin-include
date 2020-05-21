@@ -2,7 +2,8 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Jacob Palm <jacobpalmdk@icloud.com>
  * @author Soren Birk <soer9648@eucl.dk>
  */
 $lang['noheader']              = 'Vis ikke den første header for inkluderede sider/sektioner';
@@ -34,3 +35,5 @@ $lang['order_o_indexmenu']     = 'brugerdefineret orden med indexmenu-syntaks';
 $lang['order_o_custom']        = 'brugerdefineret orden med inkludér-syntaks';
 $lang['rsort']                 = 'vend rækkefølgen for sortering af inkluderede sider';
 $lang['depth']                 = 'maksimum dybde af inkluderede navnerum, 0 for uendelig dybde';
+$lang['readmore']              = 'Vis eller skjul "Læs mere" linket hvis kun den første sektion af inkluderede sider viser';
+$lang['debugoutput']           = 'Skriv udvidet debug information til DokuWiki debugloggen, hvis den globale indstilling "allowdebug" er slået til';
