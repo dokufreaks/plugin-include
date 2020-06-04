@@ -1,0 +1,12 @@
+.travis.yaml
+lang/sl-si/lang.php
+lang/sl-si/settings.php
+_test/editx_support.test.php
+_test/include.group.php
+syntax/close_last_secedit.php
+syntax/div.php
+syntax/meta.php
+VERSION
+syntax.php
+images/tag.gif
+inc/include.php
