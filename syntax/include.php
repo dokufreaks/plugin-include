@@ -72,10 +72,10 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     function handle($match, $state, $pos, Doku_Handler $handler) {
 
         $match = substr($match, 2, -2); // strip markup
-        list($match, $flags) = explode('&', $match, 2);
+        list($match, $flags) = array_pad(explode('&', $match, 2), 2, '');
 
         // break the pattern up into its parts
-        list($mode, $page, $sect) = preg_split('/>|#/u', $match, 3);
+        list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $match, 3), 3, null);
         $check = false;
         if (isset($sect)) $sect = sectionID($sect, $check);
         $level = NULL;
