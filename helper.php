@@ -558,7 +558,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 // resolve relative ids, but without cleaning in order to preserve the name
                 $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
                 // make sure that after resolving the link again it will be the same link
-                if ($media_id{0} != ':') $media_id = ':'.$media_id;
+                if ($media_id[0] != ':') $media_id = ':'.$media_id;
                 $ins[$i][1][1]['src'] = $media_id;
             }
             switch($ins[$i][0]) {
@@ -575,7 +575,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     // resolve the id without cleaning it
                     $link_id = resolve_id($ns, $link_id, false);
                     // this id is internal (i.e. absolute) now, add ':' to make resolve_id work again
-                    if ($link_id{0} != ':') $link_id = ':'.$link_id;
+                    if ($link_id[0] != ':') $link_id = ':'.$link_id;
                     // restore parameters
                     $ins[$i][1][0] = ($link_params != '') ? $link_id.'?'.$link_params : $link_id;
 
