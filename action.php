@@ -8,10 +8,6 @@
  * @author     Christopher Smith <chris@jalakai.co.uk>  
  * @author     Michael Klier <chi@chimeric.de>
  */
-if(!defined('DOKU_INC')) die();  // no Dokuwiki, no go
- 
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'action.php');
  
 /**
  * All DokuWiki plugins to extend the parser/rendering mechanism

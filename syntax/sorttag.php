@@ -1,7 +1,5 @@
 <?php
 
-if(!defined('DOKU_INC')) die();
-
 /**
  * Include plugin sort order tag, idea and parts of the code copied from the indexmenu plugin.
  *
