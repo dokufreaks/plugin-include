@@ -6,9 +6,6 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-if (!defined('DOKU_PLUGIN'))
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-
 class syntax_plugin_include_closelastsecedit extends DokuWiki_Syntax_Plugin {
 
     function getType() {

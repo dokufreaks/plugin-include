@@ -6,8 +6,6 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-if (!defined('DOKU_INC')) die('must be used inside DokuWiki');
-
 class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
 
     function getType() {
