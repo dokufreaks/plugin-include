@@ -862,6 +862,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         // if we don't have an auth object, do nothing
         if (!$auth) return $id;
+        if ($INFO === NULL) return $id;
 
         $user     = $_SERVER['REMOTE_USER'];
         $group    = $INFO['userinfo']['grps'][0];
