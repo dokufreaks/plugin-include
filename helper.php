@@ -217,9 +217,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noreadmore':
                     $flags['readmore'] = 0;
                     break;
-                case 'exclude':
-                    $flags['exclude'] = $value;
-                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -272,7 +269,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages, $mode);
         }
         return $ins;
     }
@@ -290,18 +287,24 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array()) {
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array(), $mode) {
         global $conf;
 
-        // filter instructions if needed
-        if(!empty($sect)) {
-            $this->_get_section($ins, $sect);   // section required
-        }
+        if($mode == 'page' || $mode == 'section'){
+            // filter instructions if needed
+            if(!empty($sect)) {
+                $this->_get_section($ins, $sect);   // section required
+            }
 
-        if($flags['firstsec']) {
-            $this->_get_firstsec($ins, $page, $flags);  // only first section
+            if($flags['firstsec']) {
+                $this->_get_firstsec($ins, $page, $flags);  // only first section 
+            }
         }
-
+        
+        if($mode == 'WRAP'){
+            $this->_get_WRAP($ins, $sect);
+        }
+        
         $ns  = getNS($page);
         $num = count($ins);
 
@@ -448,7 +451,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     } else {
                         $footer_lvl = $lvl_max;
                     }
-                }
+                } 
             }
         }
 
@@ -526,7 +529,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
     /**
      * Convert instruction item for a permalink header
-     *
+     * 
      * @author Michael Klier <chi@chimeric.de>
      */
     function _permalink(&$ins, $page, $sect, $flags) {
@@ -612,11 +615,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
     }
 
-    /**
-     * Get a section including its subsections
+    /** 
+     * Get a section including its subsections 
      *
      * @author Michael Klier <chi@chimeric.de>
-     */
+     */ 
     function _get_section(&$ins, $sect) {
         $num = count($ins);
         $offset = false;
@@ -627,12 +630,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $check = array(); // used for sectionID() in order to get the same ids as the xhtml renderer
 
         for($i=0; $i<$num; $i++) {
-            if ($ins[$i][0] == 'header') {
+            if ($ins[$i][0] == 'header') { 
 
-                // found the right header
+                // found the right header 
                 if (sectionID($ins[$i][1][0], $check) == $sect) {
                     $offset = $i;
-                    $lvl    = $ins[$i][1][1];
+                    $lvl    = $ins[$i][1][1]; 
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
                     $end = $i - $offset;
                     $endpos = $ins[$i][1][2]; // the position directly after the found section, needed for the section edit button
@@ -647,7 +650,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             // store the end position in the include_closelastsecedit instruction so it can generate a matching button
             $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));
         }
-    }
+    } 
+    
 
     /**
      * Only display the first section of a page and a readmore link
@@ -685,6 +689,58 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             }
         }
     }
+    
+    /**
+     * Only show text inside given WRAPs
+     *
+     * @author Anders Jarmund <ajarmund@gmail.com>
+     */
+    function _get_WRAP(&$ins, $sect) {
+        $num = count($ins);
+        $offset = false;
+        $lvl    = false;
+        $end    = false;
+        $insideSpecificedWRAP = false;
+        $endpos = null; // end position in the input text, needed for section edit buttons
+
+        $numOfWRAPs = 0;
+        for($i=0; $i<$num; $i++) {
+            if ($ins[$i][1][0] == 'wrap_divwrap' && $ins[$i][1][1][1] == $sect) {
+                $numOfWRAPs++;
+            }
+        }
+        
+        $cc = 0; //Counter for the WRAPs
+
+        for($i=0; $i<$num; $i++) {
+            if ($ins[$i][1][0] == 'wrap_divwrap') {
+                //Found a WRAP
+                if ($ins[$i][1][1][1] == $sect) { //Found the right WRAP
+                    $offsets[$cc] = $i;
+                    $insideSpecificedWRAP    = TRUE;
+                } elseif ($offsets[$cc] && $insideSpecificedWRAP) {
+                    $ends[$cc] = $i - $offsets[$cc] + 1;
+                    $endposs[$cc] = $ins[$i][2]; // the position directly after the found section, needed for the section edit button
+                    $cc++;
+                    $insideSpecificedWRAP = FALSE;
+                } 
+            }
+        }
+        for($i=0; $i<$numOfWRAPs; $i++){
+            $offsets[$i] = $offsets[$i] ? $offsets[$i] : 0;
+            $ends[$i] = $ends[$i] ? $ends[$i] : ($num - 1);
+        }
+        if(is_array($ins)) {
+            $ins_orig = $ins;
+            $ins = array_slice($ins_orig, $offsets[0], $ends[0]);
+            for($i=1; $i<$numOfWRAPs; $i++){
+                $temp = array_slice($ins_orig, $offsets[$i], $ends[$i]);
+                foreach($temp as $temp_el){
+                    $ins[] = $temp_el;
+                }
+            }
+        }
+    } 
 
     /**
      * Gives a list of pages for a given include statement
@@ -708,6 +764,27 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 }
             }
             break;
+		case 'backlinks':
+            $key_tag = $sect;
+            $page = $this->_apply_macro($page, $parent_id);
+            resolve_pageid(getNS($parent_id), $page, $exists);
+            @require_once(DOKU_INC.'inc/fulltext.php');
+            $pagearrays = ft_backlinks($page,true);
+            $this->taghelper =& plugin_load('helper', 'tag');
+            $tags = $this->taghelper->getTopic(getNS($parent_id), null, $key_tag);
+            foreach ($tags as $tag){
+                $tagss[] = $tag['id'];
+            }
+            if(!empty($pagearrays)){
+                foreach ($pagearrays as $pagearray) {
+                    if(in_array($pagearray,$tagss)){
+                        $pages[] = $pagearray;
+                    }
+                }
+            }else{
+                $pages[] = 'nobacklinksyet';
+            }
+            break;
         case 'tagtopic':
             if (!$this->taghelper)
                 $this->taghelper =& plugin_load('helper', 'tag');
@@ -728,63 +805,54 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
         }
-
-        if (isset($flags['exclude']))
-            $pages = array_filter($pages, function ($page) use ($flags) {
-                if (@preg_match($flags['exclude'], $page))
-                    return FALSE;
-                return TRUE;
-            });
-
-        if (count($pages) > 1) {
-            if ($flags['order'] === 'id') {
-                if ($flags['rsort']) {
-                    usort($pages, array($this, '_r_strnatcasecmp'));
-                } else {
-                    natcasesort($pages);
-                }
-            } else {
-                $ordered_pages = array();
-                foreach ($pages as $page) {
-                    $key = '';
-                    switch ($flags['order']) {
-                        case 'title':
-                            $key = p_get_first_heading($page);
-                            break;
-                        case 'created':
-                            $key = p_get_metadata($page, 'date created', METADATA_DONT_RENDER);
-                            break;
-                        case 'modified':
-                            $key = p_get_metadata($page, 'date modified', METADATA_DONT_RENDER);
-                            break;
-                        case 'indexmenu':
-                            $key = p_get_metadata($page, 'indexmenu_n', METADATA_RENDER_USING_SIMPLE_CACHE);
-                            if ($key === null)
-                                $key = '';
-                            break;
-                        case 'custom':
-                            $key = p_get_metadata($page, 'include_n', METADATA_RENDER_USING_SIMPLE_CACHE);
-                            if ($key === null)
-                                $key = '';
-                            break;
+            if (count($pages) > 1) {
+                if ($flags['order'] === 'id') {
+                    if ($flags['rsort']) {
+                        usort($pages, array($this, '_r_strnatcasecmp'));
+                    } else {
+                        natcasesort($pages);
                     }
-                    $key .= '_'.$page;
-                    $ordered_pages[$key] = $page;
-                }
-                if ($flags['rsort']) {
-                    uksort($ordered_pages, array($this, '_r_strnatcasecmp'));
                 } else {
-                    uksort($ordered_pages, 'strnatcasecmp');
+                    $ordered_pages = array();
+                    foreach ($pages as $page) {
+                        $key = '';
+                        switch ($flags['order']) {
+                            case 'title':
+                                $key = p_get_first_heading($page);
+                                break;
+                            case 'created':
+                                $key = p_get_metadata($page, 'date created', METADATA_DONT_RENDER);
+                                break;
+                            case 'modified':
+                                $key = p_get_metadata($page, 'date modified', METADATA_DONT_RENDER);
+                                break;
+                            case 'indexmenu':
+                                $key = p_get_metadata($page, 'indexmenu_n', METADATA_RENDER_USING_SIMPLE_CACHE);
+                                if ($key === null)
+                                    $key = '';
+                                break;
+                            case 'custom':
+                                $key = p_get_metadata($page, 'include_n', METADATA_RENDER_USING_SIMPLE_CACHE);
+                                if ($key === null)
+                                    $key = '';
+                                break;
+                        }
+                        $key .= '_'.$page;
+                        $ordered_pages[$key] = $page;
+                    }
+                    if ($flags['rsort']) {
+                        uksort($ordered_pages, array($this, '_r_strnatcasecmp'));
+                    } else {
+                        uksort($ordered_pages, 'strnatcasecmp');
+                    }
+                    $pages = $ordered_pages;
                 }
-                $pages = $ordered_pages;
             }
-        }
-
-        $result = array();
-        foreach ($pages as $page) {
-            $exists = page_exists($page);
-            $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
-        }
+            $result = array();
+            foreach ($pages as $page) {
+                $exists = page_exists($page);
+                $result[] = array('id' => $page, 'exists' => $exists, 'parent_id' => $parent_id);
+            }
         return $result;
     }
 
@@ -819,7 +887,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
         return $pages;
     }
-
+    
     /**
      *  Get wiki language from "HTTP_ACCEPT_LANGUAGE"
      *  We allow the pattern e.g. "ja,en-US;q=0.7,en;q=0.3"
@@ -848,18 +916,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                        break;
                    }
                }
-           }
-       }
-       return cleanID($result);
+           }                                                                                   
+       }                                                                                       
+       return cleanID($result);                                                                
     }
-
+    
     /**
      * Makes user or date dependent includes possible
      */
     function _apply_macro($id, $parent_id) {
         global $INFO;
         global $auth;
-
+        
         // if we don't have an auth object, do nothing
         if (!$auth) return $id;
 
