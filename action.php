@@ -285,8 +285,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             if ($page_stack[0]['writable']) {
                 $params = array('do' => 'edit',
                     'id' => $page_stack[0]['id']);
-                if ($page_stack[0]['redirect'])
+                if ($page_stack[0]['redirect']) {
                     $params['redirect_id'] = $ID;
+                    $params['hid'] = $data['hid'];
+                }
                 $event->result = '<div class="secedit">' . DOKU_LF .
                     html_btn('incledit', $page_stack[0]['id'], '',
                         $params, 'post',
