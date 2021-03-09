@@ -857,17 +857,31 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Makes user or date dependent includes possible
      */
     function _apply_macro($id, $parent_id) {
-        global $INFO;
-        global $auth;
+        global $USERINFO;
+        /* @var Input $INPUT */
+        global $INPUT;
 
-        // if we don't have an auth object, do nothing
-        if (!$auth) return $id;
+        // The following is basicaly copied from basicinfo() because
+        // this function can be called from within pageinfo() in
+        // p_get_metadata and thus we cannot rely on $INFO being set
+        if($INPUT->server->has('REMOTE_USER')) {
+            $user  = $INPUT->server->str('REMOTE_USER');
+        } else {
+            // no registered user - use IP
+            $user = clientIP(true);
+        }
 
-        $user     = $_SERVER['REMOTE_USER'];
-        $group    = $INFO['userinfo']['grps'][0];
+        // Take user's name if possible, login name otherwise
+        if (!empty($USERINFO['name'])) {
+            $name =  $USERINFO['name'];
+        } else {
+            $name = $user;
+        }
 
-        // set group for unregistered users
-        if (!isset($group)) {
+        // Take first group if possible
+        if (!empty($USERINFO['grps'])) {
+            $group = $USERINFO['grps'][0];
+        } else {
             $group = 'ALL';
         }
 
@@ -904,7 +918,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $replace = array(
                 '@USER@'  => cleanID($user),
-                '@NAME@'  => cleanID($INFO['userinfo']['name']),
+                '@NAME@'  => cleanID($name),
                 '@GROUP@' => cleanID($group),
                 '@BROWSER_LANG@'  => $this->_get_language_of_wiki($id, $parent_id),
                 '@YEAR@'  => date('Y',$time_stamp),
