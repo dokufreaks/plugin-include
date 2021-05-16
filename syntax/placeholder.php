@@ -50,9 +50,11 @@ class syntax_plugin_include_placeholder extends DokuWiki_Syntax_Plugin {
     }
 
     /**
-     * Skip rendering of template field.
+     * Render template field as bold, italic text.
      */
     function render($format, Doku_Renderer $renderer, $data) {
+        if ($format !== 'xhtml') return false;
+        $renderer->doc .= "<i><b>{{{".$data[0]."}}}</b></i>";
         return true;
     }
 
