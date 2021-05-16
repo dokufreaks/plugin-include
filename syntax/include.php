@@ -68,31 +68,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
     function handle($match, $state, $pos, Doku_Handler $handler) {
 
         $match = substr($match, 2, -2); // strip markup
-
-        // Strip out parameters.
-        list($match, $parameter) = array_pad(preg_split('/(?<!\\\\)\\|/', $match, 2), 2, '');
-
-        $param_array = array();
-
-        if ($parameter != '') {
-            // Process parameters if exist.
-            $count = 0;
-            $parameter = preg_split('/(?<!\\\\)\\|/', $parameter);
-            foreach($parameter as $param) {
-                if (preg_match('/(?<!\\\\)=/', $param)) {
-                    // There's one '=' character: This is named parameter.
-                    list($name, $value) = preg_split('/(?<!\\\\)=/', $param, 2);
-                    $param_array[$name] = $this->_escape_value($value);
-                } else {
-                    // There's no '=' character: This is unnamed parameter.
-                    $count += 1;
-                    $param_array[strval($count)] = $this->_escape_value($param);
-                }
-            }
-        }
-
-        // Strip out flags.
-        list($match, $flags) = array_pad(preg_split('/(?<!\\\\)&/', $match, 2), 2, '');
+        list($match, $flags) = array_pad(explode('&', $match, 2), 2, '');
 
         // break the pattern up into its parts
         list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $match, 3), 3, null);
@@ -100,14 +76,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         if (isset($sect)) $sect = sectionID($sect, $check);
         $level = NULL;
 
-        return array($mode, $page, $sect, explode('&', $flags), $param_array, $level, $pos);
-    }
-
-    /**
-     * Escapes '\|', '\&', '\=', '\}' in parameter value.
-     */
-    function _escape_value($value) {
-        return preg_replace('/\\\\([|&=}])/', '\1', $value);
+        return array($mode, $page, $sect, preg_split('/(?<!\\\\)&/', $flags), $level, $pos);
     }
 
     /**
@@ -127,13 +96,13 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $parent_id = $page_stack[count($page_stack)-1];
         $root_id = $page_stack[0];
 
-        list($mode, $page, $sect, $flags, $params, $level, $pos) = $data;
+        list($mode, $page, $sect, $flags, $level, $pos) = $data;
 
         if (!$this->helper)
             $this->helper = plugin_load('helper', 'include');
         $flags = $this->helper->get_flags($flags);
 
-        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags, $params);
+        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags);
 
         if ($format == 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
@@ -144,14 +113,11 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($renderer->meta['plugin_include']);
             }
 
-            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', 'flags', 'params');
-
+            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', 'flags');
             if (!isset($renderer->meta['plugin_include']['pages']))
                $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
             $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
             $renderer->meta['plugin_include']['include_content'] = isset($_REQUEST['include_content']);
-            $renderer->meta['plugin_include']['params'] = $params;
-
         }
 
         $secids = array();
@@ -182,7 +148,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($flags['include_secid']);
             }
 
-            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $params, $root_id, $secids);
+            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
 
             if (!$flags['editbtn']) {
                 global $conf;

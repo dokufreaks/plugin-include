@@ -145,13 +145,14 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $level = 0;
         $ins =& $event->data->calls;
+        dbglog($ins);
         $num = count($ins);
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
             case 'plugin':
                 switch($ins[$i][1][0]) {
                 case 'include_include':
-                    $ins[$i][1][1][5] = $level;
+                    $ins[$i][1][1][4] = $level;
                     break;
                     /* FIXME: this doesn't work anymore that way with the new structure
                     // some plugins already close open sections
@@ -330,11 +331,12 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
     public function rewrite_include($match, $pos, $state, $plugin, helper_plugin_move_handler $handler) {
         $syntax = substr($match, 2, -2); // strip markup
+        // $replacers = explode('|', $syntax);
+        // $syntax = array_shift($replacers);
+        list($syntax, $flags) = array_pad(preg_split('/(?<!\\\\)&/', $syntax, 2), 2, null);
 
         // break the pattern up into its parts
-        list($syntax, $params) = array_pad(preg_split('/(?<!\\\\)\\|/', $syntax, 2), 2, null);
-        list($syntax, $flags) = array_pad(preg_split('/(?<!\\\\)&/', $syntax, 2), 2, null);
-        list($mode, $page, $sect) = preg_split('/>|#/', $syntax, 3);
+        list($mode, $page, $sect) = preg_split('/>|#/u', $syntax, 3);
 
         if (method_exists($handler, 'adaptRelativeId')) { // move plugin before version 2015-05-16
             $newpage = $handler->adaptRelativeId($page);
@@ -349,10 +351,13 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $result = '{{'.$mode.'>'.$newpage;
             if ($sect) $result .= '#'.$sect;
             if ($flags) $result .= '&'.$flags;
-            if ($params) $result .= '|'.$params;
-            $result .= '}}';
-            return $result;
+            // if ($replacers) $result .= '|'.$replacers;
+
+        $result .= '}}';
+        return $result;
         }
+        
     }
+
 }
 // vim:ts=4:sw=4:et:

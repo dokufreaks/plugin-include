@@ -220,6 +220,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'exclude':
                     $flags['exclude'] = $value;
                     break;
+                case 'parameters':
+                    $flags['parameters'] = $this->_parse_parameter_string($value);
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -229,12 +232,43 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
     }
 
     /**
+     * Parse parameter flag value into array, to create 'dictionary' of replace values.
+     */
+    function _parse_parameter_string($value) {
+
+        $param_array = array();
+
+        $count = 0;
+        $value = preg_split('/(?<!\\\\)\\|/', $value);
+        foreach($value as $param) {
+            if (preg_match('/(?<!\\\\)=/', $param)) {
+                // There's one '=' character: This is named parameter.
+                list($name, $value) = preg_split('/(?<!\\\\)=/', $param, 2);
+                $param_array[$name] = $this->_escape_value($value);
+            } else {
+                // There's no '=' character: This is unnamed parameter.
+                $count += 1;
+                $param_array[strval($count)] = $this->_escape_value($param);
+            }
+        }
+
+        return $param_array;
+    }
+
+    /**
+     * Escapes '\|', '\&', '\=', '\}' in parameter value.
+     */
+    function _escape_value($value) {
+        return preg_replace('/\\\\([|&=}])/', '\1', $value);
+    }
+
+    /**
      * Returns the converted instructions of a give page/section
      *
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags, $params, $root_id = null, $included_pages = array()) {
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = array()) {
         $key = ($sect) ? $page . '#' . $sect : $page;
         $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
 
@@ -272,7 +306,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 $ins = array();
             }
 
-            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $params, $root_id, $included_pages);
+            $this->_convert_instructions($ins, $lvl, $page, $sect, $flags, $root_id, $included_pages);
         }
         return $ins;
     }
@@ -290,8 +324,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $params, $root_id, $included_pages = array()) {
-
+    function _convert_instructions(&$ins, $lvl, $page, $sect, $flags, $root_id, $included_pages = array()) {
         global $conf;
 
         // filter instructions if needed
@@ -367,19 +400,21 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                             break;
                         // adapt indentation level of nested includes
                         case 'include_include':
-                            if (!$flags['inline'] && $flags['indent']) {
+                            if (!$flags['inline'] && $flags['indent'])
                                 $ins[$i][1][1][4] += $lvl;
-                            }
                             break;
                         case 'include_placeholder':
-                            if (array_key_exists($ins[$i][1][1][0], $params)) {
+                            if (array_key_exists($ins[$i][1][1][0], $flags['parameters'])) {
                                 $ins[$i] = array(
                                     "cdata",
-                                    array($params[$ins[$i][1][1][0]]),
+                                    array($flags['parameters'][$ins[$i][1][1][0]]),
                                     $ins[$i][1][1][1]
                                 );
+                            } else {
+                                unset($ins[$i]);
                             }
                             break;
+    
                         /*
                          * if there is already a closelastsecedit instruction (was added by one of the section
                          * functions), store its position but delete it as it can't be determined yet if it is needed,
@@ -702,7 +737,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_included_pages($mode, $page, $sect, $parent_id, $flags, $params) {
+    function _get_included_pages($mode, $page, $sect, $parent_id, $flags) {
         global $conf;
         $pages = array();
         switch($mode) {
@@ -826,8 +861,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $sect      = $instruction['sect'];
             $parent_id = $instruction['parent_id'];
             $flags     = $instruction['flags'];
-            $params    = $instruction['params'];
-            $pages = array_merge($pages, $this->_get_included_pages($mode, $page, $sect, $parent_id, $flags, $params));
+            $pages = array_merge($pages, $this->_get_included_pages($mode, $page, $sect, $parent_id, $flags));
         }
         return $pages;
     }
