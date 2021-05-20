@@ -330,9 +330,9 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
     public function rewrite_include($match, $pos, $state, $plugin, helper_plugin_move_handler $handler) {
         $syntax = substr($match, 2, -2); // strip markup
-        $replacers = explode('|', $syntax);
-        $syntax = array_shift($replacers);
-        list($syntax, $flags) = explode('&', $syntax, 2);
+        // $replacers = explode('|', $syntax);
+        // $syntax = array_shift($replacers);
+        list($syntax, $flags) = array_pad(preg_split('/(?<!\\\\)&/', $syntax, 2), 2, null);
 
         // break the pattern up into its parts
         list($mode, $page, $sect) = preg_split('/>|#/u', $syntax, 3);
@@ -350,10 +350,13 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $result = '{{'.$mode.'>'.$newpage;
             if ($sect) $result .= '#'.$sect;
             if ($flags) $result .= '&'.$flags;
-            if ($replacers) $result .= '|'.$replacers;
-            $result .= '}}';
-            return $result;
+            // if ($replacers) $result .= '|'.$replacers;
+
+        $result .= '}}';
+        return $result;
         }
+        
     }
+
 }
 // vim:ts=4:sw=4:et:

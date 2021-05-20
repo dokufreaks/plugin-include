@@ -220,12 +220,46 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'exclude':
                     $flags['exclude'] = $value;
                     break;
+                case 'parameters':
+                    $flags['parameters'] = $this->_parse_parameter_string($value);
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
         if (isset($_REQUEST['include_content']))
             $flags['linkonly'] = 0;
         return $flags;
+    }
+
+    /**
+     * Parse parameter flag value into array, to create 'dictionary' of replace values.
+     */
+    function _parse_parameter_string($value) {
+
+        $param_array = array();
+
+        $count = 0;
+        $value = preg_split('/(?<!\\\\)\\|/', $value);
+        foreach($value as $param) {
+            if (preg_match('/(?<!\\\\)=/', $param)) {
+                // There's one '=' character: This is named parameter.
+                list($name, $value) = preg_split('/(?<!\\\\)=/', $param, 2);
+                $param_array[$name] = $this->_escape_value($value);
+            } else {
+                // There's no '=' character: This is unnamed parameter.
+                $count += 1;
+                $param_array[strval($count)] = $this->_escape_value($param);
+            }
+        }
+
+        return $param_array;
+    }
+
+    /**
+     * Escapes '\|', '\&', '\=', '\}' in parameter value.
+     */
+    function _escape_value($value) {
+        return preg_replace('/\\\\([|&=}])/', '\1', $value);
     }
 
     /**
@@ -369,6 +403,18 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                             if (!$flags['inline'] && $flags['indent'])
                                 $ins[$i][1][1][4] += $lvl;
                             break;
+                        case 'include_placeholder':
+                            if (array_key_exists($ins[$i][1][1][0], $flags['parameters'])) {
+                                $ins[$i] = array(
+                                    "cdata",
+                                    array($flags['parameters'][$ins[$i][1][1][0]]),
+                                    $ins[$i][1][1][1]
+                                );
+                            } else {
+                                unset($ins[$i]);
+                            }
+                            break;
+    
                         /*
                          * if there is already a closelastsecedit instruction (was added by one of the section
                          * functions), store its position but delete it as it can't be determined yet if it is needed,
