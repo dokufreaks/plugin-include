@@ -145,7 +145,6 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
 
         $level = 0;
         $ins =& $event->data->calls;
-        dbglog($ins);
         $num = count($ins);
         for($i=0; $i<$num; $i++) {
             switch($ins[$i][0]) {
