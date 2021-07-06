@@ -12,7 +12,8 @@ class plugin_include_locallink_conversion_test extends DokuWikiTest {
     /** @var helper_plugin_include $helper */
     private $helper;
 
-    public function setUp() {
+    public function setUp() : void
+    {
         $this->pluginsEnabled[] = 'include';
         parent::setUp();
 

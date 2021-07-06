@@ -17,9 +17,10 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
     /**
      * Setup - enable and load the include plugin and create the test pages
      */
-    public function setup() {
+    public function setUp() : void
+    {
         $this->pluginsEnabled[] = 'include';
-        parent::setup(); // this enables the include plugin
+        parent::setUp(); // this enables the include plugin
         $this->helper = plugin_load('helper', 'include');
 
         global $conf;
