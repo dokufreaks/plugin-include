@@ -220,6 +220,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'exclude':
                     $flags['exclude'] = $value;
                     break;
+                case 'noinstructionscache':
+                    $flags['noinstructionscache'] = 1;
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -266,7 +269,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 global $ID;
                 $backupID = $ID;
                 $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
-                $ins = p_cached_instructions(wikiFN($page), false, $page);
+                if ($flags['noinstructionscache']) {
+                    $ins = p_get_instructions(io_readWikiPage(wikiFN($page), $page));
+                } else {
+                    $ins = p_cached_instructions(wikiFN($page), false, $page);
+                }
                 $ID = $backupID;
             } else {
                 $ins = array();
