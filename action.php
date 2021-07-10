@@ -30,9 +30,15 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
         $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handle_indexer_version');
       $controller->register_hook('PARSER_CACHE_USE','BEFORE', $this, '_cache_prepare');
-      $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
-      $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
-      $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form');
+      /* Before 2020-10-13 */
+      $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_html_form');
+      $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_html_form');
+      $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_html_form');
+      /* After 2020-10-13 */
+      $controller->register_hook('FORM_EDIT_OUTPUT', 'BEFORE', $this, 'handle_form');
+      $controller->register_hook('FORM_CONFLICT_OUTPUT', 'BEFORE', $this, 'handle_form');
+      $controller->register_hook('FORM_DRAFT_OUTPUT', 'BEFORE', $this, 'handle_form');
+
       $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
       $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
       $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
@@ -172,9 +178,18 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
     /**
      * Add a hidden input to the form to preserve the redirect_id
      */
-    function handle_form(Doku_Event &$event, $param) {
+    function handle_html_form(Doku_Event &$event, $param) {
       if (array_key_exists('redirect_id', $_REQUEST)) {
         $event->data->addHidden('redirect_id', cleanID($_REQUEST['redirect_id']));
+      }
+    }
+
+    /**
+     * Add a hidden input to the form to preserve the redirect_id
+     */
+    function handle_form(Doku_Event &$event, $param) {
+      if (array_key_exists('redirect_id', $_REQUEST)) {
+        $event->data->setHiddenField('redirect_id', cleanID($_REQUEST['redirect_id']));
       }
     }
 
@@ -276,8 +291,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             if ($page_stack[0]['writable']) {
                 $params = array('do' => 'edit',
                     'id' => $page_stack[0]['id']);
-                if ($page_stack[0]['redirect'])
+                if ($page_stack[0]['redirect']) {
                     $params['redirect_id'] = $ID;
+                    $params['hid'] = $data['hid'];
+                }
                 $event->result = '<div class="secedit">' . DOKU_LF .
                     html_btn('incledit', $page_stack[0]['id'], '',
                         $params, 'post',
