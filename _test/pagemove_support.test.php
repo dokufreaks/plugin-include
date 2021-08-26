@@ -7,10 +7,11 @@
  * @group plugins
  */
 class plugin_include_pagemove_support_test extends DokuWikiTest {
-    public function setup() {
+    public function setUp() : void
+    {
         $this->pluginsEnabled[] = 'move';
         $this->pluginsEnabled[] = 'include';
-        parent::setup();
+        parent::setUp();
     }
 
     public function test_relative_include() {

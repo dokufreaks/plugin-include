@@ -13,9 +13,10 @@ class plugin_include_nested_test extends DokuWikiTest {
         'test:plugin_include:nested:third'
     );
 
-    public function setup() {
+    public function setUp() : void
+    {
         $this->pluginsEnabled[] = 'include';
-        parent::setup();
+        parent::setUp();
     }
 
     public function test_outer_to_inner() {

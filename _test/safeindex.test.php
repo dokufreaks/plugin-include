@@ -4,9 +4,10 @@
  * @group plugins
  */
 class plugin_include_safeindex_test extends DokuWikiTest {
-    public function setup() {
+    public function setUp() : void
+    {
         $this->pluginsEnabled[] = 'include';
-        parent::setup();
+        parent::setUp();
     }
 
     public function test_safeindex() {
