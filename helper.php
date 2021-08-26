@@ -46,6 +46,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
         $this->defaults['readmore']  = $this->getConf('readmore');
+        $this->defaults['noinstructionscache']  = $this->getConf('noinstructionscache');
     }
 
     /**
