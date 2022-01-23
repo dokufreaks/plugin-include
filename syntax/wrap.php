@@ -30,18 +30,19 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
      */
     function render($mode, Doku_Renderer $renderer, $data) {
         if ($mode == 'xhtml') {
-            list($state, $page, $redirect, $secid) = $data;
+            $state = array_shift($data);
             switch($state) {
                 case 'open':
+                    list($page, $redirect, $secid) = $data;
                     if ($redirect) {
                         if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
-                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start', 'name' => $page));
+                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start', 'name' => $page, 'hid' => ''));
                         } else {
                             $renderer->startSectionEdit(0, 'plugin_include_start', $page);
                         }
                     } else {
                         if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
-                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start_noredirect', 'name' => $page));
+                            $renderer->startSectionEdit(0, array('target' => 'plugin_include_start_noredirect', 'name' => $page, 'hid' => ''));
                         } else {
                             $renderer->startSectionEdit(0, 'plugin_include_start_noredirect', $page);
                         }
@@ -50,7 +51,7 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
                     // Start a new section with type != section so headers in the included page
                     // won't print section edit buttons of the parent page
                     if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
-                        $renderer->startSectionEdit(0, array('target' => 'plugin_include_end', 'name' => $page));
+                        $renderer->startSectionEdit(0, array('target' => 'plugin_include_end', 'name' => $page, 'hid' => ''));
                     } else {
                         $renderer->startSectionEdit(0, 'plugin_include_end', $page);
                     }

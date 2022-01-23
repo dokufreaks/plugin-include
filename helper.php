@@ -457,9 +457,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             array_push($ins, array('plugin', array('include_closelastsecedit', array($endpos))));
         }
 
+        $include_secid = (isset($flags['include_secid']) ? $flags['include_secid'] : NULL);
+
         // add edit button
         if($flags['editbtn']) {
-            $this->_editbtn($ins, $page, $sect, $sect_title, ($flags['redirect'] ? $root_id : false));
+            $this->_editbtn($ins, $page, $sect, $sect_title, ($flags['redirect'] ? $root_id : false), $include_secid);
         }
 
         // add footer
@@ -484,7 +486,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         }
 
         // add instructions entry wrapper
-        $include_secid = (isset($flags['include_secid']) ? $flags['include_secid'] : NULL);
         array_unshift($ins, array('plugin', array('include_wrap', array('open', $page, $flags['redirect'], $include_secid))));
         if (isset($flags['beforeeach']))
             array_unshift($ins, array('entity', array($flags['beforeeach'])));
@@ -516,11 +517,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function _editbtn(&$ins, $page, $sect, $sect_title, $root_id) {
+    function _editbtn(&$ins, $page, $sect, $sect_title, $root_id, $hid = '') {
         $title = ($sect) ? $sect_title : $page;
         $editbtn = array();
         $editbtn[0] = 'plugin';
-        $editbtn[1] = array('include_editbtn', array($title));
+        $editbtn[1] = array('include_editbtn', array($title, $hid));
         $ins[] = $editbtn;
     }
 
