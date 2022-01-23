@@ -343,10 +343,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         $syntax = substr($match, 2, -2); // strip markup
         $replacers = explode('|', $syntax);
         $syntax = array_shift($replacers);
-        list($syntax, $flags) = explode('&', $syntax, 2);
+        list($syntax, $flags) = array_pad(explode('&', $syntax, 2), 2, "");
 
         // break the pattern up into its parts
-        list($mode, $page, $sect) = preg_split('/>|#/u', $syntax, 3);
+        list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $syntax, 3), 3, "");
 
         if (method_exists($handler, 'adaptRelativeId')) { // move plugin before version 2015-05-16
             $newpage = $handler->adaptRelativeId($page);
