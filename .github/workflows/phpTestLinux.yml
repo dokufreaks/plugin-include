@@ -1,0 +1,52 @@
+name: PHP Tests on Linux
+
+on: [push, pull_request]
+
+jobs:
+    testLinux:
+        name: PHP ${{ matrix.php-versions }} DokuWiki ${{ matrix.dokuwiki-branch }}
+        runs-on: ubuntu-latest
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+
+        strategy:
+            matrix:
+                php-versions: ['7.2', '7.3', '7.4', '8.0']
+                dokuwiki-branch: [ 'master', 'stable']
+                exclude:
+                    -   dokuwiki-branch: 'stable'
+                        php-versions: '8.0'
+            fail-fast: false
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-versions }}
+                  extensions: mbstring, intl, PDO, pdo_sqlite, bz2
+
+            - name: Setup problem matchers
+              run: |
+                echo ::add-matcher::${{ runner.tool_cache }}/php.json
+                echo ::add-matcher::${{ runner.tool_cache }}/phpunit.json
+
+            - name: Download DokuWiki Test-setup
+              run: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
+
+            - name: Run DokuWiki Test-setup
+              env:
+                  CI_SERVER: 1
+                  DOKUWIKI: ${{ matrix.dokuwiki-branch }}
+              run: sh travis.sh
+
+            - name: Setup PHPUnit
+              run: |
+                  php _test/fetchphpunit.php
+                  cd _test
+
+            - name: Run PHPUnit
+              run: |
+                cd _test
+                php phpunit.phar --verbose --stderr --group plugin_include

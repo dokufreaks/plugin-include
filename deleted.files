@@ -10,3 +10,4 @@ VERSION
 syntax.php
 images/tag.gif
 inc/include.php
+.travis.yml
