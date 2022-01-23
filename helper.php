@@ -711,7 +711,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             break;
         case 'tagtopic':
             if (!$this->taghelper)
-                $this->taghelper =& plugin_load('helper', 'tag');
+                $this->taghelper = plugin_load('helper', 'tag');
             if(!$this->taghelper) {
                 msg('You have to install the tag plugin to use this functionality!', -1);
                 return array();

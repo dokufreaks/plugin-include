@@ -76,7 +76,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      */
     function _get_firsttag($page) {
-        if(plugin_isdisabled('tag') || (!$taghelper =& plugin_load('helper', 'tag'))) {
+        if(plugin_isdisabled('tag') || (!plugin_load('helper', 'tag'))) {
             return false;
         }
         $subject = p_get_metadata($page, 'subject');

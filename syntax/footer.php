@@ -101,13 +101,13 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         }
 
         // comments - let Discussion Plugin do the work for us
-        if (empty($sect) && $flags['comments'] && (!plugin_isdisabled('discussion')) && ($discussion =& plugin_load('helper', 'discussion'))) {
+        if (empty($sect) && $flags['comments'] && (!plugin_isdisabled('discussion')) && ($discussion = plugin_load('helper', 'discussion'))) {
             $disc = $discussion->td($page);
             if ($disc) $xhtml[] = '<span class="comment">' . $disc . '</span>';
         }
 
         // linkbacks - let Linkback Plugin do the work for us
-        if (empty($sect) && $flags['linkbacks'] && (!plugin_isdisabled('linkback')) && ($linkback =& plugin_load('helper', 'linkback'))) {
+        if (empty($sect) && $flags['linkbacks'] && (!plugin_isdisabled('linkback')) && ($linkback = plugin_load('helper', 'linkback'))) {
             $link = $linkback->td($page);
             if ($link) $xhtml[] = '<span class="linkback">' . $link . '</span>';
         }
@@ -115,7 +115,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         $xhtml = implode(DOKU_LF . DOKU_TAB . '&middot; ', $xhtml);
 
         // tags - let Tag Plugin do the work for us
-        if (empty($sect) && $flags['tags'] && (!plugin_isdisabled('tag')) && ($tag =& plugin_load('helper', 'tag'))) {
+        if (empty($sect) && $flags['tags'] && (!plugin_isdisabled('tag')) && ($tag = plugin_load('helper', 'tag'))) {
             $tags = $tag->td($page);
             if($tags) {
                 $xhtml .= '<div class="tags"><span>' . DOKU_LF
