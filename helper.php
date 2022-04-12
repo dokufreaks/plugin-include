@@ -392,6 +392,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $diff = $lvl - $lvl_max + 1;
         if ($no_header) $diff -= 1;  // push up one level if "noheader"
 
+		// rawsections=TRUE places a wiki section at the level that was defined within the wiki page - no relative reposition is done.
+		if ($this->getConf('rawsections')) {
+			$diff = 0;
+		}
+
         // convert headers and set footer/permalink
         $hdr_deleted      = false;
         $has_permalink    = false;
