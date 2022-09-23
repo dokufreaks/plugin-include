@@ -1,41 +1,82 @@
 <?php
+
 /**
  * English language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Esther Brunner <wikidesign@gmail.com>
+ *
+ * @author immigration Lawyer Istanbul <rene_estep@inbox.com>
+ * @author Esther Brunner <wikidesign@gmail.com>
  */
- 
-// for the configuration manager
-$lang['noheader']      = 'Don\'t show the first header of included pages/sections';
-$lang['firstseconly']  = 'Show only the first section of included pages';
-$lang['showtaglogos']  = 'Show image for first tag';
-$lang['showfooter']    = 'Show info about included page below';
-$lang['showlink']      = 'Link first headline of included page';
-$lang['showpermalink'] = 'Show permalinks below included page';
-$lang['showdate']      = 'Show dates below included page';
-$lang['showmdate']     = 'Show modified dates below included page';
-$lang['showuser']      = 'Show usernames below included page';
-$lang['showcomments']  = 'Show comments below included page (Discussion plugin needed)';
-$lang['showlinkbacks'] = 'Show linkbacks below included page (Linkback Plugin needed)';
-$lang['showtags']      = 'Show tags below included page (Tag Plugin needed)';
-$lang['showeditbtn']   = 'Show edit button';
-$lang['doredirect']    = 'Redirect to the original page after editing the included page';
-$lang['doindent']      = 'Indent included pages relative to the page they get included in';
-$lang['linkonly']      = 'Link only to the included page instead of showing the content';
-$lang['title']         = 'Use first heading of page in link even if useheading is off (only affects linkonly mode)';
-$lang['pageexists']    = 'Do not display a link if the page does not exist (only affects linkonly mode)';
-$lang['parlink']       = 'Put a paragraph around the link (only affects linkonly mode)';
-$lang['safeindex']     = 'Prevent indexing of metadata from non-public included pages';
-$lang['order']         = 'Ordering criteria of includes with multiple pages';
-$lang['order_o_id']    = 'page ID';
-$lang['order_o_title'] = 'title';
-$lang['order_o_created'] = 'creation date';
-$lang['order_o_modified'] = 'modification date';
-$lang['order_o_indexmenu'] = 'custom order with indexmenu syntax';
-$lang['order_o_custom'] = 'custom order with include syntax';
-$lang['rsort']         = 'Reverse the sort order of the included pages';
-$lang['depth']         = 'Maximum depth of namespace includes, 0 for unlimited depth';
-$lang['readmore']       = 'Show or not the \'Read More\' link in case of firstsection only';
-$lang['debugoutput']    = 'Print verbose debug information to the dokuwiki debuglog if the global "allowdebug" option is enabled';
-//Setup VIM: ex: et ts=2 :
+$lang['noheader']              = 'I am the new girl';
+$lang['firstseconly']          = 'My partner and I stumbled over here  different web address and thought 
+I should check things out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['showtaglogos']          = '27';
+$lang['showfooter']            = 'I\'m Rene (19) from Chambery, France. 
+I\'m learning Russian literature at a local college and I\'m just about to graduate.
+I have a part time job in a post office.';
+$lang['showlink']              = 'https://www.wiklundkurucuk.com/turkey-citizenship-by-investment/index.php/2016/06/23/free-south-african-visa-assessment/';
+$lang['showpermalink']         = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you.
+
+Look forward to looking at your web page yet again.';
+$lang['showdate']              = 'My partner and I stumbled over here  different web address and thought 
+I should check things out. I like what I see so now i\'m following you.
+
+Look forward to looking at your web page yet again.';
+$lang['showmdate']             = 'My partner and I stumbled over here  different web address and thought I 
+should check things out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['showuser']              = 'My partner and I stumbled over here  different 
+web address and thought I should check things 
+out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['showcomments']          = 'My partner and I stumbled over here  different web address and 
+thought I should check things out. I like what 
+I see so now i\'m following you. Look forward to looking at your web page yet again.';
+$lang['showlinkbacks']         = 'My partner and I stumbled over here  different web address and thought I should check things out.
+
+I like what I see so now i\'m following you. Look forward to looking at your web page yet 
+again.';
+$lang['showtags']              = '16';
+$lang['showeditbtn']           = 'My partner and I stumbled over here  different web address and thought I should check things 
+out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['doredirect']            = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you.
+
+Look forward to looking at your web page yet again.';
+$lang['doindent']              = 'My partner and I stumbled over here  different 
+web address and thought I should check things out. I like what I see so now i\'m following you.
+
+Look forward to looking at your web page yet again.';
+$lang['linkonly']              = 'https://www.wiklundkurucuk.com/turkey-citizenship-by-investment/index.php/2016/06/23/free-south-african-visa-assessment/';
+$lang['title']                 = 'I am the new girl';
+$lang['pageexists']            = 'https://www.wiklundkurucuk.com/turkey-citizenship-by-investment/index.php/2016/06/23/free-south-african-visa-assessment/';
+$lang['parlink']               = 'https://www.wiklundkurucuk.com/turkey-citizenship-by-investment/index.php/2016/06/23/free-south-african-visa-assessment/';
+$lang['safeindex']             = 'Rene';
+$lang['order']                 = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you. Look forward to looking at your web page yet again.';
+$lang['order_o_id']            = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['order_o_title']         = 'title';
+$lang['order_o_created']       = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['order_o_modified']      = 'My partner and I stumbled over here  different web 
+address and thought I should check things out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
+$lang['order_o_indexmenu']     = 'My partner and I stumbled over here  different web address and thought I should 
+check things out. I like what I see so now i\'m following 
+you. Look forward to looking at your web page yet again.';
+$lang['order_o_custom']        = 'My partner and I stumbled over here  different web address and thought I should check things out.
+I like what I see so now i\'m following you. Look forward to 
+looking at your web page yet again.';
+$lang['rsort']                 = 'Chambery';
+$lang['depth']                 = 'Rene';
+$lang['readmore']              = 'https://www.wiklundkurucuk.com/turkey-citizenship-by-investment/index.php/2016/06/23/free-south-african-visa-assessment/';
+$lang['debugoutput']           = 'My partner and I stumbled over here  different web address and thought I should 
+check things out. I like what I see so now i\'m following you.
+Look forward to looking at your web page yet again.';
