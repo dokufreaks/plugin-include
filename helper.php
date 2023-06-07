@@ -406,6 +406,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                                 $ins[$i][1][1][4] += $lvl;
                             break;
                         case 'include_placeholder':
+                            if (!isset($flags['parameters']))
+                                break;
+                                
                             if (array_key_exists($ins[$i][1][1][0], $flags['parameters'])) {
                                 
                                 // Call dokuwiki parser to get instructions of included text.
