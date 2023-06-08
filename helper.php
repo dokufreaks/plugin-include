@@ -222,6 +222,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     $flags['exclude'] = $value;
                     break;
                 case 'parameters':
+                case 'params':
                     $flags['parameters'] = $this->_parse_parameter_string($value);
                     break;
             }
