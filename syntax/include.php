@@ -84,90 +84,19 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      * @author Michael Hamann <michael@content-space.de>
      */
     function render($format, Doku_Renderer $renderer, $data) {
-        global $ID;
-
-        // static stack that records all ancestors of the child pages
-        static $page_stack = array();
-
-        // when there is no id just assume the global $ID is the current id
-        if (empty($page_stack)) $page_stack[] = $ID;
-
-        $parent_id = $page_stack[count($page_stack)-1];
-        $root_id = $page_stack[0];
+        if (!$this->helper)
+            $this->helper = plugin_load('helper', 'include');
 
         list($mode, $page, $sect, $flags, $level, $pos) = $data;
 
-        if (!$this->helper)
-            $this->helper = plugin_load('helper', 'include');
-        $flags = $this->helper->get_flags($flags);
+        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $this->helper->get_page_stack_parent_id(), $flags);
 
-        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags);
-
-        if ($format == 'metadata') {
-            /** @var Doku_Renderer_metadata $renderer */
-
-            // remove old persistent metadata of previous versions of the include plugin
-            if (isset($renderer->persistent['plugin_include'])) {
-                unset($renderer->persistent['plugin_include']);
-                unset($renderer->meta['plugin_include']);
-            }
-
-            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', 'flags');
-            if (!isset($renderer->meta['plugin_include']['pages']))
-               $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
-            $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
-            $renderer->meta['plugin_include']['include_content'] = isset($_REQUEST['include_content']);
-        }
-
-        $secids = array();
-        if ($format == 'xhtml' || $format == 'odt') {
-            $secids = p_get_metadata($ID, 'plugin_include secids');
-        }
-
-        foreach ($pages as $page) {
-            extract($page);
-            $id = $page['id'];
-            $exists = $page['exists'];
-
-            if (in_array($id, $page_stack)) continue;
-            array_push($page_stack, $id);
-
-            // add references for backlink
-            if ($format == 'metadata') {
-                $renderer->meta['relation']['references'][$id] = $exists;
-                $renderer->meta['relation']['haspart'][$id]    = $exists;
-                if (!$sect && !$flags['firstsec'] && !$flags['linkonly'] && !isset($renderer->meta['plugin_include']['secids'][$id])) {
-                    $renderer->meta['plugin_include']['secids'][$id] = array('hid' => 'plugin_include__'.str_replace(':', '__', $id), 'pos' => $pos);
-                }
-            }
-
-            if (isset($secids[$id]) && $pos === $secids[$id]['pos']) {
-                $flags['include_secid'] = $secids[$id]['hid'];
-            } else {
-                unset($flags['include_secid']);
-            }
-
-            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
-
-            if (!$flags['editbtn']) {
-                global $conf;
-                $maxseclevel_org = $conf['maxseclevel'];
-                $conf['maxseclevel'] = 0;
-            }
-            $renderer->nest($instructions);
-            if (isset($maxseclevel_org)) {
-                $conf['maxseclevel'] = $maxseclevel_org;
-                unset($maxseclevel_org);
-            }
-
-            array_pop($page_stack);
-        }
-
-        // When all includes have been handled remove the current id
-        // in order to allow the rendering of other pages
-        if (count($page_stack) == 1) array_pop($page_stack);
-
-        return true;
+        $this->helper->render(
+            $format, $renderer,
+            $pages,
+            $mode, $page, $sect, $flags, $level, $pos
+        );
     }
+
 }
 // vim:ts=4:sw=4:et:

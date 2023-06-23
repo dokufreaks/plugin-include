@@ -937,5 +937,118 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 );
         return str_replace(array_keys($replace), array_values($replace), $id);
     }
+
+    function renderPagelist(string $format, Doku_Renderer $renderer, array $pages, array $flags = []) {
+        return $this->_render(
+            $format, $renderer, $pages,
+            'pagelist', null, null, $flags, null, 0
+        );
+    }
+
+    /**
+     * Renders the included page(s)
+     *
+     * @author Michael Hamann <michael@content-space.de>
+     */
+    function _render(
+        string $format, Doku_Renderer $renderer,
+        array $pages,
+        string $mode, ?string $page, ?string $sect, array $flags, ?int $level, int $pos
+    ) {
+        global $ID;
+
+        $page_stack = $this->get_page_stack();
+        $parent_id = $this->get_page_stack_parent_id();
+        $root_id = $this->get_page_stack_root_id();
+
+        $flags = $this->get_flags($flags);
+
+        if ($format == 'metadata') {
+            /** @var Doku_Renderer_metadata $renderer */
+
+            // remove old persistent metadata of previous versions of the include plugin
+            if (isset($renderer->persistent['plugin_include'])) {
+                unset($renderer->persistent['plugin_include']);
+                unset($renderer->meta['plugin_include']);
+            }
+
+            $renderer->meta['plugin_include']['instructions'][] = compact('mode', 'page', 'sect', 'parent_id', 'flags');
+            if (!isset($renderer->meta['plugin_include']['pages']))
+               $renderer->meta['plugin_include']['pages'] = array(); // add an array for array_merge
+            $renderer->meta['plugin_include']['pages'] = array_merge($renderer->meta['plugin_include']['pages'], $pages);
+            $renderer->meta['plugin_include']['include_content'] = isset($_REQUEST['include_content']);
+        }
+
+        $secids = array();
+        if ($format == 'xhtml' || $format == 'odt') {
+            $secids = p_get_metadata($ID, 'plugin_include secids');
+        }
+
+        foreach ($pages as $page) {
+            extract($page);
+            $id = $page['id'];
+            $exists = $page['exists'];
+
+            if (in_array($id, $page_stack)) continue;
+            array_push($page_stack, $id);
+
+            // add references for backlink
+            if ($format == 'metadata') {
+                $renderer->meta['relation']['references'][$id] = $exists;
+                $renderer->meta['relation']['haspart'][$id]    = $exists;
+                if (!$sect && !$flags['firstsec'] && !$flags['linkonly'] && !isset($renderer->meta['plugin_include']['secids'][$id])) {
+                    $renderer->meta['plugin_include']['secids'][$id] = array('hid' => 'plugin_include__'.str_replace(':', '__', $id), 'pos' => $pos);
+                }
+            }
+
+            if (isset($secids[$id]) && $pos === $secids[$id]['pos']) {
+                $flags['include_secid'] = $secids[$id]['hid'];
+            } else {
+                unset($flags['include_secid']);
+            }
+
+            $instructions = $this->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
+
+            if (!$flags['editbtn']) {
+                global $conf;
+                $maxseclevel_org = $conf['maxseclevel'];
+                $conf['maxseclevel'] = 0;
+            }
+            $renderer->nest($instructions);
+            if (isset($maxseclevel_org)) {
+                $conf['maxseclevel'] = $maxseclevel_org;
+                unset($maxseclevel_org);
+            }
+
+            array_pop($page_stack);
+        }
+
+        // When all includes have been handled remove the current id
+        // in order to allow the rendering of other pages
+        if (count($page_stack) == 1) array_pop($page_stack);
+
+        return true;
+    }
+
+    /**
+     * Static stack that records all ancestors of the child pages
+     */
+    function &get_page_stack() {
+        global $ID;
+
+        static $page_stack = null;
+        $page_stack = $page_stack ?? [$ID];
+
+        return $page_stack;
+    }
+
+    function get_page_stack_root_id() {
+        return $this->get_page_stack()[0];
+    }
+
+    function get_page_stack_parent_id() {
+        $page_stack = $this->get_page_stack();
+        return $page_stack[count($page_stack) - 1];
+    }
 }
 // vim:ts=4:sw=4:et:
