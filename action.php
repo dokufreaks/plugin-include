@@ -282,7 +282,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
         } elseif ($data['target'] == 'plugin_include_editbtn') {
-            if (is_array($page_stack) && isset($page_stack[0]) && $page_stack[0]['writable']) {
+            if ($page_stack[0]['writable'] ?? false) {
                 $params = array('do' => 'edit',
                     'id' => $page_stack[0]['id']);
                 if ($page_stack[0]['redirect']) {
