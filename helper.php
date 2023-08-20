@@ -587,7 +587,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         if (count($link_parts) === 1) {
                             $resolver = new PageResolver($ns);
                             $link_id = $resolver->resolveID($link_id);
-                            $exists = page_exists($link_id);
 
                             $link_parts = explode('#', $link_id, 2);
                             $hash = '';
@@ -734,7 +733,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $page = $this->_apply_macro($page, $parent_id);
             $resolver = new PageResolver(getNS($parent_id));
             $page = $resolver->resolveId($page);
-            $exists = page_exists($page);
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
         }
