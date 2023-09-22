@@ -6,6 +6,8 @@
  * @author     Gina Häußge, Michael Klier <dokuwiki@chimeric.de>
  * @author     Michael Hamann <michael@content-space.de>
  */
+use dokuwiki\plugin\include\GenericResolver;
+use dokuwiki\File\PageResolver;
 
 /**
  * Helper functions for the include plugin and other plugins that want to include pages.
@@ -302,7 +304,6 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $this->_get_firstsec($ins, $page, $flags);  // only first section
         }
 
-        $ns  = getNS($page);
         $num = count($ins);
 
         $conv_idx = array(); // conversion index
@@ -544,13 +545,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      */
     private function adapt_links(&$ins, $page, $included_pages = null) {
         $num = count($ins);
-        $ns  = getNS($page);
 
         for($i=0; $i<$num; $i++) {
             // adjust links with image titles
             if (strpos($ins[$i][0], 'link') !== false && isset($ins[$i][1][1]) && is_array($ins[$i][1][1]) && $ins[$i][1][1]['type'] == 'internalmedia') {
                 // resolve relative ids, but without cleaning in order to preserve the name
-                $media_id = resolve_id($ns, $ins[$i][1][1]['src']);
+                $media_id = (new GenericResolver($page))->resolveId($ins[$i][1][1]['src']);
                 // make sure that after resolving the link again it will be the same link
                 if ($media_id[0] != ':') $media_id = ':'.$media_id;
                 $ins[$i][1][1]['src'] = $media_id;
@@ -567,7 +567,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         $link_params = $link_parts[1];
                     }
                     // resolve the id without cleaning it
-                    $link_id = resolve_id($ns, $link_id, false);
+                    $link_id = (new GenericResolver($page))->resolveId($link_id);
                     // this id is internal (i.e. absolute) now, add ':' to make resolve_id work again
                     if ($link_id[0] != ':') $link_id = ':'.$link_id;
                     // restore parameters
@@ -579,8 +579,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                         $link_id = $ins[$i][1][0];
                         $link_parts = explode('?', $link_id, 2);
                         if (count($link_parts) === 1) {
-                            $exists = false;
-                            resolve_pageid($ns, $link_id, $exists);
+                            $link_id = (new PageResolver($page))->resolveId($link_id);
 
                             $link_parts = explode('#', $link_id, 2);
                             $hash = '';
@@ -725,7 +724,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             break;
         default:
             $page = $this->_apply_macro($page, $parent_id);
-            resolve_pageid(getNS($parent_id), $page, $exists); // resolve shortcuts and clean ID
+            // resolve shortcuts and clean ID
+            $page = (new PageResolver($parent_id))->resolveId($page);
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
         }
@@ -843,8 +843,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                arsort($langs);
                foreach($langs as $lang => $langq){
                    $testpage = $this->_apply_macro(str_replace('@BROWSER_LANG@', $lang, $id), $parent_id);
-                   resolve_pageid(getNS($parent_id), $testpage, $exists);
-                   if($exists){
+                   $testpage = (new PageResolver($parent_id))->resolveId($testpage);
+                   if (page_exists($testpage)) {
                        $result = $lang;
                        break;
                    }
