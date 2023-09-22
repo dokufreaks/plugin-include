@@ -31,12 +31,12 @@ class plugin_include_locallink_conversion_test extends DokuWikiTest {
 
     public function testLocalConverted() {
         $html = p_wiki_xhtml('test:includefirst');
-        $this->assertContains('href="'.wl('included').'#jump"', $html);
-        $this->assertNotContains('href="#jump"', $html);
+        $this->assertStringContainsString('href="'.wl('included').'#jump"', $html);
+        $this->assertStringNotContainsString('href="#jump"', $html);
     }
 
     public function testLocalExistsIfIncluded() {
         $html = p_wiki_xhtml('test:includefull');
-        $this->assertContains('href="#jump"', $html);
+        $this->assertStringContainsString('href="#jump"', $html);
     }
 }
