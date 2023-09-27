@@ -10,11 +10,8 @@ jobs:
 
         strategy:
             matrix:
-                php-versions: ['7.2', '7.3', '7.4', '8.0']
+                php-versions: ['7.4', '8.0']
                 dokuwiki-branch: [ 'master', 'stable']
-                exclude:
-                    -   dokuwiki-branch: 'stable'
-                        php-versions: '8.0'
             fail-fast: false
 
         steps:
