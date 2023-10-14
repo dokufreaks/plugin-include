@@ -1,12 +1,12 @@
 <?php
+
 /**
  * English language file
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Esther Brunner <wikidesign@gmail.com>
+ *
+ * @author captchaboss.com <raymon_leichhardt@yahoo.com>
+ * @author Esther Brunner <wikidesign@gmail.com>
  */
-
-// custom language strings for the plugin
-$lang['readmore']   = '→ Read more...';
-
-//Setup VIM: ex: et ts=2 :
+$lang['readmore']              = 'This is my first time pay a visit at here and i am genuinely impressed to 
+read all at one place.';
