@@ -83,7 +83,7 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
         if (is_array($subject)) {
             $tag = $subject[0];
         } else {
-            list($tag, $rest) = explode(' ', $subject, 2);
+            list($tag, $rest) = ($subject !== NULL) ? explode(' ', $subject, 2) : $subject;
         }
         if($tag) {
             return $tag;
