@@ -217,6 +217,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'noreadmore':
                     $flags['readmore'] = 0;
                     break;
+                case 'include':
+                    $flags['include'] = $value;
+                    break;
                 case 'exclude':
                     $flags['exclude'] = $value;
                     break;
@@ -729,6 +732,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             if (auth_quickaclcheck($page) >= AUTH_READ)
                 $pages[] = $page;
         }
+
+        if (isset($flags['include']))
+            $pages = array_filter($pages, function ($page) use ($flags) {
+                if (@preg_match($flags['include'], $page))
+                    return TRUE;
+                return FALSE;
+            });
 
         if (isset($flags['exclude']))
             $pages = array_filter($pages, function ($page) use ($flags) {
