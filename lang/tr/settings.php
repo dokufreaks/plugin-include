@@ -2,35 +2,78 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author diyarbakirofisescortlari.com adresine Git <christopherharding@laposte.net>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Just want to say Hello.';
+$lang['firstseconly']          = 'excellent points altogether, you simply gained a new reader.
+
+What may you suggest about your submit that you made a few days ago?
+Any positive?';
+$lang['showtaglogos']          = '23';
+$lang['showfooter']            = 'I chooses to introduce myself to you, I am Kristina although it\'s not the most feminine of names. His job is a credit authoriser. Body building just what I do every seven days. She\'s always loved living in Delaware however she is considering you can. He is running as well as a blog here: http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['showlink']              = 'http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['showpermalink']         = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that 
+you made a few days ago? Any positive?';
+$lang['showdate']              = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made 
+a few days ago? Any positive?';
+$lang['showmdate']             = 'excellent points altogether, you simply gained 
+a new reader. What may you suggest about your submit that you made a few days ago?
+Any positive?';
+$lang['showuser']              = 'excellent points altogether, you simply gained a new 
+reader. What may you suggest about your submit that you made a few days ago?
+
+Anny positive?';
+$lang['showcomments']          = 'excellent points altogether, you simply gained a new reader.
+
+What may you suggest about ylur submit that you made a few days ago?
+
+Any positive?';
+$lang['showlinkbacks']         = 'excellent points altogether, you simply gained a new reader.
+Whatt mayy you suggest about your submit that you made a few days ago?
+Anyy positive?';
+$lang['showtags']              = '11';
+$lang['showeditbtn']           = 'excellent points altogether, you simply gained a new 
+reader. What may you suggest about your submit that you made a few days ago?
+Any positive?';
+$lang['doredirect']            = 'excellent points altogether, you simply gained a new reader.
+Whaat may you suggest about your submit that you made a few days ago?
+
+Any positive?';
+$lang['doindent']              = 'excellent points altogether, you simply gained a 
+new reader. What may youu suggest about your submit that you made a 
+few days ago? Any positive?';
+$lang['linkonly']              = 'http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['title']                 = 'Just want to say Hello.';
+$lang['pageexists']            = 'http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['parlink']               = 'http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['safeindex']             = 'Christopher';
+$lang['order']                 = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made a few days ago?
+Any positive?';
+$lang['order_o_id']            = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made a few 
+days ago? Any positive?';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'excellent points altogether, you simply gained a new reader.
+What maay you suggest about your submit that yyou made a few days ago?
+Any positive?';
+$lang['order_o_modified']      = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made a 
+few days ago? Any positive?';
+$lang['order_o_indexmenu']     = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made a few days ago?
+Any positive?';
+$lang['order_o_custom']        = 'excellent points altogether, you simply gained a new reader.
+What may you suggest about your submit that you made a few 
+days ago? Any positive?';
+$lang['rsort']                 = 'Hartford';
+$lang['depth']                 = 'Christopher';
+$lang['readmore']              = 'http://www.jordin.parks.com/external.php?site=https://anotepad.com/note/read/7awbegce';
+$lang['debugoutput']           = 'excellent points altogether, you simply gained a new reader.
+
+What may you suggest about your submit that you made a few days ago?
+Any positive?';
