@@ -2,35 +2,87 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Diyarbakir'da eskort <brittneycrompton@hotmail.co.uk>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im glad I now registered';
+$lang['firstseconly']          = 'Write more, thats all I have to say. Literally, it seems as though you relied on the video to make your point.
+You clearly know what youre talking about, why waste 
+your intelligence on just posting videos 
+to your weblog when you could bee giving us something enlightening 
+to read?';
+$lang['showtaglogos']          = '16';
+$lang['showfooter']            = 'Jacques Diggins is what you could call me but it isn\'t the most masculine name or company name. Guam is the only place I\'ve been residing found in. Accounting has been my profession for wasted time the salary has been really pleasant. What her family and her love end up being to go to karaoke and she or he would never give upward. My husband plus i maintain an affiliate site. You might want to see it out here: https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['showlink']              = 'https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['showpermalink']         = 'Write more, thats all I have to say. Literally, it seems as though you 
+relied onn the video to make your point. You clearly know 
+what youre talking about, why waste your intelligence on just posting videos to 
+your weblog when you could be giving us something enlightening to read?';
+$lang['showdate']              = 'Write more, thats all I have to say. Literally,
+it seems as though you relied on the video to make your point.
+You clearly know what youre talking about, why waste your intelligence on just 
+posting videos to your weblog when you could be giving us something enlightening to read?';
+$lang['showmdate']             = 'Write more, thats all I have to say. Literally, it seems as tbough you relied onn the video to make 
+your point. Yoou clearpy know wht youre talking about, 
+why waste your intelligence on just posting videos to your weblog when you could 
+be giving us something enlightening to read?';
+$lang['showuser']              = 'Write more, thats all I have to say. Literally, it seems as though you relied 
+on the vvideo to make your point. You clearly know what youre talking about, why waste your intelligence on just 
+posting videos too your weblog when you could bbe 
+giving us something enlightenng to read?';
+$lang['showcomments']          = 'Write more, thats all I have to say. Literally, it seems as though you relied on the video too make your point.
+You clearly know what youre talking about, why waste your intelligence on just posting 
+videos to your weblog when you could be giving us something enlightening to 
+read?';
+$lang['showlinkbacks']         = 'Wite more, thats all I hasve to say. Literally, it seems 
+as thoujgh you relied on the video to make your point.
+You clearly know what youre talking about, why waste your intelligence on just posting videos to your weblog when you could be giving us something enlightening to read?';
+$lang['showtags']              = '24';
+$lang['showeditbtn']           = 'Write more, thyats alll I have to say. Literally, it seems 
+as though you relied on the video to make your point.
+You clearly know what youre talking about, why waste 
+your intelligence on just posting videos to your weblog when you could be giving us something enlightening 
+to read?';
+$lang['doredirect']            = 'Write more, thats all I haqve to say. Literally, it seems as though you relied on thhe video to make your point.
+You clearly know what youre talking about, why waste your intelligence on just posting videos to your weblog when you could be giving 
+us something enlightening to read?';
+$lang['doindent']              = 'Write more, thats all I have to say. Literally, it seems as though you relied on the 
+video to make your point. Youu clearly know what youre talking about, why waste your intelligenbce on just 
+posting videos to your weblog when you could be giving us something enlightening to read?';
+$lang['linkonly']              = 'https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['title']                 = 'Im glad I now registered';
+$lang['pageexists']            = 'https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['parlink']               = 'https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['safeindex']             = 'Brittney';
+$lang['order']                 = 'Write more, thats all I have to say. Literally, it seems as 
+though you relied on the video to make your 
+point. You clearly know what youre talking about, why 
+waste your intelligence on just posting videos to your weblog 
+when you could bee giving us something enlightening to read?';
+$lang['order_o_id']            = 'Write more, thats all I have to say. Literally, it seems as though you relied on the video to make your 
+point. You clearly know what youre talking about, why waste your intelligence on just 
+posting videos to your weblog when you could be giving us something enlightening to read?';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Write more, thats all I have to say. Literally, it seems as 
+though you relied on the video to make your point. You clearly know what 
+youre talking about, why waste your inteloigence on just posting videos to your weblog whe you 
+could bbe giving us something enlightening to read?';
+$lang['order_o_modified']      = 'Write more, thats all I have to say. Literally, it seems as though you relied oon the video 
+tto make your point. Yoou clearly know what youre talking 
+about, why waste your intelligence on just posting videos to your weblog when you could be giving us something enlightening 
+to read?';
+$lang['order_o_indexmenu']     = 'Write more, thats all I have to say. Literally, it seems as though 
+you relied on the videeo to make your point. You clearly know what 
+youre talking about, whyy waste your intelligence on just posting videos to your weblog 
+when youu could be giving us something enlightening to read?';
+$lang['order_o_custom']        = 'Write more, thats all I have to say. Literally, it seems as though 
+you relied on the video to make your point. You clearly know what 
+youre talking about, why waste your intelligence on just posting videos to your weblog when you could be giving us something enlightening to read?';
+$lang['rsort']                 = 'Tilburg';
+$lang['depth']                 = 'Brittney';
+$lang['readmore']              = 'https://3hbdwp6nhuomaioayhfpvgoxghndgrx75gniiuwzx4aqmjublcma.cdn.ampproject.org/c/s/Bbsocialclub.com%2Fstory18997152%2Fthe-recipe-for-love-christmas-special/';
+$lang['debugoutput']           = 'Write more, thats all I have to say. Literally, it seems as hough you relied on the video to make your 
+point. You clearly know what youre talking about, 
+why waste your intelligence on just poosting videos to 
+your weblog whhen you could be giving us something enlightening to read?';
