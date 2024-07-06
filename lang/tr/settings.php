@@ -2,35 +2,76 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author diyarbakir escort ajansi Rehberi <loydrehfisch@yahoo.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'I am the new guy';
+$lang['firstseconly']          = 'Goood day! Would you mind if I share your blog with my 
+facebook group? There\'s a lot of people that I think would really 
+enjoy your content. Please let me know.Thanks';
+$lang['showtaglogos']          = '21';
+$lang['showfooter']            = 'Britt Diggins is what folks call him but it\'s not the most masucline name out that there. The favorite hobby for the children and me is to play rock and roll hence there is no would never give upward. She\'s always loved in Guam but she needs to move one day or another. Credit authorising is what she does. See what\'s new on my website here: https://Lil.so/wxco';
+$lang['showlink']              = 'https://Lil.so/wxco';
+$lang['showpermalink']         = 'Good day! Would you mind if Ishare your blog with my facebook group?
+There\'s a lot of people that I think would really 
+enjoy your content. Please let me know. Thanks';
+$lang['showdate']              = 'Good day! Would you mind if I share your blog with 
+my facebook group? There\'s a lot of people 
+that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['showmdate']             = 'Good day! Would you mind if I share your blog with my facebook group?
+
+There\'sa lot of people that I think would really enjoy 
+your content. Please let me know. Thanks';
+$lang['showuser']              = 'Good day! Would you mind if I share your blog with mmy facebook group?
+There\'s a lot of people that I think would really 
+enjoy your content. Please let me know. Thanks';
+$lang['showcomments']          = 'Good day! Would youu mind if I share your blog with my 
+facebook group? There\'s a lot of people that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['showlinkbacks']         = 'Good day! Would you mind if I share your blog with my facebook group?
+
+There\'s a lot of people that I think would rally enjoy your content.
+Please let me know. Thanks';
+$lang['showtags']              = '14';
+$lang['showeditbtn']           = 'Good day! Would you minnd if I share your blog wih my facebook group?
+There\'s a loot of people that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['doredirect']            = 'Good day! Would you mind if I share your blog with my facwbook group?
+There\'s a lot of people that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['doindent']              = 'Good day! Would you mind if I share your blog with my facebook group?
+There\'s a lot of people that I think would really enjoy 
+your content. Please let me know. Thanks';
+$lang['linkonly']              = 'https://Lil.so/wxco';
+$lang['title']                 = 'I am the new guy';
+$lang['pageexists']            = 'https://Lil.so/wxco';
+$lang['parlink']               = 'https://Lil.so/wxco';
+$lang['safeindex']             = 'Loyd';
+$lang['order']                 = 'Good day! Would you mind if I share your blog withh my facebook group?
+There\'s a lot of people that I think would really 
+enjoy your content. Please let me know. Thanks';
+$lang['order_o_id']            = 'Good day! Would you mind if I share your blog with my facebook 
+group? There\'s a lot of people that I think would really enjoy 
+your content. Please let me know. Thanks';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Good day! Would you minjd if I share your blog with my facebook group?
+There\'s a lot of people that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['order_o_modified']      = 'Good day! Would you mind if I share your blog with my facebook group?There\'s a lot of people 
+that I think would reaply enjoy your content. Please let me know.
+Thanks';
+$lang['order_o_indexmenu']     = 'Good day! Would you mind iif I share your blog with my facebook group?
+There\'s a lot of people that I think would really enjoy your content.
+Please leet me know. Thanks';
+$lang['order_o_custom']        = 'Good day! Would you mind if I share your blog with my facebok group?
+There\'s a lot of people that I think would really enjoy your content.
+Please let me know. Thanks';
+$lang['rsort']                 = 'Kielce';
+$lang['depth']                 = 'Loyd';
+$lang['readmore']              = 'https://Lil.so/wxco';
+$lang['debugoutput']           = 'Good day! Would you mind if I share your blog with my facebook group?
+
+There\'s a lot of people that I think wouldd really enjoy your content.
+Please let me know. Thanks';
