@@ -2,35 +2,78 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Ucuz diyarbakır escort <aletheaadair@charter.net>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'I am the new guy';
+$lang['firstseconly']          = 'Hi, I do believe thgis is an excellent site. I stumbledupon it ;
+) I may return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you be rich and continnue to guide other people.';
+$lang['showtaglogos']          = '11';
+$lang['showfooter']            = 'The family that wrote the article is called Jacques but he doesn\'t like if you want to use his full person\'s name. His wife doesn\'t like it the way he does but what he really likes doing is archaeology but he is struggling uncover time for it. My family lives in Delaware. Credit authorising is what she does for a full time income. She is running tweaking a blog here: http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['showlink']              = 'http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['showpermalink']         = 'Hi, I ddo believe this is an excellent site. I stumbledupon it ;) I 
+may return yet again since i have bookmarked it. Money and freedom is the greatest way 
+to change, may you be rich and continue to guide other 
+people.';
+$lang['showdate']              = 'Hi, I ddo believe this is an excellent site.
+I stumbledupon it ;) I may return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you be rich and continue to 
+guide other people.';
+$lang['showmdate']             = 'Hi, I do believe this iss an excellent site. I stumbledupon it ;
+) I may return yet again since i have bookmarked it.
+Money and freedom is the greates way to change, may you be rich and continue to guide other people.';
+$lang['showuser']              = 'Hi, I do believe this is an excellent site. I sgumbledupon it ;) I may return yet again since i have bookmarked 
+it. Money and freedom is the greatest way to 
+change, may you bbe rihh and clntinue to guide other people.';
+$lang['showcomments']          = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I may return yet again since i 
+have bookmarked it. Money and freedom is the greatest way to 
+change, may you be rich and continue to guide other people.';
+$lang['showlinkbacks']         = 'Hi, I do believe this is an excellent site.
+I stumbledupon it ;) I may return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you bee rich and continue to guide 
+other people.';
+$lang['showtags']              = '26';
+$lang['showeditbtn']           = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I mayy 
+return yet again since i have bookmarked it. Monjey and freedom is the 
+greatest wway to change, may you be rich and continue to guide other people.';
+$lang['doredirect']            = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I may return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you be rich and continue to guide other 
+people.';
+$lang['doindent']              = 'Hi, I do believe thhis is an excellent site. I stumbledupon it ;
+) I may return yet again since i have bookmarked it. Moneey 
+and freedom is the greatest way to change, may you be rich andd continue to guide other people.';
+$lang['linkonly']              = 'http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['title']                 = 'I am the new guy';
+$lang['pageexists']            = 'http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['parlink']               = 'http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['safeindex']             = 'Alethea';
+$lang['order']                 = 'Hi, I do believe this is an excellent site. I stumbledupon it ;
+) I may return yet again since i have bookmarked it.
+
+Money andd freedom is the greatest way to change, may you be 
+rich and continue to guide other people.';
+$lang['order_o_id']            = 'Hi, I do believe this is an excellent site. I 
+stumbledupon it ;) I may retun yet again since i have bookmarked it.
+
+Money and freedom is the greatest way to change, may you be rich and continue to guide other people.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I may return yet again since i have bookmarked 
+it. Money and freedom is the greatest way to change, maay you be rich and continue to guide other people.';
+$lang['order_o_modified']      = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I may 
+return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you be rich and continue to guide other 
+people.';
+$lang['order_o_indexmenu']     = 'Hi, I do believe this iis an excellent site. I stumbledupon it ;) I may return yet again since i have bookmarked it.
+Money and freedom is the greatest way to change, may you be 
+rich and continue to guide other people.';
+$lang['order_o_custom']        = 'Hi, I do believe this is an excellent site. I stumbledupon it ;) I may return yet aggain since i have bookmarked it.
+Money annd freedom is the greatest way to change, may you be rich and 
+continue to guide other people.';
+$lang['rsort']                 = 'Hobbs';
+$lang['depth']                 = 'Alethea';
+$lang['readmore']              = 'http://washingtonmasoniccharities.com/__media__/js/netsoltrademark.php?d=Medium.com%2F%40tarakahmet65%2F%25C3%25A7ekici-seksili%25C4%259Fe-sahip-diyarbak%25C4%25B1r-escort-bayanlar%25C4%25B1-13893c0db810';
+$lang['debugoutput']           = 'Hi, I do believe this iss an excellent site. I stumbledupon it ;) I may return yet again since 
+i have bookmarked it. Money and freedom is the greatest way to change, may 
+you be rich and continue to guide other people.';
