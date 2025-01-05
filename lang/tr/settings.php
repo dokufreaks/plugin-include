@@ -2,35 +2,95 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author mersin Escort bayan <jennyworsnop@gmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im glad I finally signed up';
+$lang['firstseconly']          = 'Somebodcy essentially lend a hand to make seriously articles I might state.
+That is the very first time I frequented your website page and so far?
+I amazed with the research you made to create this particular post incredible.
+Excellent job!';
+$lang['showtaglogos']          = '10';
+$lang['showfooter']            = 'I\'m Chung Devitt. Kansas is the place he loves most. To go to karaoke is something I won\'t give high. Accounting has been my profession for skill and the salary has been really doing. See what\'s new on her website here: http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['showlink']              = 'http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['showpermalink']         = 'Somebody essentially lend a hand to make seriously articles I might state.
+
+That is the very first time I frequented your website page and 
+so far? I amazed with the research you made 
+to create this particular post incredible. Excellent job!';
+$lang['showdate']              = 'Somebody essentially lend a hand to make seriously articles I might 
+state. That is the very first time I frequented yyour website page and so far?
+I amazed with the research you made to create this particular 
+post incredible. Excellent job!';
+$lang['showmdate']             = 'Somebody essentially lend a hand to make seriously articles I might state.
+That is the very first time I frequented your website pag and so far?
+
+I amazed with the research you made to create this particular post incredible.
+Excellent job!';
+$lang['showuser']              = 'Somebody essentially lend a hand to make seriously articles I might state.
+That is the very first time I frequented your website page 
+and so far? I amazed with the research you made to create this particular post incredible.
+Excellent job!';
+$lang['showcomments']          = 'Somebody essentially lend a hand to mske seriously articles I might state.
+That is the very first time I frequented your webssite page and so far?
+I amazed with the research you made to create this particular pot incredible.
+Excellent job!';
+$lang['showlinkbacks']         = 'Somebody essentially lend a hand to make serioussly articles 
+I might state. That is the very first time I frequented your website page 
+and so far? Iamazed with the research you made to create this particular post incredible.
+Excesllent job!';
+$lang['showtags']              = '25';
+$lang['showeditbtn']           = 'Somebody essentially lend a hand to make seriously articles 
+I might state. That is the very first time Ifrequented your 
+website page and so far? I amazed wiith the research you made too create this particular post 
+incredible. Excellent job!';
+$lang['doredirect']            = 'Somebody essentially lend a hand to make seriously articles 
+I might state. That is the very first time I frequented your website 
+page and so far? I amazed with the research 
+yyou made to create this particular post incredible.
+Excellernt job!';
+$lang['doindent']              = 'Somebody essentially lend a hand to make seriously articles I might state.
+Thhat is the veey first time I frequented your website page and so 
+far? I amazed with the research you made to create this 
+particular post incredible. Excellent job!';
+$lang['linkonly']              = 'http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['title']                 = 'Im glad I finally signed up';
+$lang['pageexists']            = 'http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['parlink']               = 'http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['safeindex']             = 'Jenny';
+$lang['order']                 = 'Somebody essentially lend a hand to make seriously articles I might state.
+That is thhe very first time I frequented your website page and 
+so far? I amazed with the research you made to create this particular post incredible.
+Excellent job!';
+$lang['order_o_id']            = 'Somebody essentially lend a hand to mazke seriously articles I might state.
+
+That is the very first time I frequented your website page and so far?
+I amazed with the research you made to create this particular post incredible.
+Excellent job!';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Somebody essentially lend a hand to make seriously aricles I might 
+state. That is the very first time I frequented your website page and so far?
+I amazed with the research you made to create this particular post incredible.
+Excellent job!';
+$lang['order_o_modified']      = 'Somebody essentially lend a hand to make seriously articles I 
+might state. That is the very first time I frequented your website page and 
+so far? I amazed with the research you made to create this particular post incredible.
+Excrllent job!';
+$lang['order_o_indexmenu']     = 'Somebody essentially lend a hand to make seriously articles I might state.
+
+That is the very first time I frequented your website page and so 
+far? I amazed wwith the research you made to create this particular post incredible.
+Excsllent job!';
+$lang['order_o_custom']        = 'Somebody essentially lend a hand to make seriosly articles I might state.
+That is the very first time I frequented your website page and so far?
+I amazed with the research you made to create this particular 
+post incredible. Excellent job!';
+$lang['rsort']                 = 'Vermiglio';
+$lang['depth']                 = 'Jenny';
+$lang['readmore']              = 'http://Forum.Altaycoins.com/viewtopic.php?id=1833174';
+$lang['debugoutput']           = 'Sojebody essentially lend a hand to make seriously artticles 
+I might state. Thatt is the very fidst time I frequented your 
+website page and so far? Iamazed with the research you made to create tthis particular post incredible.
+
+Excellent job!';
