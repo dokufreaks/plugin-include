@@ -34,21 +34,21 @@ EOF
 
     public function testInternalLinkTitleConversion() {
         $html = p_wiki_xhtml('test:include');
-        $this->assertContains('src="'.ml('wiki:dokuwiki.png').'"', $html);
+        $this->assertStringContainsString('src="'.ml('wiki:dokuwiki.png').'"', $html);
     }
 
     public function testLocalLinkTitleConversion() {
         $html = p_wiki_xhtml('test:include');
-        $this->assertContains('src="'.ml('wiki:dokuwiki.png', array('w' => '200')).'"', $html);
+        $this->assertStringContainsString('src="'.ml('wiki:dokuwiki.png', array('w' => '200')).'"', $html);
     }
 
     public function testInterWikiLinkTitleConversion() {
         $html = p_wiki_xhtml('test:include');
-        $this->assertContains('src="'.ml('wiki:dokuwiki.png', array('w' => '300')).'"', $html);
+        $this->assertStringContainsString('src="'.ml('wiki:dokuwiki.png', array('w' => '300')).'"', $html);
     }
 
     public function testExternalMediaNotConverted() {
         $html = p_wiki_xhtml('test:include');
-        $this->assertContains('src="'.ml('https://www.dokuwiki.org/lib/tpl/dokuwiki/images/logo.png').'"', $html);
+        $this->assertStringContainsString('src="'.ml('https://www.dokuwiki.org/lib/tpl/dokuwiki/images/logo.png').'"', $html);
     }
 }

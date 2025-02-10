@@ -1,3 +1,12 @@
+div.plugin_include_content div.tags {
+  margin-bottom: 0 !important;
+}
+
+div.plugin_include_content {
+  display: flow-root;
+  margin-bottom: 1.4em;
+}
+
 div.dokuwiki div.plugin_include_content div.secedit {
   float: right;
   margin-left: 1em;
@@ -11,7 +20,6 @@ div.dokuwiki div.inclmeta {
   font-size: 80%;
   line-height: 1.25;
   /*margin-top: 0.5em;*/
-  margin-bottom: 2em;
 }
 
 div.dokuwiki div.inclmeta a.permalink {
