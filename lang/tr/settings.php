@@ -2,35 +2,55 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Bayan Escort diyarbakır <santohowton@yahoo.in>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im happy I finally registered';
+$lang['firstseconly']          = 'It\'s an remarkable post inn favor of all the online visitors;
+they will take advantag from it I am sure.';
+$lang['showtaglogos']          = '18';
+$lang['showfooter']            = 'She is called by the url of Chung. After being regarding his work for years he became a medical wood worker. Kansas is where me and my wife live. Body building is something even though never quit. He is running and looking after a blog here: https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['showlink']              = 'https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['showpermalink']         = 'It\'s an remarkable post in favor of all the online visitors; they will take 
+advantage from it I am sure.';
+$lang['showdate']              = 'It\'s an remarkable post in favor of all the online visitors; they will take advantage frm it I am sure.';
+$lang['showmdate']             = 'It\'s an remarkable post inn favor of all the online visitors; 
+they will take advantage from it I am sure.';
+$lang['showuser']              = 'It\'s an remarkable post in favor of all the online visitors; they will take advantage from 
+it I am sure.';
+$lang['showcomments']          = 'It\'s an remarkable post in favor of all thee online visitors; 
+they will take advantage from it I am sure.';
+$lang['showlinkbacks']         = 'It\'s an remarkable post in favor of all the online visitors; they willl take advantage from 
+it I am sure.';
+$lang['showtags']              = '14';
+$lang['showeditbtn']           = 'It\'s an remarkable post in favor of all the online visitors; they will take advantage from it I am sure.';
+$lang['doredirect']            = 'It\'s an remarkable post in favor of all the online visitors; they wkll take advantage from it I am 
+sure.';
+$lang['doindent']              = 'It\'s an remarkable post in favor of all the online visitors; they will take advantage from it I am 
+sure.';
+$lang['linkonly']              = 'https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['title']                 = 'Im happy I finally registered';
+$lang['pageexists']            = 'https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['parlink']               = 'https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['safeindex']             = 'Santo';
+$lang['order']                 = 'It\'s an remarkable post in favor of all tthe online 
+visitors; they will take advantage from it I am 
+sure.';
+$lang['order_o_id']            = 'It\'s aan remarkable post in favor of all the online visitors; 
+they will take advantage from it I am sure.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'It\'s an remarkable post in favor of all the online 
+visitors; they will take advantage from it I am sure.';
+$lang['order_o_modified']      = 'It\'s an remarkable post in favor of all the online visitors; they will 
+take advantage from it I am sure.';
+$lang['order_o_indexmenu']     = 'It\'s an remaarkable post in favor of all 
+thhe online visitors; they will take advantage 
+from it I am sure.';
+$lang['order_o_custom']        = 'It\'s an remarkable post in favor of all the online visitors; they 
+will take advantage from it I am sure.';
+$lang['rsort']                 = 'Gachenbach';
+$lang['depth']                 = 'Santo';
+$lang['readmore']              = 'https://Dream-Weaver.Co.kr/bbs/board.php?bo_table=free&wr_id=2586012';
+$lang['debugoutput']           = 'It\'s an remarkable post in favor of all the online visitors; 
+they will take dvantage from it I am sure.';
