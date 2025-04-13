@@ -2,35 +2,67 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author mersin Escort <ingeborgflannery@alice.it>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Just wanted to say Hello!';
+$lang['firstseconly']          = 'Your style is very unique in comparison to other people I hsve read stuff 
+from. Thank you for posting when you have the opportunity,
+Guess I willl just bookmark this site.';
+$lang['showtaglogos']          = '13';
+$lang['showfooter']            = 'Mei will be the name people use to call me and I\'m comfortable as well as use complete name. My husband and I decided to are now living in Kansas my partner and i love regularly living available. Meter reading is my profession but I\'ve always wanted my own business. His wife doesn\'t like it the way he does but what he really loves doing is kayaking but he does not the time lately. I am running and maintaining a blog here: http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['showlink']              = 'http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['showpermalink']         = 'Your style is very unique in comparison to other people I 
+have read stuff from. Thank you for posting when you havee the opportunity, Guess I will just bookmark this site.';
+$lang['showdate']              = 'Your style is very unique in comparison to other people I have read 
+stucf from. Thank you for posting whedn you have the opportunity,
+Guess I will just bookmark this site.';
+$lang['showmdate']             = 'Youur style is very unique in comparison to other peoplee I have read stuff from.
+Thank you for posting when you have the opportunity, Guess I 
+will just bookmark this site.';
+$lang['showuser']              = 'Your style is very unique in comparison to other 
+people I have read stuff from. Thank you for posting 
+when you have the opportunity, Guess I will just bookmark 
+this site.';
+$lang['showcomments']          = 'Yourr style is very unique in comparison to other people I have 
+read stuff from. Thank you for posting when you have thhe 
+opportunity, Guess I will just bookmark this site.';
+$lang['showlinkbacks']         = 'Your style is very unique in comparison to other pelple 
+I have read stuff from. Thank you for posting when you have the opportunity, Guess I will just bookmark this site.';
+$lang['showtags']              = '20';
+$lang['showeditbtn']           = 'Your style is very unique in comparison too other people I have read stuff from.
+
+Thank you for posting when you have the opportunity, Guess I 
+will just bookmark this site.';
+$lang['doredirect']            = 'Your style iis very unique in comparison to other people 
+I hage read stuff from. Thank you for posting when you have the opportunity, Guess I will just bookmark this site.';
+$lang['doindent']              = 'Youur style is very unique in comparison to other peple I have read stuff from.
+Thank you for posting when you have the opportunity, Guess 
+I will just bookmark this site.';
+$lang['linkonly']              = 'http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['title']                 = 'Just wanted to say Hello!';
+$lang['pageexists']            = 'http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['parlink']               = 'http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['safeindex']             = 'Ingeborg';
+$lang['order']                 = 'Your style is very unique in comparison to other people I have read stuff from.
+Thank you foor posting when you have the opportunity, Guess I will just bookmark this site.';
+$lang['order_o_id']            = 'Your style is very unique in comparison to other people I 
+have read stuff from. Thank you for posting when you hqve the opportunity, Guess I will just bookmark 
+this site.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Your style is very unique in comparison to other people I 
+have read stuff from. Thank you for posting when youu have 
+the opportunity, Guess I will just bookmark this site.';
+$lang['order_o_modified']      = 'Your style is verty unique in comparison to other 
+people I have read stuff from. Thank you for posting when you hhave the opportunity, Guess I will just bookmark this site.';
+$lang['order_o_indexmenu']     = 'Your style is very uunique in comparison to other people I 
+have read stuff from. Thank you for posting when you have the opportunity, Guess I will just bookmark this 
+site.';
+$lang['order_o_custom']        = 'Your style is very unique in comparison to other people I have read stuff from.
+Thank you for posting when you have the opportunity, Guess I will just bookmark this site.';
+$lang['rsort']                 = 'Middelburg';
+$lang['depth']                 = 'Ingeborg';
+$lang['readmore']              = 'http://WWW.Caresalad.com/bbs/board.php?bo_table=free&wr_id=948937';
+$lang['debugoutput']           = 'Your style is very unique in comparison to other people I have 
+read stuff from. Thank you for posting when you have the opportunity, Guess I will just bookmark this site.';
