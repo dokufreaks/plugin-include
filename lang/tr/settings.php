@@ -2,35 +2,81 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author child porn diyarbakıR <dorisforman@yahoo.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Just want to say Hi.';
+$lang['firstseconly']          = 'This is rsally attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in searcch of more of your excellent post.
+
+Also, I\'ve shared your website in my social networks';
+$lang['showtaglogos']          = '24';
+$lang['showfooter']            = 'Hello dear visitor. I am Lino. Delaware is where I\'ve always been living and my parents live in the neighborhood. What me and my family love is body building but I have been taking on new things lately. For years he\'s been doing its job a medical worker and he\'ll be promoted ultimately. See what\'s new for my child website here: http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['showlink']              = 'http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['showpermalink']         = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feedd and loopk forward to in search of more of your excellent post.
+Also, I\'ve shared your website inn my social networks';
+$lang['showdate']              = 'This is really attention-grabbing, Yoou are a very professional blogger.
+I have joined your feed and look forward to in search of more of your excellent post.
+Also, I\'ve shared your website in my social networks';
+$lang['showmdate']             = 'This is really attention-grabbing, You are a very professional blogger.
+
+I have joined your feed and look forward too in search off more of your excellent post.
+
+Also, I\'ve shared your website in my social networks';
+$lang['showuser']              = 'This is really attention-grabbing, You aree a very 
+rofessional blogger. I have joined your feed and 
+look forward to in search of more of your excellent 
+post. Also, I\'ve shared your website in my social networks';
+$lang['showcomments']          = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in searchh of more 
+of your excellent post. Also, I\'ve shared your website 
+in my social networks';
+$lang['showlinkbacks']         = 'This iis really attention-grabbing, You are a 
+vey professional blogger. I hve joined your feed and look forward to in search of more of your excellent post.
+Also, I\'ve shared your website in my social networks';
+$lang['showtags']              = '13';
+$lang['showeditbtn']           = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in search of more of your excellent 
+post. Also, I\'ve shared your websit in my social networks';
+$lang['doredirect']            = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in search of more of your excellent post.
+
+Also, I\'ve shared your website in my social networks';
+$lang['doindent']              = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in search of more of your 
+excellent post. Also, I\'ve shared your website in my 
+social networks';
+$lang['linkonly']              = 'http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['title']                 = 'Just want to say Hi.';
+$lang['pageexists']            = 'http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['parlink']               = 'http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['safeindex']             = 'Doris';
+$lang['order']                 = 'Thhis is really attention-grabbing, You are a 
+very prfofessional blogger. I havce joined your feed and look forward to in search 
+of more of your excellent post. Also, I\'ve shared your website in my social networks';
+$lang['order_o_id']            = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in search of more oof your excellent post.
+Also, I\'ve shared your website in my social networks';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to inn search of more 
+of your excellent post. Also, I\'ve shared your website in my social networks';
+$lang['order_o_modified']      = 'This is really attention-grabbing, Youu are a very professional blogger.
+I have joined your feed and look forward too 
+in search of more of your excellent post. Also, I\'ve shared your website 
+in my social networks';
+$lang['order_o_indexmenu']     = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed annd look forward to in search of more of 
+your excellent post. Also, I\'ve shared your website in my social networks';
+$lang['order_o_custom']        = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your fed and look forward to iin search of more of your excellent post.
+
+Also, I\'ve shared your website in my social networks';
+$lang['rsort']                 = 'Hitzhofen';
+$lang['depth']                 = 'Doris';
+$lang['readmore']              = 'http://Spicyfatties.com/cgi-bin/at3/out.cgi?l=tmx5x285x112165&c=1&s=55&u=https://Click4R.com/posts/g/20578864/diyarbakand-305-r-vip-escortlar';
+$lang['debugoutput']           = 'This is really attention-grabbing, You are a very professional blogger.
+I have joined your feed and look forward to in search of more of your excellent post.
+Also, I\'ve shared your website in my social networks';
