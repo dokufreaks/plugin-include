@@ -2,35 +2,55 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Mersin escort <nick.scammell@yahoo.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Just wanted to say Hi!';
+$lang['firstseconly']          = 'Hi to all, the contents present at this web site are genuinely amazing for 
+people knowledge, well, keep up the good work fellows.';
+$lang['showtaglogos']          = '12';
+$lang['showfooter']            = 'The one who wrote post is called Britt and also the wife doesn\'t like it at every single one of. Body building is something he\'d never give up. Her job is a medical worker but soon her husband and her will start their own company. She\'s always loved living in Delaware luckily she is considering choices. Check out her website here: http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['showlink']              = 'http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['showpermalink']         = 'Hi to all, the contents present at this web site are genuinely amazing for people 
+knowledge, well, keep up the good work fellows.';
+$lang['showdate']              = 'Hi tto all, the contents present at this web site are genuinely amazing for people knowledge, well, keep up thee good 
+work fellows.';
+$lang['showmdate']             = 'Hi to all, the contents present at this web site are genuinely amazing for people knowledge, well, keep up the good 
+work fellows.';
+$lang['showuser']              = 'Hi to all, the contents present at this web site are genuinely amazing for people knowledge, well, keep up the 
+good work fellows.';
+$lang['showcomments']          = 'Hi to all, the contents present at this web site are 
+genuinelky amazing for people knowledge, well, keep up the good work fellows.';
+$lang['showlinkbacks']         = 'Hi to all, the contents present at this web site are genuinely amazing for people 
+knowledge, well, keep up the good worfk fellows.';
+$lang['showtags']              = '11';
+$lang['showeditbtn']           = 'Hi to all, the contents present at this web site are 
+genuinely amazing for people knowledge, well, keep up the good work fellows.';
+$lang['doredirect']            = 'Hi to all, the contents predsent at this web site are genuinely amazing for people 
+knowledge, well, keep up the good work fellows.';
+$lang['doindent']              = 'Hi to all, thhe contents present at this web site are genuinely amazing for people knowledge, 
+well, keep up the good work fellows.';
+$lang['linkonly']              = 'http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['title']                 = 'Just wanted to say Hi!';
+$lang['pageexists']            = 'http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['parlink']               = 'http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['safeindex']             = 'Nick';
+$lang['order']                 = 'Hi to all, the contents present at this web site are genuinely amazin for people knowledge, well, kdep up 
+the good workk fellows.';
+$lang['order_o_id']            = 'Hi to all, the contents present at this web site are genuinely amazing for people 
+knowledge, well, keep up the good work fellows.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Hi to all, the contents present aat this web site are genuinely amaazing for people knowledge, well, keep up the good work fellows.';
+$lang['order_o_modified']      = 'Hi tto all, the contents present att this 
+web site are genuinely amazing for people knowledge, well,
+keep up the good work fellows.';
+$lang['order_o_indexmenu']     = 'Hi to all, the contents present at this web site are genuinely amazing for people knowledge, well, keep up 
+the good work fellows.';
+$lang['order_o_custom']        = 'Hi to all, the contents present at this web site are genuinely amazing 
+for people knowledge, well, keep up the good work fellows.';
+$lang['rsort']                 = 'Jackson';
+$lang['depth']                 = 'Nick';
+$lang['readmore']              = 'http://ysjtoa.com.cn:1108/home/link.php?url=https://meinckeavery15.Livejournal.com/profile';
+$lang['debugoutput']           = 'Hi to all, the contents present at this wweb site are genuinely amazing for people knowledge,
+well, krep up the good work fellows.';
