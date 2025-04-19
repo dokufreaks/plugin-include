@@ -2,35 +2,72 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author diyarbakır Escort <katrinasaywell@hotmail.es>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im happy I now registered';
+$lang['firstseconly']          = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+you made running a blog glance easy. The entire glance of your website is excellent, let alone the content!';
+$lang['showtaglogos']          = '27';
+$lang['showfooter']            = 'The writer is called Mei Ream but it is not the most feminine name out and then there. My family lives in Ar. Credit authorising exactly where his primary income is from and it\'s something he actually enjoy. His wife doesn\'t like it the way he does but what he really likes doing is archaeology but he is struggling to find time for the product. My husband so maintain internet site. You might want to find out it out here: https://Occultgram.icu/hazelgardener';
+$lang['showlink']              = 'https://Occultgram.icu/hazelgardener';
+$lang['showpermalink']         = 'Wow, fantastic weblog format! How lengthy have you ever 
+been blogging for? you mae running a blog glance easy.
+The entire glance of your website is excellent, 
+let alone the content!';
+$lang['showdate']              = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+
+you made running a blog glance easy. The entire glance of your website is excellent, 
+let alone the content!';
+$lang['showmdate']             = 'Wow, fantastic weblog format! How lengthy have 
+you ever been blogging for? you ade running a blog glance easy.
+The entire glance of your website is excellent, let alone the content!';
+$lang['showuser']              = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+you made running a blog glancce easy. The entire glance of your website is excellent, let alone the content!';
+$lang['showcomments']          = 'Wow, fantastic weblog format! How lwngthy have you ever been blogging 
+for? you made running a blog glance easy. The entire glance of your webbsite is excellent, let alone the content!';
+$lang['showlinkbacks']         = 'Wow, fantastic weblog format! How lengthy have 
+you ever been blogging for? you made running a blog 
+glance easy. The entire glance of your website is excellent, let 
+alone the content!';
+$lang['showtags']              = '17';
+$lang['showeditbtn']           = 'Wow, fantastic weblog format! How lengthy have you ever 
+been blogging for? you made running a blog glance easy.
+The entire glance of yourr website is excellent, let 
+alone the content!';
+$lang['doredirect']            = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+you made running a blog glance easy. The entire glance of your website is excellent, let alone the content!';
+$lang['doindent']              = 'Wow, fantastic weblog format! How lengthy have you ever 
+been blogging for?you made running a blog glance easy.The entire 
+glance of our website is excellent, let alone the content!';
+$lang['linkonly']              = 'https://Occultgram.icu/hazelgardener';
+$lang['title']                 = 'Im happy I now registered';
+$lang['pageexists']            = 'https://Occultgram.icu/hazelgardener';
+$lang['parlink']               = 'https://Occultgram.icu/hazelgardener';
+$lang['safeindex']             = 'Katrina';
+$lang['order']                 = 'Wow, fantastic weblog format! How lengthy have 
+you ever been blogging for? you made running a blog glance easy.
+The entire glance of your website is excellent, llet alone the content!';
+$lang['order_o_id']            = 'Wow, fantastic weblog format! How lenjgthy have you ever 
+been blogging for? yyou made running a blog glance easy. 
+The entire glance of your wedbsite is excellent, let alone the content!';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Wow, fantastic weblog format! Howw lengthy have you ever been blogging for?
+you made running a blog glance easy. The entire glance of yor website is excellent, let 
+alone the content!';
+$lang['order_o_modified']      = 'Wow, fantastic weblog format! How lengthy have you ever 
+been blogging for? you made running a blog glance easy.
+The entire glance of your website is excellent, let alone the content!';
+$lang['order_o_indexmenu']     = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+you made running a blog glance easy. The entire glance 
+of your website is excellent, let alome the content!';
+$lang['order_o_custom']        = 'Wow, fantastic weblog format! How lengthy have you ever been blogging for?
+yoou mmade running a blog glance easy. The entire glance 
+of your website is excellent, let alone the content!';
+$lang['rsort']                 = 'Hurdegaryp';
+$lang['depth']                 = 'Katrina';
+$lang['readmore']              = 'https://Occultgram.icu/hazelgardener';
+$lang['debugoutput']           = 'Wow,fantastic weblog format! How lengthy have you ever been blogging for?
+you made running a blog glance easy. The entire glance of your website is 
+excellent, let alone the content!';
