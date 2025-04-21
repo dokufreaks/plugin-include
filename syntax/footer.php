@@ -64,6 +64,8 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
                     'target' => $conf['target']['wiki'],
                     'class'  => $class . ' permalink',
                     'more'   => 'rel="bookmark"',
+                    'pre'    => '',
+                    'suf'    => ''
                     );
             $xhtml[] = $renderer->_formatLink($link);
         }
