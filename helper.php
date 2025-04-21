@@ -352,6 +352,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->adapt_links($ins, $page, $included_pages);
 
         for ($i=0; $i<$num; $i++) {
+            if (!isset($ins[$i][0])) {
+                continue;
+            }
             switch($ins[$i][0]) {
                 case 'document_start':
                 case 'document_end':
