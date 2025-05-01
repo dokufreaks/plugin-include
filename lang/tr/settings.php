@@ -2,35 +2,77 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author diyarbakır escort <nelle.birnie@ymail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im glad I now signed up';
+$lang['firstseconly']          = 'My spouse and  I stumbled over here  different webdite and thought I should check things out.
+
+I like what I see so i am just following you. Look forward tto 
+looking into your web page again.';
+$lang['showtaglogos']          = '12';
+$lang['showfooter']            = 'His name is Zachary Cantara but he doesn\'t like if you want to use his full brand. Credit authorising is where his primary income is taken from and it\'s something he really enjoy. She\'s always loved it\'s possible Guam but she have got to move 1 day or a few other. To go to karaoke will be the only hobby my husband doesn\'t agree to. If you want to find out more away my website: https://110.vg/diyarbakrescort870087';
+$lang['showlink']              = 'https://110.vg/diyarbakrescort870087';
+$lang['showpermalink']         = 'My spouse aand  I stumbled over here  different website and thought 
+I should check things out. I like what I see so i 
+am just following you. Look forward to looking into your web 
+page again.';
+$lang['showdate']              = 'My spouse and  I stumbled over here  different website and thought I should check things out.
+I like what I see so i am just following you. Look forward to looking into your 
+web page again.';
+$lang['showmdate']             = 'My spouse and  I stumbled over here  different website 
+and thought I should check things out. I like what I see so i am just following you.
+Look forward to looking into your web page again.';
+$lang['showuser']              = 'My spouse and I stumbled over here  different 
+website and thought I should check things out. I like what I see so i 
+am just following you. Look forward to looking into your web page again.';
+$lang['showcomments']          = 'My spouse and  I stumbled over here  different website and thought I should check things out.
+I like what I see so i am just following you.
+Look forward to looking into your web pwge again.';
+$lang['showlinkbacks']         = 'My spouse and  I stumbled over here  different website and thught I should check things out.
+I like wyat I see so i am just following you. Look forward too looking into your web page again.';
+$lang['showtags']              = '27';
+$lang['showeditbtn']           = 'My spouse and  I stumbled over here  different website and thought I should check 
+things out. I like what I see so i am just following 
+you. Look forward to looking into your web pafe again.';
+$lang['doredirect']            = 'My spouse and  I stumbled over here  different website and thought 
+I should check things out. I like what I see soo i am 
+just following you. Look forward to looking into your web pae 
+again.';
+$lang['doindent']              = 'My spouse and  I stumbled over here  different website 
+and thought I should check things out. I like what 
+I see so i am just following you. Look forward to looking into your web page again.';
+$lang['linkonly']              = 'https://110.vg/diyarbakrescort870087';
+$lang['title']                 = 'Im glad I now signed up';
+$lang['pageexists']            = 'https://110.vg/diyarbakrescort870087';
+$lang['parlink']               = 'https://110.vg/diyarbakrescort870087';
+$lang['safeindex']             = 'Nelle';
+$lang['order']                 = 'My spouse and  I stumbled over here  different webzite and thought I should check things out.
+
+I like what I see so i am just following you. Look forward to looking 
+into your web pagge again.';
+$lang['order_o_id']            = 'My spouse and  I stumbled over here  different website and thought I should check 
+things out. I like what I see so i am just following you.
+Look forward to looking into your web page again.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'My spouse and  I stumbled over here  different website and thought 
+I should check things out. I like what I see so i 
+am just following you. Look forward to looking into 
+your weeb pazge again.';
+$lang['order_o_modified']      = 'My spouse and  I stumbled over here  different 
+website and thought I should check things out.
+I like what I see so i am just following you. Look forwaqrd to looking into your web page again.';
+$lang['order_o_indexmenu']     = 'My spouse and  Istumbled over here  different website and thought I 
+should check things out. I like what I see so i am just following you.
+Look forward to looking into your web page again.';
+$lang['order_o_custom']        = 'My spouse and  I stumbled over here  different website 
+and thought I should check things out. I like what I see so i am just following you.
+Look forward to looking into your web page again.';
+$lang['rsort']                 = 'Eersel';
+$lang['depth']                 = 'Nelle';
+$lang['readmore']              = 'https://110.vg/diyarbakrescort870087';
+$lang['debugoutput']           = 'My spouse and  I stumbled over hrre  different website 
+and thouht I should check things out. I like what I 
+see so i am just following you. Look forward to looking into 
+your web page again.';
