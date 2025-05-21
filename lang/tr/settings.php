@@ -2,35 +2,66 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author diyarbakır escort <damionstonge@orange.fr>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im glad I now signed up';
+$lang['firstseconly']          = 'Hello there!I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+
+I\'ll be coming back to your website forr more soon.';
+$lang['showtaglogos']          = '13';
+$lang['showfooter']            = 'Lino is the way he\'s called but it isn\'t the most masucline name out there. Accounting has been my profession for some time to the salary has been really fulfilling. Some time ago I made live in Arkansas we don\'t consider changing this kind of. What me and my family love is playing chess but I never made funds with the software. See what\'s new on my website here: https://Www.Trueposter.com/jaimehidalgo72';
+$lang['showlink']              = 'https://Www.Trueposter.com/jaimehidalgo72';
+$lang['showpermalink']         = 'Hello there! I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+I\'ll be coming back to youur website for more soon.';
+$lang['showdate']              = 'Hello there! I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['showmdate']             = 'Hello there! I just want to offer you a big thumbs up for 
+your great information you\'ve got here oon this post.
+
+I\'ll be coming back to your website for more soon.';
+$lang['showuser']              = 'Hello there! I just want to offer you a big thumbs 
+up for your great information you\'ve got here onn this post.
+I\'ll be coming back to your website for more soon.';
+$lang['showcomments']          = 'Hello there! I just want to offer you a big thumbs up for youir great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['showlinkbacks']         = 'Hello there! I just want to offer you a big thumbs up for our great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['showtags']              = '20';
+$lang['showeditbtn']           = 'Hello there! I just want to offer you a big thumbs up for your grteat information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['doredirect']            = 'Hello there! I just want to offer you a big thumbs up 
+for your great information you\'ve got here on this post. I\'ll be 
+coming back to your website for more soon.';
+$lang['doindent']              = 'Hello there! I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+
+I\'ll be coming back to our website for more soon.';
+$lang['linkonly']              = 'https://Www.Trueposter.com/jaimehidalgo72';
+$lang['title']                 = 'Im glad I now signed up';
+$lang['pageexists']            = 'https://Www.Trueposter.com/jaimehidalgo72';
+$lang['parlink']               = 'https://Www.Trueposter.com/jaimehidalgo72';
+$lang['safeindex']             = 'Damion';
+$lang['order']                 = 'Hello there! I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['order_o_id']            = 'Hello there! I just want to offer you a big thumbs up for your great information you\'ve got here on this post.
+
+I\'ll be coming back to your website for more soon.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Hello there! I just want to ofcfer you a big thumbs up for your great information you\'ve got here on this post.
+I\'ll be coming back to youhr website for more soon.';
+$lang['order_o_modified']      = 'Hello there! I just want to offer you a big thumbs 
+up for your great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['order_o_indexmenu']     = 'Hello there! I just wanbt to offerr you a big 
+thumbs up for your great information you\'ve got here on this post.
+I\'ll be coming back to your website for more soon.';
+$lang['order_o_custom']        = 'Hello there! I just want to offer you a big thumbs 
+up for your great information you\'ve got here on this post.
+I\'ll be coming back tto your website for more soon.';
+$lang['rsort']                 = 'Foz Do Iguacu';
+$lang['depth']                 = 'Damion';
+$lang['readmore']              = 'https://Www.Trueposter.com/jaimehidalgo72';
+$lang['debugoutput']           = 'Hello there! I just want to offer you a big thumbs up 
+for your great informatyion you\'ve goot here on this post.
+I\'ll be coming back to your website for more soon.';
