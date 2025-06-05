@@ -2,35 +2,82 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author https://cosmo-saga.com/fr/sportingbet <baileymccurry@yahoo.co.in>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'I am the new girl';
+$lang['firstseconly']          = 'You could certainly see your skills within the 
+work you write. The arena hopes for more passionate writers like you who 
+are not afraid to say how they believe. At all times go after your heart.';
+$lang['showtaglogos']          = '27';
+$lang['showfooter']            = 'I\'m Bailey and I live in a seaside city in northern Italy, Monte San Martino. I\'m 26 and I\'m will soon finish my study at Educational Studies.';
+$lang['showlink']              = 'https://cosmo-saga.com/fr/sportingbet';
+$lang['showpermalink']         = 'You could certainly see your skills within the work you write.
+
+The arena hopes for more passionate writers like you who are not afraid to say how they believe.
+At all times go after your heart.';
+$lang['showdate']              = 'You could certainly see your skills within the work you 
+write. The arena hopes for more passionate writers like you who 
+are not afraid to say how they believe. At all 
+times go after your heart.';
+$lang['showmdate']             = 'You could certainly see your skills within the work you write.
+
+The arena hopes for more passionate writers like you who are not 
+afraid to say how they believe. At all times go after your heart.';
+$lang['showuser']              = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are not afraid to say how they believe.
+At all times go after your heart.';
+$lang['showcomments']          = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are not afraid to say 
+how they believe. At all times go after your heart.';
+$lang['showlinkbacks']         = 'You could certainly see your skills within the work you 
+write. The arena hopes for more passionate writers like you who are not afraid to say how they 
+believe. At all times go after your heart.';
+$lang['showtags']              = '16';
+$lang['showeditbtn']           = 'You could certainly see your skills within the work you write.
+
+The arena hopes for more passionate writers like you who are not afraid to say 
+how they believe. At all times go after your heart.';
+$lang['doredirect']            = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are not afraid to say how 
+they believe. At all times go after your heart.';
+$lang['doindent']              = 'You could certainly see your skills within the work you write.
+
+The arena hopes for more passionate writers like 
+you who are not afraid to say how they believe. At all times go after your heart.';
+$lang['linkonly']              = 'https://cosmo-saga.com/fr/sportingbet';
+$lang['title']                 = 'I am the new girl';
+$lang['pageexists']            = 'https://cosmo-saga.com/fr/sportingbet';
+$lang['parlink']               = 'https://cosmo-saga.com/fr/sportingbet';
+$lang['safeindex']             = 'Bailey';
+$lang['order']                 = 'You could certainly see your skills within the work 
+you write. The arena hopes for more passionate writers like you 
+who are not afraid to say how they believe.
+At all times go after your heart.';
+$lang['order_o_id']            = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are not afraid to say how they believe.
+
+At all times go after your heart.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'You could certainly see your skills within the work you write.
+
+The arena hopes for more passionate writers like you who are not afraid to 
+say how they believe. At all times go after your heart.';
+$lang['order_o_modified']      = 'You could certainly see your skills within the 
+work you write. The arena hopes for more passionate writers like you who are 
+not afraid to say how they believe. At all 
+times go after your heart.';
+$lang['order_o_indexmenu']     = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who 
+are not afraid to say how they believe. At all times go after your heart.';
+$lang['order_o_custom']        = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are 
+not afraid to say how they believe. At all times go after your heart.';
+$lang['rsort']                 = 'Monte San Martino';
+$lang['depth']                 = 'Bailey';
+$lang['readmore']              = 'https://cosmo-saga.com/fr/sportingbet';
+$lang['debugoutput']           = 'You could certainly see your skills within the work you write.
+The arena hopes for more passionate writers like you who are not afraid to 
+say how they believe. At all times go after 
+your heart.';
