@@ -11,7 +11,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
     function getType() {
         return 'formatting';
     }
-    
+
     function getSort() {
         return 300;
     }
@@ -22,14 +22,14 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
 
     /**
      * Renders a permalink header.
-     * 
+     *
      * Code heavily copied from the header renderer from inc/parser/xhtml.php, just
      * added an href parameter to the anchor tag linking to the wikilink.
      */
     function render($mode, Doku_Renderer $renderer, $data) {
 
         list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl) = $data;
-        
+
         if ($mode == 'xhtml') {
             $renderer->doc .= $this->html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $renderer);
 	        return true;
@@ -72,18 +72,18 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         if ($flags['date'] && $exists) {
             $date = $meta['date']['created'];
             if ($date) {
-                $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $date).'">'
-                       . strftime($conf['dformat'], $date)
+                $xhtml[] = '<abbr class="published" title="'.dformat($date, '%Y-%m-%dT%H:%M:%SZ').'">'
+                       . dformat($date)
                        . '</abbr>';
             }
         }
-        
+
         // modified date
         if ($flags['mdate'] && $exists) {
             $mdate = $meta['date']['modified'];
             if ($mdate) {
-                $xhtml[] = '<abbr class="published" title="'.strftime('%Y-%m-%dT%H:%M:%SZ', $mdate).'">'
-                       . strftime($conf['dformat'], $mdate)
+                $xhtml[] = '<abbr class="published" title="'.dformat($mdate, '%Y-%m-%dT%H:%M:%SZ').'">'
+                       . dformat($mdate)
                        . '</abbr>';
             }
         }
