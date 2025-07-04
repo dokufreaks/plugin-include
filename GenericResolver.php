@@ -1,5 +1,7 @@
 <?php
+
 namespace dokuwiki\plugin\include;
+
 use dokuwiki\File\Resolver;
 
 /**
@@ -7,5 +9,6 @@ use dokuwiki\File\Resolver;
  *
  * @package dokuwiki\plugin\include
  */
-class GenericResolver extends Resolver {
+class GenericResolver extends Resolver
+{
 }
