@@ -84,7 +84,7 @@ class syntax_plugin_include_include extends SyntaxPlugin
         }
         $flags = $this->helper->get_flags($flags);
 
-        $pages = $this->helper->_get_included_pages($mode, $page, $sect, $parent_id, $flags);
+        $pages = $this->helper->getIncludedPages($mode, $page, $sect, $parent_id, $flags);
 
         if ($format == 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
@@ -148,7 +148,7 @@ class syntax_plugin_include_include extends SyntaxPlugin
                 unset($flags['include_secid']);
             }
 
-            $instructions = $this->helper->_get_instructions(
+            $instructions = $this->helper->getInstructions(
                 $id,
                 $sect,
                 $mode,
