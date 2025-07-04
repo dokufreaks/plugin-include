@@ -6,6 +6,7 @@
  * 
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Petr Kajzar <petr.kajzar@centrum.cz>
  * @author Robert Surý <rsurycz@seznam.cz>
  * @author Lukas Zapletal <lukas.zapletal at gmail dot com>
  * @author Roman Svoboda <svoboro1 at fel.cvut dot cz>
@@ -24,11 +25,13 @@ $lang['showlinkbacks']         = 'Zobrazovat dole zpětné odkazy vkládané str
 $lang['showtags']              = 'Zobrazovat dole tagy vkládané stránky (vyžadován Tag plugin)';
 $lang['showeditbtn']           = 'Zobrazovat tlačítko pro editaci';
 $lang['doredirect']            = 'Přesměrovat na původní stránku po provedení editace vkládané stránky';
+$lang['doindent']              = 'Odsazení zařazených stránek vzhledem ke stránce, do které jsou zařazeny';
 $lang['linkonly']              = 'Pouze odkaz na vloženou stránku namísto zobrazení obsahu';
 $lang['title']                 = 'Použijte první nadpis stránky v odkazu, i když je používání nadpisů vypnuto (ovlivňuje pouze režim "jen odkazy"))';
 $lang['pageexists']            = 'Nezobrazovat odkaz, pokud stránka neexistuje (ovlivňuje pouze  režim "jen odkazy")';
 $lang['parlink']               = 'Umístěte odstavec kolem odkazu (ovlivní pouze režim "jen odkazy")';
 $lang['safeindex']             = 'Zabraňte indexaci metadat z neveřejných vložených stránek';
+$lang['order']                 = 'Kritéria řazení položek s více stránkami';
 $lang['order_o_id']            = 'ID stránky';
 $lang['order_o_title']         = 'titulek';
 $lang['order_o_created']       = 'datum vytvoření';
