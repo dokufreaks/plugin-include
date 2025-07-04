@@ -255,7 +255,7 @@ class helper_plugin_include extends Plugin
     /**
      * Returns the converted instructions of a give page/section
      */
-    protected function getInstructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = [])
+    public function getInstructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = [])
     {
         $key = ($sect) ? $page . '#' . $sect : $page;
         $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
@@ -871,7 +871,7 @@ class helper_plugin_include extends Plugin
      * This function generates the list of all included pages from a list of metadata
      * instructions.
      */
-    protected function getIncludedPagesFromMetaInstructions($instructions)
+    public function getIncludedPagesFromMetaInstructions($instructions)
     {
         $pages = [];
         foreach ($instructions as $instruction) {

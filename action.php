@@ -1,5 +1,10 @@
 <?php
 
+use dokuwiki\Extension\ActionPlugin;
+use dokuwiki\Extension\EventHandler;
+use dokuwiki\Extension\Event;
+use dokuwiki\Form\Form;
+
 /**
  * Include Plugin:  Display a wiki page within another wiki page
  *
@@ -9,59 +14,56 @@
  * @author     Christopher Smith <chris@jalakai.co.uk>
  * @author     Michael Klier <chi@chimeric.de>
  */
-
-/**
- * All DokuWiki plugins to extend the parser/rendering mechanism
- * need to inherit from this class
- */
-class action_plugin_include extends DokuWiki_Action_Plugin
+class action_plugin_include extends ActionPlugin
 {
     /* @var helper_plugin_include $helper */
-    var $helper = null;
+    public $helper;
 
-    function __construct()
+    /**
+     * Constructor
+     *
+     * Initializes the helper
+     */
+    public function __construct()
     {
         $this->helper = plugin_load('helper', 'include');
     }
 
-    /**
-     * plugin should use this method to register its handlers with the dokuwiki's event controller
-     */
-    function register(Doku_Event_Handler $controller)
+    /** @inheritdoc */
+    public function register(EventHandler $controller)
     {
         /* @var Doku_event_handler $controller */
-        $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
-        $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handle_indexer_version');
-        $controller->register_hook('PARSER_CACHE_USE', 'BEFORE', $this, '_cache_prepare');
-        $controller->register_hook('HTML_EDITFORM_OUTPUT', 'BEFORE', $this, 'handle_form'); // todo remove
-        $controller->register_hook('FORM_EDIT_OUTPUT', 'BEFORE', $this, 'handle_form');
-        $controller->register_hook('HTML_CONFLICTFORM_OUTPUT', 'BEFORE', $this, 'handle_form'); // todo remove
-        $controller->register_hook('FORM_CONFLICT_OUTPUT', 'BEFORE', $this, 'handle_form');
-        $controller->register_hook('HTML_DRAFTFORM_OUTPUT', 'BEFORE', $this, 'handle_form'); // todo remove
-        $controller->register_hook('FORM_DRAFT_OUTPUT', 'BEFORE', $this, 'handle_form');
-        $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handle_redirect');
-        $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handle_parser');
-        $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handle_metadata');
-        $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handle_secedit_button');
-        $controller->register_hook('PLUGIN_MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_move_register');
+        $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handleIndexer');
+        $controller->register_hook('INDEXER_VERSION_GET', 'BEFORE', $this, 'handleIndexerVersion');
+        $controller->register_hook('PARSER_CACHE_USE', 'BEFORE', $this, 'handleCachePrepare');
+        $controller->register_hook('FORM_EDIT_OUTPUT', 'BEFORE', $this, 'handleForm');
+        $controller->register_hook('FORM_CONFLICT_OUTPUT', 'BEFORE', $this, 'handleForm');
+        $controller->register_hook('FORM_DRAFT_OUTPUT', 'BEFORE', $this, 'handleForm');
+        $controller->register_hook('ACTION_SHOW_REDIRECT', 'BEFORE', $this, 'handleRedirect');
+        $controller->register_hook('PARSER_HANDLER_DONE', 'BEFORE', $this, 'handleParser');
+        $controller->register_hook('PARSER_METADATA_RENDER', 'AFTER', $this, 'handleMetadata');
+        $controller->register_hook('HTML_SECEDIT_BUTTON', 'BEFORE', $this, 'handleSeceditButton');
+        $controller->register_hook('PLUGIN_MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handleMoveRegister');
     }
 
     /**
      * Add a version string to the index so it is rebuilt
      * whenever the handler is updated or the safeindex setting is changed
      */
-    public function handle_indexer_version($event, $param)
+    public function handleIndexerVersion($event, $param)
     {
         $event->data['plugin_include'] = '0.1.safeindex=' . $this->getConf('safeindex');
     }
 
     /**
-     * Handles the INDEXER_PAGE_ADD event, prevents indexing of metadata from included pages that aren't public if enabled
+     * Handles the INDEXER_PAGE_ADD event
      *
-     * @param Doku_Event $event  the event object
-     * @param array      $params optional parameters (unused)
+     * prevents indexing of metadata from included pages that aren't public if enabled
+     *
+     * @param Event $event the event object
+     * @param array $params optional parameters (unused)
      */
-    public function handle_indexer(Doku_Event $event, $params)
+    public function handleIndexer(Event $event, $params)
     {
         global $USERINFO;
 
@@ -77,7 +79,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
         // check if the current metadata indicates that non-public pages were included
         if ($inclmeta !== null && isset($inclmeta['pages'])) {
             foreach ($inclmeta['pages'] as $page) {
-                if (auth_aclcheck($page['id'], '', array()) < AUTH_READ) { // is $page public?
+                if (auth_aclcheck($page['id'], '', []) < AUTH_READ) { // is $page public?
                     $all_public = false;
                     break;
                 }
@@ -95,21 +97,22 @@ class action_plugin_include extends DokuWiki_Action_Plugin
             // metadata is only rendered once for a page in one request - thus we need to render manually.
             $meta = p_read_metadata($event->data['page']); // load the original metdata
             $meta = p_render_metadata($event->data['page'], $meta); // render the metadata
-            p_save_metadata($event->data['page'], $meta); // save the metadata so other event handlers get the public metadata, too
+            p_save_metadata($event->data['page'], $meta); // save the metadata so other event handlers get it, too
 
             $meta = $meta['current']; // we are only interested in current metadata.
 
             // check if the tag plugin handler has already been called before the include plugin
             $tag_called = isset($event->data['metadata']['subject']);
 
-            // Reset the metadata in the renderer. This removes data from all other event handlers, but we need to be on the safe side here.
-            $event->data['metadata'] = array('title' => $meta['title']);
+            // Reset the metadata in the renderer.
+            // This removes data from all other event handlers, but we need to be on the safe side here.
+            $event->data['metadata'] = ['title' => $meta['title']];
 
             // restore the relation references metadata
             if (isset($meta['relation']['references'])) {
                 $event->data['metadata']['relation_references'] = array_keys($meta['relation']['references']);
             } else {
-                $event->data['metadata']['relation_references'] = array();
+                $event->data['metadata']['relation_references'] = [];
             }
 
             // restore the tag metadata if the tag plugin handler has been called before the include plugin handler.
@@ -119,7 +122,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
                     if (isset($meta['subject'])) {
                         $event->data['metadata']['subject'] = $tag_helper->_cleanTagList($meta['subject']);
                     } else {
-                        $event->data['metadata']['subject'] = array();
+                        $event->data['metadata']['subject'] = [];
                     }
                 }
             }
@@ -133,7 +136,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
     /**
      * Used for debugging purposes only
      */
-    function handle_metadata(&$event, $param)
+    public function handleMetadata(&$event, $param)
     {
         global $conf;
         if ($conf['allowdebug'] && $this->getConf('debugoutput')) {
@@ -149,7 +152,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function handle_parser(Doku_Event $event, $param)
+    public function handleParser(Event $event, $param)
     {
         global $ID;
 
@@ -159,17 +162,8 @@ class action_plugin_include extends DokuWiki_Action_Plugin
         for ($i = 0; $i < $num; $i++) {
             switch ($ins[$i][0]) {
                 case 'plugin':
-                    switch ($ins[$i][1][0]) {
-                        case 'include_include':
-                            $ins[$i][1][1][4] = $level;
-                            break;
-                    /* FIXME: this doesn't work anymore that way with the new structure
-                    // some plugins already close open sections
-                    // so we need to make sure we don't close them twice
-                    case 'box':
-                    $this->helper->sec_close = false;
-                    break;
-                     */
+                    if ($ins[$i][1][0] === 'include_include') {
+                        $ins[$i][1][1][4] = $level;
                     }
                     break;
                 case 'section_open':
@@ -182,11 +176,11 @@ class action_plugin_include extends DokuWiki_Action_Plugin
     /**
      * Add a hidden input to the form to preserve the redirect_id
      */
-    function handle_form(Doku_Event $event, $param)
+    public function handleForm(Event $event, $param)
     {
         if (!array_key_exists('redirect_id', $_REQUEST)) return;
 
-        if (is_a($event->data, \dokuwiki\Form\Form::class)) {
+        if (is_a($event->data, Form::class)) {
             $event->data->setHiddenField('redirect_id', cleanID($_REQUEST['redirect_id']));
         } else {
             // todo remove when old FORM events are no longer supported
@@ -197,15 +191,15 @@ class action_plugin_include extends DokuWiki_Action_Plugin
     /**
      * Modify the data for the redirect when there is a redirect_id set
      */
-    function handle_redirect(Doku_Event &$event, $param)
+    public function handleRedirect(Event &$event, $param)
     {
         if (array_key_exists('redirect_id', $_REQUEST)) {
-          // Render metadata when this is an older DokuWiki version where
-          // metadata is not automatically re-rendered as the page has probably
-          // been changed but is not directly displayed
+            // Render metadata when this is an older DokuWiki version where
+            // metadata is not automatically re-rendered as the page has probably
+            // been changed but is not directly displayed
             $versionData = getVersionData();
             if ($versionData['date'] < '2010-11-23') {
-                p_set_metadata($event->data['id'], array(), true);
+                p_set_metadata($event->data['id'], [], true);
             }
             $event->data['id'] = cleanID($_REQUEST['redirect_id']);
             $event->data['title'] = '';
@@ -215,7 +209,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
     /**
      * prepare the cache object for default _useCache action
      */
-    function _cache_prepare(Doku_Event &$event, $param)
+    public function handleCachePrepare(Event &$event, $param)
     {
         global $conf;
 
@@ -238,7 +232,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin
         if (
             !is_array($depends['pages']) ||
             !is_array($depends['instructions']) ||
-            $depends['pages'] != $this->helper->_get_included_pages_from_meta_instructions($depends['instructions']) ||
+            $depends['pages'] != $this->helper->getIncludedPagesFromMetaInstructions($depends['instructions']) ||
             // the include_content url parameter may change the behavior for included pages
             $depends['include_content'] != isset($_REQUEST['include_content'])
         ) {
@@ -249,12 +243,12 @@ class action_plugin_include extends DokuWiki_Action_Plugin
                 dbglog($depends['pages']);
                 dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META END ----');
                 dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS START ----');
-                dbglog($this->helper->_get_included_pages_from_meta_instructions($depends['instructions']));
+                dbglog($this->helper->getIncludedPagesFromMetaInstructions($depends['instructions']));
                 dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS END ----');
             }
         } else {
             // add plugin.info.txt to depends for nicer upgrades
-            $cache->depends['files'][] = dirname(__FILE__) . '/plugin.info.txt';
+            $cache->depends['files'][] = __DIR__ . '/plugin.info.txt';
             foreach ($depends['pages'] as $page) {
                 if (!$page['exists']) continue;
                 $file = wikiFN($page['id']);
@@ -270,10 +264,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin
      * and replace normal section edit buttons when the current page is different from the
      * global $ID.
      */
-    function handle_secedit_button(Doku_Event &$event, $params)
+    public function handleSeceditButton(Event &$event, $params)
     {
         // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
-        static $page_stack = array();
+        static $page_stack = [];
 
         global $ID, $lang;
 
@@ -283,18 +277,22 @@ class action_plugin_include extends DokuWiki_Action_Plugin
             // handle the "section edits" added by the include plugin
             $fn = wikiFN($data['name']);
             $perm = auth_quickaclcheck($data['name']);
-            array_unshift($page_stack, array(
-                'id' => $data['name'],
-                'rev' => @filemtime($fn),
-                'writable' => (page_exists($data['name']) ? (is_writable($fn) && $perm >= AUTH_EDIT) : $perm >= AUTH_CREATE),
-                'redirect' => ($data['target'] == 'plugin_include_start'),
-            ));
+            array_unshift(
+                $page_stack,
+                [
+                    'id' => $data['name'],
+                    'rev' => @filemtime($fn),
+                    'writable' =>
+                        (page_exists($data['name'])
+                            ? (is_writable($fn) && $perm >= AUTH_EDIT)
+                            : $perm >= AUTH_CREATE),
+                'redirect' => ($data['target'] == 'plugin_include_start')]
+            );
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
         } elseif ($data['target'] == 'plugin_include_editbtn') {
             if ($page_stack[0]['writable']) {
-                $params = array('do' => 'edit',
-                    'id' => $page_stack[0]['id']);
+                $params = ['do' => 'edit', 'id' => $page_stack[0]['id']];
                 if ($page_stack[0]['redirect']) {
                     $params['redirect_id'] = $ID;
                     $params['hid'] = $data['hid'];
@@ -337,9 +335,10 @@ class action_plugin_include extends DokuWiki_Action_Plugin
                         'secedit',
                         $page_stack[0]['id'],
                         '',
-                        array_merge(array('do'  => 'edit',
-                        'rev' => $page_stack[0]['rev'],
-                        'summary' => '[' . $name . '] '), $data),
+                        array_merge(
+                            ['do' => 'edit', 'rev' => $page_stack[0]['rev'], 'summary' => '[' . $name . '] '],
+                            $data
+                        ),
                         'post',
                         $name
                     ) . '</div>';
@@ -354,27 +353,23 @@ class action_plugin_include extends DokuWiki_Action_Plugin
         $event->stopPropagation();
     }
 
-    public function handle_move_register(Doku_Event $event, $params)
+    public function handleMoveRegister(Event $event, $params)
     {
-        $event->data['handlers']['include_include'] = array($this, 'rewrite_include');
+        $event->data['handlers']['include_include'] = [$this, 'rewriteInclude'];
     }
 
-    public function rewrite_include($match, $pos, $state, $plugin, helper_plugin_move_handler $handler)
+    public function rewriteInclude($match, $pos, $state, $plugin, helper_plugin_move_handler $handler)
     {
         $syntax = substr($match, 2, -2); // strip markup
         $replacers = explode('|', $syntax);
         $syntax = array_shift($replacers);
-        list($syntax, $flags) = array_pad(explode('&', $syntax, 2), 2, "");
+        [$syntax, $flags] = array_pad(explode('&', $syntax, 2), 2, "");
 
         // break the pattern up into its parts
-        list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $syntax, 3), 3, "");
+        [$mode, $page, $sect] = array_pad(preg_split('/>|#/u', $syntax, 3), 3, "");
 
-        if (method_exists($handler, 'adaptRelativeId')) { // move plugin before version 2015-05-16
-            $newpage = $handler->adaptRelativeId($page);
-        } else {
-            $newpage = $handler->resolveMoves($page, 'page');
-            $newpage = $handler->relativeLink($page, $newpage, 'page');
-        }
+        $newpage = $handler->resolveMoves($page, 'page');
+        $newpage = $handler->relativeLink($page, $newpage, 'page');
 
         if ($newpage == $page) {
             return $match;
@@ -388,4 +383,3 @@ class action_plugin_include extends DokuWiki_Action_Plugin
         }
     }
 }
-// vim:ts=4:sw=4:et:
