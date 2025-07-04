@@ -8,12 +8,13 @@
  * @author      Michael Hamann <michael@content-space.de>
  *
  */
-class syntax_plugin_include_sorttag extends DokuWiki_Syntax_Plugin {
-
+class syntax_plugin_include_sorttag extends DokuWiki_Syntax_Plugin
+{
     /**
      * What kind of syntax are we?
      */
-    public function getType(){
+    public function getType()
+    {
         return 'substition';
     }
 
@@ -22,36 +23,41 @@ class syntax_plugin_include_sorttag extends DokuWiki_Syntax_Plugin {
      *
      * @return string The paragraph type
      */
-    public function getPType() {
+    public function getPType()
+    {
         return 'block';
     }
 
     /**
      * Where to sort in?
      */
-    public function getSort(){
+    public function getSort()
+    {
         return 139;
     }
 
     /**
      * Connect pattern to lexer
      */
-    public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('{{include_n>.+?}}',$mode,'plugin_include_sorttag');
+    public function connectTo($mode)
+    {
+        $this->Lexer->addSpecialPattern('{{include_n>.+?}}', $mode, 'plugin_include_sorttag');
     }
 
     /**
      * Handle the match
      */
-    public function handle($match, $state, $pos, Doku_Handler $handler){
-        $match = substr($match,12,-2);
+    public function handle($match, $state, $pos, Doku_Handler $handler)
+    {
+        $match = substr($match, 12, -2);
         return array($match);
     }
 
     /**
      * Render output
      */
-    public function render($mode, Doku_Renderer $renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data)
+    {
         if ($mode === 'metadata') {
             /** @var Doku_Renderer_metadata $renderer */
             $renderer->meta['include_n'] = $data[0];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Include plugin (footer component)
  *
@@ -6,17 +7,20 @@
  * @author  Michael Klier <chi@chimeric.de>
  */
 
-class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
-
-    function getType() {
+class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin
+{
+    function getType()
+    {
         return 'formatting';
     }
 
-    function getSort() {
+    function getSort()
+    {
         return 300;
     }
 
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler)
+    {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -26,13 +30,14 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
      * Code heavily copied from the header renderer from inc/parser/xhtml.php, just
      * added an href parameter to the anchor tag linking to the wikilink.
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data)
+    {
 
         list($page, $sect, $sect_title, $flags, $redirect_id, $footer_lvl) = $data;
 
         if ($mode == 'xhtml') {
             $renderer->doc .= $this->html_footer($page, $sect, $sect_title, $flags, $footer_lvl, $renderer);
-	        return true;
+            return true;
         }
         return false;
     }
@@ -42,10 +47,11 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
      * @param $renderer Doku_Renderer_xhtml The (xhtml) renderer
      * @return string The HTML code of the footer
      */
-    function html_footer($page, $sect, $sect_title, $flags, $footer_lvl, &$renderer) {
+    function html_footer($page, $sect, $sect_title, $flags, $footer_lvl, &$renderer)
+    {
         global $conf, $ID;
 
-        if(!$flags['footer']) return '';
+        if (!$flags['footer']) return '';
 
         $meta  = p_get_metadata($page);
         $exists = page_exists($page);
@@ -72,7 +78,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         if ($flags['date'] && $exists) {
             $date = $meta['date']['created'];
             if ($date) {
-                $xhtml[] = '<abbr class="published" title="'.dformat($date, '%Y-%m-%dT%H:%M:%SZ').'">'
+                $xhtml[] = '<abbr class="published" title="' . dformat($date, '%Y-%m-%dT%H:%M:%SZ') . '">'
                        . dformat($date)
                        . '</abbr>';
             }
@@ -82,7 +88,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         if ($flags['mdate'] && $exists) {
             $mdate = $meta['date']['modified'];
             if ($mdate) {
-                $xhtml[] = '<abbr class="published" title="'.dformat($mdate, '%Y-%m-%dT%H:%M:%SZ').'">'
+                $xhtml[] = '<abbr class="published" title="' . dformat($mdate, '%Y-%m-%dT%H:%M:%SZ') . '">'
                        . dformat($mdate)
                        . '</abbr>';
             }
@@ -117,7 +123,7 @@ class syntax_plugin_include_footer extends DokuWiki_Syntax_Plugin {
         // tags - let Tag Plugin do the work for us
         if (empty($sect) && $flags['tags'] && (!plugin_isdisabled('tag')) && ($tag = plugin_load('helper', 'tag'))) {
             $tags = $tag->td($page);
-            if($tags) {
+            if ($tags) {
                 $xhtml .= '<div class="tags"><span>' . DOKU_LF
                               . DOKU_TAB . $tags . DOKU_LF
                               . DOKU_TAB . '</span></div>' . DOKU_LF;

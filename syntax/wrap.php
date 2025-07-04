@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Include plugin (wrapper component)
  *
@@ -7,17 +8,20 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
-
-    function getType() {
+class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin
+{
+    function getType()
+    {
         return 'formatting';
     }
 
-    function getSort() {
+    function getSort()
+    {
         return 50;
     }
 
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler)
+    {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -28,10 +32,11 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data)
+    {
         if ($mode == 'xhtml') {
             $state = array_shift($data);
-            switch($state) {
+            switch ($state) {
                 case 'open':
                     list($page, $redirect, $secid) = $data;
                     if ($redirect) {
@@ -55,14 +60,14 @@ class syntax_plugin_include_wrap extends DokuWiki_Syntax_Plugin {
                     } else {
                         $renderer->startSectionEdit(0, 'plugin_include_end', $page);
                     }
-                    if ($secid === NULL) {
+                    if ($secid === null) {
                         $id = '';
                     } else {
-                        $id = ' id="'.$secid.'"';
+                        $id = ' id="' . $secid . '"';
                     }
-                    $renderer->doc .= '<div class="plugin_include_content plugin_include__' . $page .'"'.$id.'>' . DOKU_LF;
-                    if (is_a($renderer,'renderer_plugin_dw2pdf')) {
-                        $renderer->doc .= '<a name="'.$secid.'" />';
+                    $renderer->doc .= '<div class="plugin_include_content plugin_include__' . $page . '"' . $id . '>' . DOKU_LF;
+                    if (is_a($renderer, 'renderer_plugin_dw2pdf')) {
+                        $renderer->doc .= '<a name="' . $secid . '" />';
                     }
                     break;
                 case 'close':

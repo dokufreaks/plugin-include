@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Include Plugin: displays a wiki page within another
  * Usage:
@@ -18,8 +19,8 @@
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
  */
-class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
-
+class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin
+{
     /** @var $helper helper_plugin_include */
     var $helper = null;
 
@@ -28,28 +29,38 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      *
      * @return string The plugin type.
      */
-    function getType() { return 'substition'; }
+    function getType()
+    {
+        return 'substition';
+    }
 
     /**
      * Get sort order of syntax plugin.
      *
      * @return int The sort order.
      */
-    function getSort() { return 303; }
+    function getSort()
+    {
+        return 303;
+    }
 
     /**
      * Get paragraph type.
      *
      * @return string The paragraph type.
      */
-    function getPType() { return 'block'; }
+    function getPType()
+    {
+        return 'block';
+    }
 
     /**
      * Connect patterns/modes
      *
      * @param $mode mixed The current mode
      */
-    function connectTo($mode) {
+    function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern("{{page>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{section>.+?}}", $mode, 'plugin_include_include');
         $this->Lexer->addSpecialPattern("{{namespace>.+?}}", $mode, 'plugin_include_include');
@@ -65,7 +76,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      * @param Doku_Handler $handler The hanlder object
      * @return array The instructions of the plugin
      */
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler)
+    {
 
         $match = substr($match, 2, -2); // strip markup
         list($match, $flags) = array_pad(explode('&', $match, 2), 2, '');
@@ -74,7 +86,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $match, 3), 3, null);
         $check = false;
         if (isset($sect)) $sect = sectionID($sect, $check);
-        $level = NULL;
+        $level = null;
         return array($mode, $page, $sect, explode('&', $flags), $level, $pos);
     }
 
@@ -83,7 +95,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function render($format, Doku_Renderer $renderer, $data) {
+    function render($format, Doku_Renderer $renderer, $data)
+    {
         global $ID;
 
         // static stack that records all ancestors of the child pages
@@ -92,7 +105,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         // when there is no id just assume the global $ID is the current id
         if (empty($page_stack)) $page_stack[] = $ID;
 
-        $parent_id = $page_stack[count($page_stack)-1];
+        $parent_id = $page_stack[count($page_stack) - 1];
         $root_id = $page_stack[0];
 
         list($mode, $page, $sect, $flags, $level, $pos) = $data;
@@ -137,7 +150,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 $renderer->meta['relation']['references'][$id] = $exists;
                 $renderer->meta['relation']['haspart'][$id]    = $exists;
                 if (!$sect && !$flags['firstsec'] && !$flags['linkonly'] && !isset($renderer->meta['plugin_include']['secids'][$id])) {
-                    $renderer->meta['plugin_include']['secids'][$id] = array('hid' => 'plugin_include__'.str_replace(':', '__', $id), 'pos' => $pos);
+                    $renderer->meta['plugin_include']['secids'][$id] = array('hid' => 'plugin_include__' . str_replace(':', '__', $id), 'pos' => $pos);
                 }
             }
 

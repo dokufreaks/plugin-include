@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Include plugin (editbtn header component)
  *
@@ -6,17 +7,20 @@
  * @author  Michael Klier <chi@chimeric.de>
  */
 
-class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
-
-    function getType() {
+class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin
+{
+    function getType()
+    {
         return 'formatting';
     }
-    
-    function getSort() {
+
+    function getSort()
+    {
         return 50;
     }
 
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler)
+    {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -25,7 +29,8 @@ class syntax_plugin_include_editbtn extends DokuWiki_Syntax_Plugin {
      *
      * @author Michael Klier <chi@chimeric.de>
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
+    function render($mode, Doku_Renderer $renderer, $data)
+    {
         list($title, $hid) = $data;
         if ($mode == 'xhtml') {
             if (defined('SEC_EDIT_PATTERN')) { // for DokuWiki Greebo and more recent versions
