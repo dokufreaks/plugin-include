@@ -1,4 +1,7 @@
 <?php
+
+use dokuwiki\Extension\SyntaxPlugin;
+
 /**
  * Include plugin (close last section edit)
  *
@@ -6,27 +9,31 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-class syntax_plugin_include_closelastsecedit extends DokuWiki_Syntax_Plugin {
-
-    function getType() {
+class syntax_plugin_include_closelastsecedit extends SyntaxPlugin
+{
+    public function getType()
+    {
         return 'formatting';
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 50;
     }
 
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    public function handle($match, $state, $pos, Doku_Handler $handler)
+    {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
     /**
      * Finishes the last open section edit
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data)
+    {
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
-            list($endpos) = $data;
+            [$endpos] = $data;
             $renderer->finishSectionEdit($endpos);
             return true;
         }

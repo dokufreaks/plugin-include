@@ -1,4 +1,7 @@
 <?php
+
+use dokuwiki\Extension\SyntaxPlugin;
+
 /**
  * Include plugin (locallink component)
  *
@@ -6,17 +9,20 @@
  * @author  Michael Hamann <michael@content-space.de>
  */
 
-class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
-
-    function getType() {
+class syntax_plugin_include_locallink extends SyntaxPlugin
+{
+    public function getType()
+    {
         return 'formatting';
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 50;
     }
 
-    function handle($match, $state, $pos, Doku_Handler $handler) {
+    public function handle($match, $state, $pos, Doku_Handler $handler)
+    {
         // this is a syntax plugin that doesn't offer any syntax, so there's nothing to handle by the parser
     }
 
@@ -25,16 +31,17 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
      *
      * @author Michael Hamann <michael@content-space.de>
      */
-    function render($mode, Doku_Renderer $renderer, $data) {
+    public function render($mode, Doku_Renderer $renderer, $data)
+    {
         global $ID;
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
-            list($hash, $name, $id) = $data;
+            [$hash, $name, $id] = $data;
             // construct title in the same way it would be done for internal links
             $default = $renderer->_simpleTitle($id);
             $name    = $renderer->_getLinkTitle($name, $default, $isImage, $id);
-            $title   = $ID.' ↵';
-            $renderer->doc .= '<a href="#'.$hash.'" title="'.$title.'" class="wikilink1">';
+            $title   = $ID . ' ↵';
+            $renderer->doc .= '<a href="#' . $hash . '" title="' . $title . '" class="wikilink1">';
             $renderer->doc .= $name;
             $renderer->doc .= '</a>';
             return true;
