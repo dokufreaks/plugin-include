@@ -65,7 +65,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
      * Test hiding of hidden pages in namespace includes
      */
     public function test_hidden() {
-        $flags = $this->helper->get_flags(array());
+        $flags = $this->helper->getFlags(array());
         $pages = $this->helper->getIncludedPages('namespace', 'inclhidden:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'inclhidden:visible', 'exists' => true, 'parent_id' => ''),
@@ -76,24 +76,24 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
      * Test include depth limit
      */
     public function test_depth() {
-        $flags = $this->helper->get_flags(array());
+        $flags = $this->helper->getFlags(array());
         $pages = $this->helper->getIncludedPages('namespace', 'incltest:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'incltest:level1', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
-        $flags = $this->helper->get_flags(array('depth=2'));
+        $flags = $this->helper->getFlags(array('depth=2'));
         $pages = $this->helper->getIncludedPages('namespace', 'incltest:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'incltest:level1', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'incltest:ns:level2', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
-        $flags = $this->helper->get_flags(array('depth=2'));
+        $flags = $this->helper->getFlags(array('depth=2'));
         $pages = $this->helper->getIncludedPages('namespace', 'incltest:ns', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'incltest:ns:level2', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'incltest:ns:ns:level3', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
-        $flags = $this->helper->get_flags(array('depth=0'));
+        $flags = $this->helper->getFlags(array('depth=0'));
         $pages = $this->helper->getIncludedPages('namespace', 'incltest:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'incltest:level1', 'exists' => true, 'parent_id' => ''),
@@ -102,10 +102,10 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                             ), $pages);
 
         // test include of the root namespace
-        $flags = $this->helper->get_flags(array());
+        $flags = $this->helper->getFlags(array());
         $pages = $this->helper->getIncludedPages('namespace', ':', '', '', $flags);
         $this->assertEquals(array(array('id' => 'mailinglist', 'exists' => true, 'parent_id' => '')), $pages);
-        $flags = $this->helper->get_flags(array('depth=2'));
+        $flags = $this->helper->getFlags(array('depth=2'));
         $pages = $this->helper->getIncludedPages('namespace', ':', '', '', $flags);
         $expected = array(
                                  array('id' => 'inclhidden:visible', 'exists' => true, 'parent_id' => ''),
@@ -143,7 +143,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
      */
     public function test_order() {
 
-        $flags = $this->helper->get_flags(array());
+        $flags = $this->helper->getFlags(array());
         $pages = $this->helper->getIncludedPages('namespace', 'inclorder:', '', '', $flags);
 
         $this->assertEquals(array(
@@ -153,7 +153,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  array('id' => 'inclorder:page4', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
 
-        $flags = $this->helper->get_flags(array('rsort'));
+        $flags = $this->helper->getFlags(array('rsort'));
         $pages = $this->helper->getIncludedPages('namespace', 'inclorder:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'inclorder:page4', 'exists' => true, 'parent_id' => ''),
@@ -161,7 +161,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  array('id' => 'inclorder:page2', 'exists' => true, 'parent_id' => ''),
                                  array('id' => 'inclorder:page1', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
-        $flags = $this->helper->get_flags(array('order=custom'));
+        $flags = $this->helper->getFlags(array('order=custom'));
         $pages = $this->helper->getIncludedPages('namespace', 'inclorder:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'inclorder:page4', 'exists' => true, 'parent_id' => ''),
@@ -170,7 +170,7 @@ class plugin_include_namespaces_includes_test extends DokuWikiTest {
                                  array('id' => 'inclorder:page2', 'exists' => true, 'parent_id' => ''),
                             ), $pages);
 
-        $flags = $this->helper->get_flags(array('order=custom', 'rsort'));
+        $flags = $this->helper->getFlags(array('order=custom', 'rsort'));
         $pages = $this->helper->getIncludedPages('namespace', 'inclorder:', '', '', $flags);
         $this->assertEquals(array(
                                  array('id' => 'inclorder:page2', 'exists' => true, 'parent_id' => ''),

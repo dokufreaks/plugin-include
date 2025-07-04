@@ -82,7 +82,7 @@ class syntax_plugin_include_include extends SyntaxPlugin
         if (!$this->helper) {
             $this->helper = plugin_load('helper', 'include');
         }
-        $flags = $this->helper->get_flags($flags);
+        $flags = $this->helper->getFlags($flags);
 
         $pages = $this->helper->getIncludedPages($mode, $page, $sect, $parent_id, $flags);
 
