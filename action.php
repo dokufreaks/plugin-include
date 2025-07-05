@@ -4,6 +4,7 @@ use dokuwiki\Extension\ActionPlugin;
 use dokuwiki\Extension\EventHandler;
 use dokuwiki\Extension\Event;
 use dokuwiki\Form\Form;
+use dokuwiki\Logger;
 
 /**
  * Include Plugin:  Display a wiki page within another wiki page
@@ -211,8 +212,6 @@ class action_plugin_include extends ActionPlugin
      */
     public function handleCachePrepare(Event $event, $param)
     {
-        global $conf;
-
         /* @var cache_renderer $cache */
         $cache =& $event->data;
 
@@ -221,10 +220,8 @@ class action_plugin_include extends ActionPlugin
 
         $depends = p_get_metadata($cache->page, 'plugin_include');
 
-        if ($conf['allowdebug'] && $this->getConf('debugoutput')) {
-            dbglog('---- PLUGIN INCLUDE CACHE DEPENDS START ----');
-            dbglog($depends);
-            dbglog('---- PLUGIN INCLUDE CACHE DEPENDS END ----');
+        if ($this->getConf('debugoutput')) {
+            Logger::debug('include plugin: cache depends for ' . $cache->page, $depends);
         }
 
         if (!is_array($depends)) return; // nothing to do for us
@@ -237,14 +234,11 @@ class action_plugin_include extends ActionPlugin
             $depends['include_content'] != isset($_REQUEST['include_content'])
         ) {
             $cache->depends['purge'] = true; // included pages changed or old metadata - request purge.
-            if ($conf['allowdebug'] && $this->getConf('debugoutput')) {
-                dbglog('---- PLUGIN INCLUDE: REQUESTING CACHE PURGE ----');
-                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META START ----');
-                dbglog($depends['pages']);
-                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META END ----');
-                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS START ----');
-                dbglog($this->helper->getIncludedPagesFromMetaInstructions($depends['instructions']));
-                dbglog('---- PLUGIN INCLUDE CACHE PAGES FROM META_INSTRUCTIONS END ----');
+            if ($this->getConf('debugoutput')) {
+                Logger::debug('include plugin: cache purge for ' . $cache->page, [
+                    'meta-pages' => $depends['pages'],
+                    'inst-pages' => $this->helper->getIncludedPagesFromMetaInstructions($depends['instructions']),
+                ]);
             }
         } else {
             // add plugin.info.txt to depends for nicer upgrades
@@ -286,7 +280,7 @@ class action_plugin_include extends ActionPlugin
                         (page_exists($data['name'])
                             ? (is_writable($fn) && $perm >= AUTH_EDIT)
                             : $perm >= AUTH_CREATE),
-                'redirect' => ($data['target'] == 'plugin_include_start')]
+                    'redirect' => ($data['target'] == 'plugin_include_start')]
             );
         } elseif ($data['target'] == 'plugin_include_end') {
             array_shift($page_stack);
