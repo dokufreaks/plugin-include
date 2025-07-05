@@ -50,7 +50,7 @@ class action_plugin_include extends ActionPlugin
      * Add a version string to the index so it is rebuilt
      * whenever the handler is updated or the safeindex setting is changed
      */
-    public function handleIndexerVersion($event, $param)
+    public function handleIndexerVersion(Event $event, $param)
     {
         $event->data['plugin_include'] = '0.1.safeindex=' . $this->getConf('safeindex');
     }
@@ -136,7 +136,7 @@ class action_plugin_include extends ActionPlugin
     /**
      * Used for debugging purposes only
      */
-    public function handleMetadata(&$event, $param)
+    public function handleMetadata(Event $event, $param)
     {
         global $conf;
         if ($conf['allowdebug'] && $this->getConf('debugoutput')) {
@@ -191,7 +191,7 @@ class action_plugin_include extends ActionPlugin
     /**
      * Modify the data for the redirect when there is a redirect_id set
      */
-    public function handleRedirect(Event &$event, $param)
+    public function handleRedirect(Event $event, $param)
     {
         if (array_key_exists('redirect_id', $_REQUEST)) {
             // Render metadata when this is an older DokuWiki version where
@@ -209,7 +209,7 @@ class action_plugin_include extends ActionPlugin
     /**
      * prepare the cache object for default _useCache action
      */
-    public function handleCachePrepare(Event &$event, $param)
+    public function handleCachePrepare(Event $event, $param)
     {
         global $conf;
 
@@ -264,7 +264,7 @@ class action_plugin_include extends ActionPlugin
      * and replace normal section edit buttons when the current page is different from the
      * global $ID.
      */
-    public function handleSeceditButton(Event &$event, $params)
+    public function handleSeceditButton(Event $event, $params)
     {
         // stack of included pages in the form ('id' => page, 'rev' => modification time, 'writable' => bool)
         static $page_stack = [];
