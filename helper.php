@@ -71,14 +71,41 @@ class helper_plugin_include extends Plugin
     }
 
     /**
-     * This is not a PSR-2 compliant method name
-     * @deprecated 2025-07-04
+     * Magic method to handle deprecated method calls
      *
+     * @param string $func The name of the method being called
+     * @param array $args The arguments passed to the method
+     * @return mixed
      */
-    public function get_flags($setflags) // phpcs:ignore PSR1.Methods.CamelCapsMethodName.NotCamelCaps
+    public function __call($func, $args)
     {
-        dbg_deprecated('getFlags()');
-        return $this->getFlags($setflags);
+        switch ($func) {
+            case 'get_flags':
+                dbg_deprecated('getFlags()');
+                return $this->getFlags($args[0]);
+            case '_get_instructions':
+                dbg_deprecated('getInstructions()');
+                return $this->getInstructions(
+                    $args[0], // page
+                    $args[1], // sect
+                    $args[2], // mode
+                    $args[3], // lvl
+                    $args[4], // flags
+                    $args[5] ?? null, // root_id
+                    $args[6] ?? [] // included_pages
+                );
+            case '_get_included_pages':
+                dbg_deprecated('getIncludedPages()');
+                return $this->getIncludedPages(
+                    $args[0], // mode
+                    $args[1], // page
+                    $args[2], // sect
+                    $args[3], // parent_id
+                    $args[4]  // flags
+                );
+            default:
+                throw new \BadMethodCallException("Method $func does not exist in " . __CLASS__);
+        }
     }
 
     /**
