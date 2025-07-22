@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Metadata for configuration manager plugin
  * Additions for the Include Plugin
  *
  * @author    Esther Brunner <wikidesign@gmail.com>
  */
+
 $meta['noheader']      = array('onoff');
 $meta['firstseconly']  = array('onoff');
 $meta['showtaglogos']  = array('onoff');
