@@ -5,4 +5,4 @@ date   2025-07-04
 name   include plugin
 desc   Functions to include another page in a wiki page
 url    https://dokuwiki.org/plugin:include
-minphp 8.0
+phpmin 8.0
