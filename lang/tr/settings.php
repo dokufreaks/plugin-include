@@ -2,35 +2,62 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author drkenansimsek.com.tr <romaine.lang@gmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Boyun fıtığı, idrar kaçırmanıza neden olabilir!';
+$lang['firstseconly']          = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç 
+yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek 
+adresi fanatik.com.tr.';
+$lang['showtaglogos']          = '18';
+$lang['showfooter']            = 'Executive Secretary Elise Nye, hailing from Cold Lake enjoys watching movies like Body of War and Shooting. Took a trip to Historic City of Ayutthaya and drives a Ferrari 250 GT LWB California Spider.';
+$lang['showlink']              = 'https://drkenansimsek.com.tr/bas-agrisi-icin-hangi-doktora-gidilir/';
+$lang['showpermalink']         = 'Türkiye\'den ve Dünya’dan son dakika spor 
+haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['showdate']              = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor 
+ve maç yorumları, spor magazin haberleri, spor ile ilgili 
+bütün konuların tek adresi fanatik.com.tr.';
+$lang['showmdate']             = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['showuser']              = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor 
+ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['showcomments']          = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor 
+ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['showlinkbacks']         = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['showtags']              = '16';
+$lang['showeditbtn']           = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe 
+yazılarından spor ve maç yorumları, spor 
+magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['doredirect']            = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç 
+yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek 
+adresi fanatik.com.tr.';
+$lang['doindent']              = 'Türkiye\'den ve Dünya’dan son dakika spor 
+haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor 
+ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['linkonly']              = 'https://drkenansimsek.com.tr/bas-agrisi-icin-hangi-doktora-gidilir/';
+$lang['title']                 = 'Boyun fıtığı, idrar kaçırmanıza neden olabilir!';
+$lang['pageexists']            = 'https://drkenansimsek.com.tr/bas-agrisi-icin-hangi-doktora-gidilir/';
+$lang['parlink']               = 'https://drkenansimsek.com.tr/bas-agrisi-icin-hangi-doktora-gidilir/';
+$lang['safeindex']             = 'Romaine';
+$lang['order']                 = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları, 
+spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['order_o_id']            = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor ile 
+ilgili bütün konuların tek adresi fanatik.com.tr.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları, 
+spor magazin haberleri, spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
+$lang['order_o_modified']      = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç yorumları,
+spor magazin haberleri, spor ile ilgili bütün konuların tek 
+adresi fanatik.com.tr.';
+$lang['order_o_indexmenu']     = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, köşe yazılarından spor ve maç 
+yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi 
+fanatik.com.tr.';
+$lang['order_o_custom']        = 'Türkiye\'den ve Dünya’dan son dakika spor haberleri, 
+köşe yazılarından spor ve maç yorumları, spor magazin haberleri, spor ile ilgili bütün konuların tek adresi 
+fanatik.com.tr.';
+$lang['rsort']                 = 'Zurich';
+$lang['depth']                 = 'Romaine';
+$lang['readmore']              = 'https://drkenansimsek.com.tr/bas-agrisi-icin-hangi-doktora-gidilir/';
+$lang['debugoutput']           = 'Türkiye\'den ve Dünya’dan son dakika spor 
+haberleri, köşe yazılarından spor ve maç yorumları, spor magazin haberleri, 
+spor ile ilgili bütün konuların tek adresi fanatik.com.tr.';
