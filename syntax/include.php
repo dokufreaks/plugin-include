@@ -66,6 +66,18 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
      * @return array The instructions of the plugin
      */
     function handle($match, $state, $pos, Doku_Handler $handler) {
+        if (!$this->helper)
+            $this->helper = plugin_load('helper', 'include');
+
+        global $ID;
+
+        // static stack that records all ancestors of the child pages
+        static $page_stack = array();
+
+        // when there is no id just assume the global $ID is the current id
+        if (empty($page_stack)) $page_stack[] = $ID;
+
+        $parent_id = $page_stack[count($page_stack)-1];
 
         $match = substr($match, 2, -2); // strip markup
         list($match, $flags) = array_pad(explode('&', $match, 2), 2, '');
@@ -73,7 +85,11 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         // break the pattern up into its parts
         list($mode, $page, $sect) = array_pad(preg_split('/>|#/u', $match, 3), 3, null);
         $check = false;
-        if (isset($sect)) $sect = sectionID($sect, $check);
+        if (isset($sect))
+        {
+            $sect = $this->helper->_apply_macro($sect,$parent_id);
+            $sect = sectionID($sect, $check);
+        }
         $level = NULL;
         return array($mode, $page, $sect, explode('&', $flags), $level, $pos);
     }
