@@ -39,6 +39,15 @@ class syntax_plugin_include_locallink extends DokuWiki_Syntax_Plugin {
             $renderer->doc .= '</a>';
             return true;
         }
+        if ($mode == 'odt') {
+            list($hash, $name, $id) = $data;
+            // construct title in the same way it would be done for internal links
+            $default = $renderer->_simpleTitle($id);
+            $name    = $renderer->_getLinkTitle($name, $default, $isImage, $id);
+            $title   = $ID;
+			$renderer->internallink($id,$name);
+            return true;
+        }
         return false;
     }
 }
