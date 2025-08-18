@@ -236,7 +236,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * @author Michael Klier <chi@chimeric.de>
      * @author Michael Hamann <michael@content-space.de>
      */
-    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = array()) {
+    function _get_instructions($page, $sect, $mode, $lvl, $flags, $root_id = null, $included_pages = array(), $wanted_revision = null) {
         $key = ($sect) ? $page . '#' . $sect : $page;
         $this->includes[$key] = true; // legacy code for keeping compatibility with other plugins
 
@@ -268,7 +268,13 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 global $ID;
                 $backupID = $ID;
                 $ID = $page; // Change the global $ID as otherwise plugins like the discussion plugin will save data for the wrong page
-                $ins = p_cached_instructions(wikiFN($page), false, $page);
+
+
+                if (!is_null($wanted_revision)) { 
+                    $ins = p_cached_instructions(wikiFN($page, $wanted_revision), false, $page);
+                } else {
+                    $ins = p_cached_instructions(wikiFN($page), false, $page);
+                }
                 $ID = $backupID;
             } else {
                 $ins = array();
