@@ -75,7 +75,7 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
         $check = false;
         if (isset($sect)) $sect = sectionID($sect, $check);
         $level = NULL;
-        return array($mode, $page, $sect, explode('&', $flags), $level, $pos);
+        return array($mode, $page, $sect, explode('(?<!\\)&', $flags), $level, $pos);
     }
 
     /**

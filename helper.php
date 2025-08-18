@@ -67,6 +67,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
      * Overrides standard values for showfooter and firstseconly settings
      */
     function get_flags($setflags) {
+
         // load defaults
         $flags = $this->defaults;
         foreach ($setflags as $flag) {
@@ -222,6 +223,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 case 'exclude':
                     $flags['exclude'] = $value;
                     break;
+                case 'parameters':
+                case 'params':
+                    $flags['parameters'] = $this->_parse_parameter_string($value);
+                    break;
             }
         }
         // the include_content URL parameter overrides flags
@@ -229,6 +234,38 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $flags['linkonly'] = 0;
         return $flags;
     }
+
+    /**
+     * Parse parameter flag value into array, to create 'dictionary' of replace values.
+     */
+    function _parse_parameter_string($value) {
+
+        $param_array = array();
+
+        $count = 0;
+        $value = preg_split('/(?<!\\\\)\\|/', $value);
+        foreach($value as $param) {
+            if (preg_match('/(?<!\\\\)=/', $param)) {
+                // There's one '=' character: This is named parameter.
+                list($name, $value) = preg_split('/(?<!\\\\)=/', $param, 2);
+                $param_array[$name] = $this->_escape_value($value);
+            } else {
+                // There's no '=' character: This is unnamed parameter.
+                $count += 1;
+                $param_array[strval($count)] = $this->_escape_value($param);
+            }
+        }
+
+        return $param_array;
+    }
+
+    /**
+     * Escapes '\|', '\&', '\=', '\}' in parameter value.
+     */
+    function _escape_value($value) {
+        return preg_replace('/\\\\([|&=}])/', '\1', $value);
+    }
+
 
     /**
      * Returns the converted instructions of a give page/section
@@ -315,7 +352,10 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $this->adapt_links($ins, $page, $included_pages);
 
-        for($i=0; $i<$num; $i++) {
+        for ($i=0; $i<$num; $i++) {
+            if (!isset($ins[$i][0])) {
+                continue;
+            }
             switch($ins[$i][0]) {
                 case 'document_start':
                 case 'document_end':
@@ -370,6 +410,47 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                             if (!$flags['inline'] && $flags['indent'])
                                 $ins[$i][1][1][4] += $lvl;
                             break;
+                        case 'include_placeholder':
+                            if (!isset($flags['parameters']))
+                                break;
+                                
+                            if (array_key_exists($ins[$i][1][1][0], $flags['parameters'])) {
+                                
+                                // Call dokuwiki parser to get instructions of included text.
+                                $included_ins = p_get_instructions($flags['parameters'][$ins[$i][1][1][0]]);
+                                
+                                // Get starting and ending position
+                                for ($start=0; $start<count($included_ins); $start++) {
+                                    if ($included_ins[$start][0] == "p_open") {
+                                        break;
+                                    }
+                                }
+
+                                for ($end=$start; $end<count($included_ins); $end++) {
+                                    if ($included_ins[$end][0] == "p_close") {
+                                        break;
+                                    }
+                                }
+
+                                $included_ins = array_slice($included_ins, $start+1, $end-$start-1);
+
+                                # Before inserting instructions, we have to move instructions after this.
+                                $ins_count = count($ins);
+                                for ($j=$i+1; $j<$ins_count; $j++) {
+                                    $ins[$j+count($included_ins)-1] = $ins[$j];
+                                }
+
+                                # Insert instructions and move pointer.
+                                for($j=0; $j<count($included_ins); $j++) {
+                                    $ins[$i+$j] = $included_ins[$j];
+                                }
+
+                                $i += $j;
+                                $num += $j;
+                                
+                            }
+                            
+                            break;
                         /*
                          * if there is already a closelastsecedit instruction (was added by one of the section
                          * functions), store its position but delete it as it can't be determined yet if it is needed,
@@ -386,6 +467,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                     break;
             }
         }
+
+        ksort($ins, SORT_NUMERIC);
 
         // calculate difference between header/section level and include level
         $diff = 0;
