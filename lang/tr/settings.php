@@ -2,35 +2,82 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author ห้องเชือด <laurencerankine@aol.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'How To Make Use Of R Slot To Desire';
+$lang['firstseconly']          = 'To be persistently express, you\'re going to get an event to play areas 
+on a machine with five reels. Those between five and twenty account 
+for almost all of the remaining. You must 
+get together with a few indisputable betting.';
+$lang['showtaglogos']          = '22';
+$lang['showfooter']            = 'Hello! 
+My name is Laurence and I\'m a 30 years old girl from Roosendaal.';
+$lang['showlink']              = 'https://nnnkx2.tv/category/%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B7%E0%B8%AD%E0%B8%94/';
+$lang['showpermalink']         = 'To be persistently express, you\'re going to get an event to play areas 
+on a machine with five reels. Those between five and 
+twenty account for almost all of the remaining. You must get together with 
+a few indisputable betting.';
+$lang['showdate']              = 'To be persistently express, you\'re going to get an event to play areas on a machine with 
+five reels. Those between five and twenty account for almost 
+all of the remaining. You must get together with a few indisputable betting.';
+$lang['showmdate']             = 'To be persistently express, you\'re going to get an event to play areas 
+on a machine with five reels. Those between five and twenty account for almost all of the remaining.
+You must get together with a few indisputable betting.';
+$lang['showuser']              = 'To be persistently express, you\'re going to get an event to play areas on a machine with 
+five reels. Those between five and twenty account for 
+almost all of the remaining. You must get together with a 
+few indisputable betting.';
+$lang['showcomments']          = 'To be persistently express, you\'re going to get an event to play areas on a machine with five reels.
+
+Those between five and twenty account for almost all of the remaining.
+You must get together with a few indisputable betting.';
+$lang['showlinkbacks']         = 'To be persistently express, you\'re going to get an event 
+to play areas on a machine with five reels. Those between five and twenty account for almost 
+all of the remaining. You must get together with a few indisputable betting.';
+$lang['showtags']              = '21';
+$lang['showeditbtn']           = 'To be persistently express, you\'re going to get an event to play 
+areas on a machine with five reels. Those between five and 
+twenty account for almost all of the remaining. You must get together with a few indisputable betting.';
+$lang['doredirect']            = 'To be persistently express, you\'re going to get an event to play areas on a machine with five reels.
+Those between five and twenty account for almost all of the remaining.
+You must get together with a few indisputable betting.';
+$lang['doindent']              = 'To be persistently express, you\'re going to get an event to play areas on a machine with 
+five reels. Those between five and twenty account for almost all 
+of the remaining. You must get together with a few indisputable betting.';
+$lang['linkonly']              = 'https://nnnkx2.tv/category/%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B7%E0%B8%AD%E0%B8%94/';
+$lang['title']                 = 'How To Make Use Of R Slot To Desire';
+$lang['pageexists']            = 'https://nnnkx2.tv/category/%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B7%E0%B8%AD%E0%B8%94/';
+$lang['parlink']               = 'https://nnnkx2.tv/category/%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B7%E0%B8%AD%E0%B8%94/';
+$lang['safeindex']             = 'Laurence';
+$lang['order']                 = 'To be persistently express, you\'re going to get an event to play 
+areas on a machine with five reels. Those between five and twenty account for almost all of the remaining.
+
+You must get together with a few indisputable betting.';
+$lang['order_o_id']            = 'To be persistently express, you\'re going to get an event to play areas on a machine with five 
+reels. Those between five and twenty account for almost all of 
+the remaining. You must get together with a 
+few indisputable betting.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'To be persistently express, you\'re going to get 
+an event to play areas on a machine with five reels. Those between five and twenty account for almost all of the 
+remaining. You must get together with a few indisputable betting.';
+$lang['order_o_modified']      = 'To be persistently express, you\'re going to get an event to play areas on a machine with five reels.
+
+Those between five and twenty account for almost all of the remaining.
+
+You must get together with a few indisputable 
+betting.';
+$lang['order_o_indexmenu']     = 'To be persistently express, you\'re going to get an event to play areas on a machine with five 
+reels. Those between five and twenty account for almost 
+all of the remaining. You must get together with a few indisputable betting.';
+$lang['order_o_custom']        = 'To be persistently express, you\'re going to get an event to play areas 
+on a machine with five reels. Those between five and twenty account for almost all of the remaining.
+You must get together with a few indisputable betting.';
+$lang['rsort']                 = 'Roosendaal';
+$lang['depth']                 = 'Laurence';
+$lang['readmore']              = 'https://nnnkx2.tv/category/%E0%B8%AB%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B7%E0%B8%AD%E0%B8%94/';
+$lang['debugoutput']           = 'To be persistently express, you\'re going to get an event to play areas on a machine with five reels.
+Those between five and twenty account for almost all of the remaining.
+You must get together with a few indisputable betting.';
