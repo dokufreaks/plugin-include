@@ -2,35 +2,45 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Gsa ser link list <magdajoske@gmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Suppose Every Person In The Labour Force Was Pre-verified And All Set To Begin Job? By Larissa Beech Seek Blog Site';
+$lang['firstseconly']          = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['showtaglogos']          = '13';
+$lang['showfooter']            = '31 years old Software Engineer IV Walther Beevers, hailing from Mont-Tremblant enjoys watching movies like Pericles on 31st Street and Acting. Took a trip to My Son Sanctuary and drives a Mercedes-Benz 540K Spezial Roadster.';
+$lang['showlink']              = 'https://medium.com/@traveltoday0082/unlocking-the-full-potential-of-gsa-search-engine-ranker-for-seo-mastery-69fb8e100768';
+$lang['showpermalink']         = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['showdate']              = 'Anchor text need to likewise be relevant to the content 
+of the connecting page.';
+$lang['showmdate']             = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['showuser']              = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['showcomments']          = 'Anchor text need to likewise be relevant to the content of the 
+connecting page.';
+$lang['showlinkbacks']         = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['showtags']              = '10';
+$lang['showeditbtn']           = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['doredirect']            = 'Anchor text need to likewise be relevant 
+to the content of the connecting page.';
+$lang['doindent']              = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['linkonly']              = 'https://medium.com/@traveltoday0082/unlocking-the-full-potential-of-gsa-search-engine-ranker-for-seo-mastery-69fb8e100768';
+$lang['title']                 = 'Suppose Every Person In The Labour Force Was Pre-verified And All Set To Begin Job? By Larissa Beech Seek Blog Site';
+$lang['pageexists']            = 'https://medium.com/@traveltoday0082/unlocking-the-full-potential-of-gsa-search-engine-ranker-for-seo-mastery-69fb8e100768';
+$lang['parlink']               = 'https://medium.com/@traveltoday0082/unlocking-the-full-potential-of-gsa-search-engine-ranker-for-seo-mastery-69fb8e100768';
+$lang['safeindex']             = 'Magda';
+$lang['order']                 = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['order_o_id']            = 'Anchor text need to likewise be relevant to the content of the connecting page.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Anchor text need to likewise be relevant to the content of the connecting page.';
+$lang['order_o_modified']      = 'Anchor text need to likewise be relevant to the content 
+of the connecting page.';
+$lang['order_o_indexmenu']     = 'Anchor text need to likewise be relevant to the content of the connecting 
+page.';
+$lang['order_o_custom']        = 'Anchor text need to likewise be relevant to the content 
+of the connecting page.';
+$lang['rsort']                 = 'Hyeres';
+$lang['depth']                 = 'Magda';
+$lang['readmore']              = 'https://medium.com/@traveltoday0082/unlocking-the-full-potential-of-gsa-search-engine-ranker-for-seo-mastery-69fb8e100768';
+$lang['debugoutput']           = 'Anchor text need to likewise be relevant to the content 
+of the connecting page.';
