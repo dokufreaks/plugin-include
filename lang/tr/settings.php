@@ -2,35 +2,79 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Bookieranks <shannon_river@gmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Im glad I finally registered';
+$lang['firstseconly']          = 'Attractive component to content. I just stumbled upon your 
+weblog and in accession capital to assert that I get actually enjoyed account 
+your weblog posts. Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly 
+quickly.';
+$lang['showtaglogos']          = '18';
+$lang['showfooter']            = 'I\'m Shannon and was born on 20 August 1981. My hobbies are Chess and Auto racing.';
+$lang['showlink']              = 'http://ginbari.com/choco/manamix_cgi/bbs/momo_s1.cgi';
+$lang['showpermalink']         = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that 
+I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['showdate']              = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that 
+I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry 
+to constantly quickly.';
+$lang['showmdate']             = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['showuser']              = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly 
+quickly.';
+$lang['showcomments']          = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to 
+assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get 
+entry to constantly quickly.';
+$lang['showlinkbacks']         = 'Attractive component to content. I just stumbled upon your weblog and 
+in accession capital to assert that I get actually enjoyed account your weblog posts.
+
+Any way I\'ll be subscribing in your augment and even I achievement you get entry 
+to constantly quickly.';
+$lang['showtags']              = '28';
+$lang['showeditbtn']           = 'Attractive component to content. I just stumbled upon your weblog and in accession capital 
+to assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['doredirect']            = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement 
+you get entry to constantly quickly.';
+$lang['doindent']              = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I get actually enjoyed 
+account your weblog posts. Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['linkonly']              = 'http://ginbari.com/choco/manamix_cgi/bbs/momo_s1.cgi';
+$lang['title']                 = 'Im glad I finally registered';
+$lang['pageexists']            = 'http://ginbari.com/choco/manamix_cgi/bbs/momo_s1.cgi';
+$lang['parlink']               = 'http://ginbari.com/choco/manamix_cgi/bbs/momo_s1.cgi';
+$lang['safeindex']             = 'Shannon';
+$lang['order']                 = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to 
+constantly quickly.';
+$lang['order_o_id']            = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert 
+that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to 
+constantly quickly.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Attractive component to content. I just stumbled 
+upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['order_o_modified']      = 'Attractive component to content. I just stumbled upon your weblog and 
+in accession capital to assert that I get actually 
+enjoyed account your weblog posts. Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['order_o_indexmenu']     = 'Attractive component to content. I just stumbled upon your 
+weblog and in accession capital to assert that I get actually enjoyed account your weblog posts.
+Any way I\'ll be subscribing in your augment and even I achievement you get entry to constantly quickly.';
+$lang['order_o_custom']        = 'Attractive component to content. I just stumbled 
+upon your weblog and in accession capital to assert that I get actually enjoyed account your weblog 
+posts. Any way I\'ll be subscribing in your augment and even I achievement you get entry to 
+constantly quickly.';
+$lang['rsort']                 = 'Pontiac';
+$lang['depth']                 = 'Shannon';
+$lang['readmore']              = 'http://ginbari.com/choco/manamix_cgi/bbs/momo_s1.cgi';
+$lang['debugoutput']           = 'Attractive component to content. I just stumbled upon your weblog and in accession capital to assert that I 
+get actually enjoyed account your weblog posts. Any way I\'ll be subscribing in your augment 
+and even I achievement you get entry to constantly quickly.';
