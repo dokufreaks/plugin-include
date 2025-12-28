@@ -2,35 +2,50 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author GSA SER verified lists <jennahaight707@gmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = '6 Best Email Verification Devices In 2024 Hand Selected';
+$lang['firstseconly']          = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers 
+to offer their straightforward comments.';
+$lang['showtaglogos']          = '15';
+$lang['showfooter']            = '49 yr old Electrical Engineer Leeland Borghese, hailing from Terrace Bay enjoys watching movies like Joe Strummer: The Future Is Unwritten and Nordic skating. Took a trip to Historic Centre of Guimarães and drives a Sportage.';
+$lang['showlink']              = 'https://gsaserlinkbuilding.blogspot.com';
+$lang['showpermalink']         = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers 
+to offer their straightforward comments.';
+$lang['showdate']              = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward comments.';
+$lang['showmdate']             = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to 
+offer their straightforward comments.';
+$lang['showuser']              = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward comments.';
+$lang['showcomments']          = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer 
+their straightforward comments.';
+$lang['showlinkbacks']         = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward 
+comments.';
+$lang['showtags']              = '10';
+$lang['showeditbtn']           = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer 
+their straightforward comments.';
+$lang['doredirect']            = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward comments.';
+$lang['doindent']              = 'Or, if you have a bigger budget plan, you can likewise pay macro-level 
+influencers to offer their straightforward comments.';
+$lang['linkonly']              = 'https://gsaserlinkbuilding.blogspot.com';
+$lang['title']                 = '6 Best Email Verification Devices In 2024 Hand Selected';
+$lang['pageexists']            = 'https://gsaserlinkbuilding.blogspot.com';
+$lang['parlink']               = 'https://gsaserlinkbuilding.blogspot.com';
+$lang['safeindex']             = 'Jenna';
+$lang['order']                 = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward comments.';
+$lang['order_o_id']            = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their 
+straightforward comments.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their straightforward comments.';
+$lang['order_o_modified']      = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer their 
+straightforward comments.';
+$lang['order_o_indexmenu']     = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to 
+offer their straightforward comments.';
+$lang['order_o_custom']        = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer 
+their straightforward comments.';
+$lang['rsort']                 = 'Osthofen';
+$lang['depth']                 = 'Jenna';
+$lang['readmore']              = 'https://gsaserlinkbuilding.blogspot.com';
+$lang['debugoutput']           = 'Or, if you have a bigger budget plan, you can likewise pay macro-level influencers to offer 
+their straightforward comments.';
