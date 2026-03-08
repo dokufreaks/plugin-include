@@ -121,7 +121,7 @@ class action_plugin_include extends ActionPlugin
                 $tag_helper = $this->loadHelper('tag', false);
                 if ($tag_helper) {
                     if (isset($meta['subject'])) {
-                        $event->data['metadata']['subject'] = $tag_helper->_cleanTagList($meta['subject']);
+                        $event->data['metadata']['subject'] = $tag_helper->cleanTagList($meta['subject']);
                     } else {
                         $event->data['metadata']['subject'] = [];
                     }
