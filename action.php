@@ -141,10 +141,11 @@ class action_plugin_include extends ActionPlugin
     public function handleMetadata(Event $event, $param)
     {
         global $conf;
-        if ($conf['allowdebug'] && $this->getConf('debugoutput')) {
-            dbglog('---- PLUGIN INCLUDE META DATA START ----');
-            dbglog($event->data);
-            dbglog('---- PLUGIN INCLUDE META DATA END ----');
+        if ($this->getConf('debugoutput')) {
+            Logger::debug(
+                'include plugin: metadata rendered for page ' . $event->data['page'],
+                $event->data
+            );
         }
     }
 
