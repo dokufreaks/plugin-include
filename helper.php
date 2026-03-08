@@ -597,7 +597,7 @@ class helper_plugin_include extends Plugin
         return [
             0 => 'plugin',
             1 => [
-                'include_permalink',
+                'include_header',
                 [
                     $originalHeader[1][0],
                     $originalHeader[1][1],
