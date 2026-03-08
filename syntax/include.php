@@ -18,7 +18,7 @@ use dokuwiki\Extension\SyntaxPlugin;
  */
 class syntax_plugin_include_include extends SyntaxPlugin
 {
-    /** @var $helper helper_plugin_include */
+    /** @var helper_plugin_include $helper */
     public $helper;
 
     /** @inheritdoc */
@@ -127,6 +127,7 @@ class syntax_plugin_include_include extends SyntaxPlugin
 
             // add references for backlink
             if ($format == 'metadata') {
+                /** @var Doku_Renderer_metadata $renderer */
                 $renderer->meta['relation']['references'][$id] = $exists;
                 $renderer->meta['relation']['haspart'][$id] = $exists;
                 if (

@@ -38,6 +38,7 @@ class syntax_plugin_include_wrap extends SyntaxPlugin
     public function render($mode, Doku_Renderer $renderer, $data)
     {
         if ($mode !== 'xhtml') return false;
+        /** @var Doku_Renderer_xhtml $renderer */
 
         $state = array_shift($data);
         switch ($state) {

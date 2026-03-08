@@ -37,6 +37,7 @@ class syntax_plugin_include_editbtn extends SyntaxPlugin
     {
         [$title, $hid] = $data;
         if ($mode != 'xhtml') return false;
+        /** @var Doku_Renderer_xhtml $renderer */
 
         $renderer->startSectionEdit(0, ['target' => 'plugin_include_editbtn', 'name' => $title, 'hid' => $hid]);
         $renderer->finishSectionEdit();

@@ -17,7 +17,7 @@ use dokuwiki\Logger;
  */
 class action_plugin_include extends ActionPlugin
 {
-    /* @var helper_plugin_include $helper */
+    /** @var helper_plugin_include $helper */
     public $helper;
 
     /**
@@ -118,6 +118,7 @@ class action_plugin_include extends ActionPlugin
 
             // restore the tag metadata if the tag plugin handler has been called before the include plugin handler.
             if ($tag_called) {
+                /** @var helper_plugin_tag $tag_helper */
                 $tag_helper = $this->loadHelper('tag', false);
                 if ($tag_helper) {
                     if (isset($meta['subject'])) {
