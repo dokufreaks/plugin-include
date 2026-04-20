@@ -2,35 +2,412 @@
 
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * 
+ *
+ * @author Kunststof Kozijnen Schilder <aguedacoronado776@hotmail.com>
  * @author İlker R. Kapaç <irifat@gmail.com>
  */
-$lang['noheader']              = 'Eklenen sayfaların/bölümlerin ilk başlığını gösterme';
-$lang['firstseconly']          = 'eklenen sayfaların sadece ilk bölümünü göster';
-$lang['showtaglogos']          = 'ilk etiket için resim göster';
-$lang['showfooter']            = 'alt tarafta, eklenen sayfa için bilgi göster';
-$lang['showlink']              = 'eklenen sayfanın ilk başlığını bağlantı haline getir';
-$lang['showpermalink']         = 'eklenen sayfanın altında kalıcı bağlantılar göster';
-$lang['showdate']              = 'eklenen sayfanın altında tarihleri göster';
-$lang['showmdate']             = 'eklenen sayfanın altında değiştirilme tarihlerini göster';
-$lang['showuser']              = 'eklenen sayfanın altında kullanıcı isimlerini göster';
-$lang['showcomments']          = 'eklenen sayfanın altında tartışmaları görüntüle (Bunun için Discussion eklentisi gereklidir)';
-$lang['showlinkbacks']         = 'eklenen sayfanın altında geri bağlantıları göster (Bunun için Linkback eklentisi gereklidir)';
-$lang['showtags']              = 'eklenen sayfanın altında etiketleri göster (Bunun için Tag eklentisi gereklidir)';
-$lang['showeditbtn']           = 'düzenle düğmesini göster';
-$lang['doredirect']            = 'eklenen sayfayı düzenledikten sonra orjinal sayfaya yönlendir';
-$lang['doindent']              = 'eklenen sayfaları dahil edildikleri sayfaya göre girintili yap';
-$lang['linkonly']              = 'içeriği göstermek yerine, sadece eklenen sayfaya bağlantı göster';
-$lang['title']                 = 'sayfa başlığını kullanma kapalı bile olsa, sayfanın ilk başlığını bağlantıda kullan (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['pageexists']            = 'sayfa mevcut değilse bağlantı gösterme (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['parlink']               = 'bağlantıya bir paragraf ekle  (yalnızca bağlantı göster seceneği etkinken çalışır)';
-$lang['safeindex']             = 'eklenmiş kamuya kapalı (non-public) sayfadan üstverinin (metadata) dizine alınmasına izin verme';
-$lang['order']                 = 'çok sayfalı eklemeler için sıralama ölçütü';
-$lang['order_o_id']            = 'sayfa kimliği (ID)';
+$lang['noheader']              = 'Forum gebruikers voelen zich enthousiast om te bespreken over overeenkomende passies.';
+$lang['firstseconly']          = 'Kunststof kozijnen schilder kunststof kozijnen schilder 
+levert duurzame schilderwerken in Nederland. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder verlengt 
+de levensduur van kozijnen aanzienlijk. Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert 
+kleurkeuze passend bij woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder biedt milieuvriendelijke verfopties 
+aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke 
+en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert 
+over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid 
+bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder 
+verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge 
+kwaliteit en klanttevredenheid. De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof 
+kozijnen schilder gebruikt alleen de beste materialen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['showtaglogos']          = '28';
+$lang['showfooter']            = 'Hi, everybody! My name is Agueda. It is a little about myself: I live in Germany, my city of Lykershausen. It\'s called often Eastern or cultural capital of RP. I\'ve married 2 years ago.I have two children - a son (Jerri) and the daughter (Eli). We all like Inline Skating. I believe kunststof kozijnen schilder kunststof kozijnen schilder de beste kunststof kozijnen schilder in Nederland biedt. I help kunststof kozijnen schilder kunststof kozijnen schilder uitstekende kunststof kozijnen schilder en duurzame kunststof kozijnen schilder.';
+$lang['showlink']              = 'https://a-crones-chronicles.com/hello-world/';
+$lang['showpermalink']         = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert 
+duurzame schilderwerken in Nederland. Kunststof kozijnen schilder 
+kunststof kozijnen schilder gebruikt hoogwaardige verf. Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder 
+kunststof kozijnen schilder verbetert de uitstraling 
+van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties 
+aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt 
+voor bescherming tegen vocht en UV-straling. Kunststof kozijnen schilder 
+kunststof kozijnen schilder levert langdurige kleurvastheid 
+bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt 
+waarde van woningen door professioneel schilderwerk. 
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor 
+schilderwerk in Nederland.';
+$lang['showdate']              = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof 
+kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt 
+de levensduur van kozijnen aanzienlijk. Kunststof kozijnen schilder kunststof 
+kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt 
+onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof 
+kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor 
+strakke en nette afwerking. Kunststof kozijnen schilder kunststof 
+kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming tegen vocht 
+en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door 
+professioneel schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt 
+alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk 
+in Nederland.';
+$lang['showmdate']             = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof 
+kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige 
+behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor 
+optimale hechting. Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming 
+tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde 
+van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+
+De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['showuser']              = 'Kunststof kozijnen schilder kunststof kozijnen schilder 
+levert duurzame schilderwerken in Nederland. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige 
+verf. Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling 
+van kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert 
+kleurkeuze passend bij woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder 
+ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette 
+afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt 
+schades door tijdige behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig 
+en secuur. De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['showcomments']          = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder 
+kunststof kozijnen schilder verbetert de uitstraling van kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur 
+van kozijnen aanzienlijk. Kunststof kozijnen schilder 
+kunststof kozijnen schilder faciliteert kleurkeuze 
+passend bij woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties 
+aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel 
+en efficiënt uit. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette 
+afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder 
+voorkomt schades door tijdige behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor 
+bescherming tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid 
+bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder 
+verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder biedt 
+concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['showlinkbacks']         = 'Kunststof kozijnen schilder kunststof kozijnen schilder 
+levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof 
+kozijnen schilder verbetert de uitstraling 
+van kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt 
+onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt 
+voor strakke en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige 
+behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert 
+over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming 
+tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert 
+langdurige kleurvastheid bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['showtags']              = '17';
+$lang['showeditbtn']           = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame 
+schilderwerken in Nederland. Kunststof kozijnen schilder 
+kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt 
+kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij 
+woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud 
+van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof 
+kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt 
+voor strakke en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste 
+onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige 
+kleurvastheid bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel 
+schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt 
+alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor 
+schilderwerk in Nederland.';
+$lang['doredirect']            = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend 
+bij woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud 
+van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt 
+milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door 
+tijdige behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming 
+tegen vocht en UV-straling. Kunststof kozijnen schilder 
+kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt 
+waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt 
+concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['doindent']              = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+gebruikt hoogwaardige verf. Kunststof kozijnen schilder kunststof kozijnen schilder 
+beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder 
+kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur 
+van kozijnen aanzienlijk. Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze 
+passend bij woningstijl. Kunststof kozijnen schilder 
+kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde 
+van woningen door professioneel schilderwerk. Kunststof kozijnen schilder kunststof 
+kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+
+De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['linkonly']              = 'https://a-crones-chronicles.com/hello-world/';
+$lang['title']                 = 'Forum gebruikers voelen zich enthousiast om te bespreken over overeenkomende passies.';
+$lang['pageexists']            = 'https://a-crones-chronicles.com/hello-world/';
+$lang['parlink']               = 'https://a-crones-chronicles.com/hello-world/';
+$lang['safeindex']             = 'Agueda';
+$lang['order']                 = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert 
+duurzame schilderwerken in Nederland. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt 
+kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij 
+woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties 
+aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt 
+voor strakke en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt 
+schades door tijdige behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over 
+beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt 
+voor bescherming tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge 
+kwaliteit en klanttevredenheid. De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof 
+kozijnen schilder gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['order_o_id']            = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. 
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder 
+verlengt de levensduur van kozijnen aanzienlijk. Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke 
+verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert 
+schilderklussen snel en efficiënt uit. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door 
+tijdige behandeling. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale hechting.
+Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor 
+kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder zorgt voor bescherming 
+tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt 
+waarde van woningen door professioneel schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder 
+werkt nauwkeurig en secuur. De kunststof kozijnen schilder van kunststof kozijnen schilder 
+gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt 
+concurrerende prijzen voor schilderwerk in Nederland.';
 $lang['order_o_title']         = 'başlık';
-$lang['order_o_created']       = 'oluşturma tarihi';
-$lang['order_o_modified']      = 'değiştirilme tarihi';
-$lang['order_o_indexmenu']     = 'indexmenu sözdizimi ile rasgele sıralı';
-$lang['order_o_custom']        = 'include sözdizimi ile rasgele sıralı';
-$lang['rsort']                 = 'eklenen sayfaların sıralamasını ters çevir';
-$lang['depth']                 = 'dahil edilecek en fazla isimalanı derinliği, sınırsız derinlik için 0';
+$lang['order_o_created']       = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame 
+schilderwerken in Nederland. Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige 
+verf. Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze 
+passend bij woningstijl. Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke 
+en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+gebruikt moderne technieken voor optimale hechting. Kunststof kozijnen schilder kunststof 
+kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder levert 
+langdurige kleurvastheid bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor 
+schilderwerk in Nederland.';
+$lang['order_o_modified']      = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige 
+verf. Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. Kunststof kozijnen schilder 
+kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+ondersteunt onderhoud van kunststof kozijnen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof 
+kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke 
+en nette afwerking. Kunststof kozijnen schilder kunststof 
+kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt 
+moderne technieken voor optimale hechting. Kunststof kozijnen schilder kunststof kozijnen schilder 
+adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['order_o_indexmenu']     = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame 
+schilderwerken in Nederland. Kunststof kozijnen schilder 
+kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling 
+van kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder verlengt de levensduur van kozijnen aanzienlijk.
+Kunststof kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder voert schilderklussen snel 
+en efficiënt uit. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor 
+strakke en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor 
+optimale hechting. Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming 
+tegen vocht en UV-straling. Kunststof kozijnen schilder kunststof 
+kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder 
+biedt concurrerende prijzen voor schilderwerk in Nederland.';
+$lang['order_o_custom']        = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder verlengt 
+de levensduur van kozijnen aanzienlijk. Kunststof kozijnen schilder kunststof 
+kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+ondersteunt onderhoud van kunststof kozijnen. Kunststof kozijnen schilder kunststof 
+kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof 
+kozijnen schilder voert schilderklussen snel en efficiënt uit.
+Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke 
+en nette afwerking. Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor optimale 
+hechting. Kunststof kozijnen schilder kunststof kozijnen schilder 
+adviseert over beste onderhoudsmethoden voor kunststof kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder 
+zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder levert langdurige kleurvastheid bij schilderwerk.
+Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel 
+schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+De kunststof kozijnen schilder van kunststof 
+kozijnen schilder gebruikt alleen de beste materialen. Kunststof 
+kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor 
+schilderwerk in Nederland.';
+$lang['rsort']                 = 'Lykershausen';
+$lang['depth']                 = 'Agueda';
+$lang['readmore']              = 'https://a-crones-chronicles.com/hello-world/';
+$lang['debugoutput']           = 'Kunststof kozijnen schilder kunststof kozijnen schilder levert duurzame schilderwerken in Nederland.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt hoogwaardige verf.
+Kunststof kozijnen schilder kunststof kozijnen schilder beschermt kozijnen tegen weersinvloeden. Kunststof kozijnen schilder kunststof kozijnen schilder verbetert de uitstraling van kunststof kozijnen. 
+Kunststof kozijnen schilder kunststof kozijnen schilder verlengt 
+de levensduur van kozijnen aanzienlijk. Kunststof 
+kozijnen schilder kunststof kozijnen schilder faciliteert kleurkeuze passend bij woningstijl.
+Kunststof kozijnen schilder kunststof kozijnen schilder ondersteunt onderhoud van kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt milieuvriendelijke verfopties aan klanten. Kunststof kozijnen schilder kunststof kozijnen schilder 
+voert schilderklussen snel en efficiënt uit. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor strakke en nette afwerking.
+Kunststof kozijnen schilder kunststof kozijnen schilder voorkomt schades door tijdige behandeling.
+Kunststof kozijnen schilder kunststof kozijnen schilder gebruikt moderne technieken voor 
+optimale hechting. Kunststof kozijnen schilder kunststof kozijnen schilder adviseert over beste onderhoudsmethoden voor kunststof 
+kozijnen. Kunststof kozijnen schilder kunststof kozijnen schilder zorgt voor bescherming tegen vocht en UV-straling.
+Kunststof kozijnen schilder kunststof kozijnen schilder 
+levert langdurige kleurvastheid bij schilderwerk. Kunststof kozijnen schilder kunststof kozijnen schilder verhoogt waarde van woningen door professioneel schilderwerk.
+
+Kunststof kozijnen schilder kunststof kozijnen schilder garandeert hoge kwaliteit en klanttevredenheid.
+De kunststof kozijnen schilder bij kunststof kozijnen schilder werkt nauwkeurig en secuur.
+
+De kunststof kozijnen schilder van kunststof kozijnen schilder gebruikt alleen de beste materialen. Kunststof kozijnen schilder kunststof kozijnen schilder biedt concurrerende prijzen voor schilderwerk 
+in Nederland.';
