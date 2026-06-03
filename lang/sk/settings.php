@@ -3,6 +3,7 @@
 /**
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *
+ * @author Wizzard <wizzardsk@gmail.com>
  * @author Igor <korcek.igor@gmail.com>
  */
 $lang['noheader']              = 'Nezobrazovať prvý nadpis zahrnutej stránky/sekcie';
@@ -35,3 +36,4 @@ $lang['order_o_custom']        = 'vlastné poradie pomocou syntaxe include';
 $lang['rsort']                 = 'Prevrátiť poradie zahrnutých stránok';
 $lang['depth']                 = 'Maximálna hĺbka zahrnutých menných priestorov (namespaces), 0 pre neobmedzenú hĺbku';
 $lang['readmore']              = 'Zobraziť odkaz \'Čítať viac\' iba v prípade prvej sekcie';
+$lang['debugoutput']           = 'Vypisovať podrobné ladiace informácie do debuglogu DokuWiki, ak je zapnutá globálna voľba "allowdebug"';
