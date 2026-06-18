@@ -38,4 +38,5 @@ $lang['rsort']         = 'Reverse the sort order of the included pages';
 $lang['depth']         = 'Maximum depth of namespace includes, 0 for unlimited depth';
 $lang['readmore']       = 'Show or not the \'Read More\' link in case of firstsection only';
 $lang['debugoutput']    = 'Print verbose debug information to the dokuwiki debuglog if the global "allowdebug" option is enabled';
+$lang['rawsections']   = 'Use section/heading levels as given in the included files';
 //Setup VIM: ex: et ts=2 :

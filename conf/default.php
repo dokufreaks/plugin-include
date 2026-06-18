@@ -27,4 +27,5 @@ $conf['rsort']        = 0;       // reverse sort order
 $conf['depth']        = 1;       // maximum depth of namespace includes, 0 for unlimited depth
 $conf['readmore']     = 1;       // Show readmore link in case of firstsection only
 $conf['debugoutput']  = 0;       // print debug information to debuglog if global allowdebug is enabled
+$conf['rawsections']  = 0;       // use section/heading levels as given in the included files
 //Setup VIM: ex: et ts=2 :
