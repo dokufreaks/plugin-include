@@ -1,7 +1,9 @@
 <?php
+
 /**
  * Options for the Include Plugin
  */
+
 $conf['noheader']      = 0;      // Don't display the header of the inserted section
 $conf['firstseconly']  = 0;      // limit entries on main blog page to first section
 $conf['showtaglogos']  = 0;      // display image for first tag
