@@ -124,6 +124,8 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
             $secids = p_get_metadata($ID, 'plugin_include secids');
         }
 
+        
+
         foreach ($pages as $page) {
             extract($page);
             $id = $page['id'];
@@ -131,6 +133,55 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
 
             if (in_array($id, $page_stack)) continue;
             array_push($page_stack, $id);
+
+            // check if the include plugin should honour the main page revision
+            if ($this->getConf('honourmainrevision')) {
+
+                // initialize variables with empty string
+                $wanted_revision = '';  
+                $revision_before_main_revision = ''; 
+                $first_revision = '';
+                
+                $m = p_get_metadata($id); // get metadata for current page 
+                $sum = $m['last_change']['sum']; // get last change summary
+                global $REV; // load global $REV variable
+                    
+                $changelog = new PageChangeLog($id); // initiate changelog
+                $chs = $changelog->getRevisions(0, 10000); // load changes list
+
+ 
+                if (intval($REV) > 0) { // check if a revision is shown for the main page, otherwise simply get last revision of all included pages
+
+                    foreach ($chs as $rev) {
+                        $ch = $changelog->getRevisionInfo($rev);
+                        if (intval($rev) <= intval($REV)) {
+                            // a revision lower than the main page revision is found
+                            if ($revision_before_main_revision == '') {
+                                $revision_before_main_revision = $rev;
+                            }
+
+                            // check for approved in summary (works only if approval plugin is enabled)
+                            if ($ch['sum'] == "APPROVED") {
+                                // revision found before the $REV date with APPROVAL in summary
+                                $wanted_revision = $rev;
+                                break;
+                            }
+                        }
+                        $first_revision = $rev;
+                    }
+
+                    if ($wanted_revision == '') { // no suitable revision found with approval
+                        if ($revision_before_main_revision != '') { // a revision is found before $REV, use this revision
+                            $wanted_revision = $revision_before_main_revision; 
+                        } else { // simply use the oldest revision of the included page, despite the revision date is newer than the main page revision date
+                            $wanted_revision = $first_revision;
+                        }
+                    }
+                }
+            } else {
+                $wanted_revision = null;
+            }
+
 
             // add references for backlink
             if ($format == 'metadata') {
@@ -147,7 +198,11 @@ class syntax_plugin_include_include extends DokuWiki_Syntax_Plugin {
                 unset($flags['include_secid']);
             }
 
-            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids);
+            // add configuration option to honour top page revision or not
+            // if (not configuration_option_honour_revision) {
+            //    $wanted_revision = null;
+            // }
+            $instructions = $this->helper->_get_instructions($id, $sect, $mode, $level, $flags, $root_id, $secids, $wanted_revision);
 
             if (!$flags['editbtn']) {
                 global $conf;
