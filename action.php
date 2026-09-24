@@ -361,7 +361,7 @@ class action_plugin_include extends DokuWiki_Action_Plugin {
             $result = '{{'.$mode.'>'.$newpage;
             if ($sect) $result .= '#'.$sect;
             if ($flags) $result .= '&'.$flags;
-            if ($replacers) $result .= '|'.$replacers;
+            if ($replacers) $result .= '|'.implode('|', $replacers);
             $result .= '}}';
             return $result;
         }
