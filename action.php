@@ -107,7 +107,7 @@ class action_plugin_include extends ActionPlugin
 
             // Reset the metadata in the renderer.
             // This removes data from all other event handlers, but we need to be on the safe side here.
-            $event->data['metadata'] = ['title' => $meta['title']];
+            $event->data['metadata'] = ['title' => $meta['title'] ?? null];
 
             // restore the relation references metadata
             if (isset($meta['relation']['references'])) {
@@ -115,6 +115,14 @@ class action_plugin_include extends ActionPlugin
             } else {
                 $event->data['metadata']['relation_references'] = [];
             }
+
+            // restore the media relations and the index flag set by the core indexer
+            if (isset($meta['relation']['media'])) {
+                $event->data['metadata']['relation_media'] = array_keys($meta['relation']['media']);
+            } else {
+                $event->data['metadata']['relation_media'] = [];
+            }
+            $event->data['metadata']['internal_index'] = ($meta['internal']['index'] ?? null) !== false;
 
             // restore the tag metadata if the tag plugin handler has been called before the include plugin handler.
             if ($tag_called) {

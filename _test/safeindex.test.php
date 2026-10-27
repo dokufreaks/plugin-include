@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @group plugin_include
  * @group plugins
  */
@@ -24,7 +24,11 @@ class plugin_include_safeindex_test extends DokuWikiTest {
 
         $_SERVER['REMOTE_USER'] = 'john';
 
-        saveWikiText('parent', "{{page>child}}\n\n[[public_link]]\n\n{{page>public}}", 'Test parent created');
+        saveWikiText(
+            'parent',
+            "{{page>child}}\n\n[[public_link]]\n\n{{page>public}}\n\nzyxquuxword {{public:logo.png}}",
+            'Test parent created'
+        );
         saveWikiText('child', "[[foo:private]]", 'Test child created');
         saveWikiText('public', "[[foo:public]]", 'Public page created');
 
@@ -35,6 +39,11 @@ class plugin_include_safeindex_test extends DokuWikiTest {
         $this->assertEquals(array('parent', 'public'), ft_backlinks('foo:public'));
         $this->assertEquals(array('child'), ft_backlinks('foo:private'));
         $this->assertEquals(array('parent'), ft_backlinks('public_link'));
+
+        // core metadata must survive the handler's metadata reset
+        $hl = [];
+        $this->assertEquals(['parent' => 1], ft_pageSearch('zyxquuxword', $hl));
+        $this->assertEquals(['parent'], ft_mediause('public:logo.png', true));
     }
 }
 
