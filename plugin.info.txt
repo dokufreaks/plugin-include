@@ -3,5 +3,5 @@ author Michael Hamann, Gina Häussge, Christopher Smith, Michael Klier, Esther B
 email  michael@content-space.de
 date   2023-09-22
 name   include plugin
-desc   Functions to include another page in a wiki page
+desc   (Custom Praxiswiki) Functions to include another page in a wiki page
 url    http://dokuwiki.org/plugin:include
