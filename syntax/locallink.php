@@ -36,7 +36,7 @@ class syntax_plugin_include_locallink extends SyntaxPlugin
     public function render($mode, Doku_Renderer $renderer, $data)
     {
         global $ID;
-        if ($mode != 'xhtml') return false;
+        if ($mode == 'xhtml') {
 
             /** @var Doku_Renderer_xhtml $renderer */
             [$hash, $name, $id] = $data;
