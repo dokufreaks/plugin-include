@@ -40,3 +40,4 @@ $lang['rsort']                 = 'Umgekehrte Reihenfolge bei der Sortierung von 
 $lang['depth']                 = 'Maximale Tiefe von Namensräumen, 0 für alle Ebenen';
 $lang['readmore']              = 'Zeige einen \'Weiterlesen\'-Link bei aktiviertem "firstseconly"-Modus';
 $lang['debugoutput']           = 'Ausführliche Informationen in das Debuglog des Dokuwikis schreiben (setzt voraus, dass die globale Option "allowdebug" aktiviert ist).';
+$lang['rawsections']           = 'Die Level der Abschnitte werden wie in den eingebundenen Seiten vorgegeben verwendet';
