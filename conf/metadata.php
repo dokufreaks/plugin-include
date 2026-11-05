@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Metadata for configuration manager plugin
  * Additions for the Include Plugin
  *
  * @author    Esther Brunner <wikidesign@gmail.com>
  */
+
 $meta['noheader']      = array('onoff');
 $meta['firstseconly']  = array('onoff');
 $meta['showtaglogos']  = array('onoff');
@@ -25,7 +27,10 @@ $meta['title']         = array('onoff');
 $meta['pageexists']    = array('onoff');
 $meta['parlink']       = array('onoff');
 $meta['safeindex']     = array('onoff');
-$meta['order']         = array('multichoice', '_choices' => array('id', 'title', 'created', 'modified', 'indexmenu', 'custom'));
+$meta['order']         = array(
+    'multichoice',
+    '_choices' => array('id', 'title', 'created', 'modified', 'indexmenu', 'custom')
+);
 $meta['rsort']         = array('onoff');
 $meta['depth']         = array('numeric', '_min' => 0);
 $meta['readmore']      = array('onoff');
