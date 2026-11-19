@@ -36,17 +36,28 @@ class syntax_plugin_include_locallink extends SyntaxPlugin
     public function render($mode, Doku_Renderer $renderer, $data)
     {
         global $ID;
-        if ($mode != 'xhtml') return false;
+        if ($mode == 'xhtml') {
 
-        /** @var Doku_Renderer_xhtml $renderer */
-        [$hash, $name, $id] = $data;
-        // construct title in the same way it would be done for internal links
-        $default = $renderer->_simpleTitle($id);
-        $name = $renderer->_getLinkTitle($name, $default, $isImage, $id);
-        $title = $ID . ' ↵';
-        $renderer->doc .= '<a href="#' . $hash . '" title="' . $title . '" class="wikilink1">';
-        $renderer->doc .= $name;
-        $renderer->doc .= '</a>';
-        return true;
+            /** @var Doku_Renderer_xhtml $renderer */
+            [$hash, $name, $id] = $data;
+            // construct title in the same way it would be done for internal links
+            $default = $renderer->_simpleTitle($id);
+            $name = $renderer->_getLinkTitle($name, $default, $isImage, $id);
+            $title = $ID . ' ↵';
+            $renderer->doc .= '<a href="#' . $hash . '" title="' . $title . '" class="wikilink1">';
+            $renderer->doc .= $name;
+            $renderer->doc .= '</a>';
+            return true;
+        }
+        if ($mode == 'odt') {
+            list($hash, $name, $id) = $data;
+            // construct title in the same way it would be done for internal links
+            $default = $renderer->_simpleTitle($id);
+            $name    = $renderer->_getLinkTitle($name, $default, $isImage, $id);
+            $title   = $ID;
+			$renderer->internallink($id,$name);
+            return true;
+        }
+        return false;
     }
 }
