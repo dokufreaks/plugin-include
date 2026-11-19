@@ -72,10 +72,14 @@ class syntax_plugin_include_footer extends SyntaxPlugin
             $link = [
                 'url' => $url,
                 'title' => $title,
-                'name' => $name,
+                // _formatLink() outputs the name as HTML: escape the raw section heading (stored XSS otherwise)
+                'name' => $renderer->_xmlEntities($name),
                 'target' => $conf['target']['wiki'],
                 'class' => $class . ' permalink',
-                'more' => 'rel="bookmark"'
+                'more' => 'rel="bookmark"',
+                // _formatLink() concatenates pre and suf unconditionally (PHP 8 warnings otherwise)
+                'pre' => '',
+                'suf' => '',
             ];
             $xhtml[] = $renderer->_formatLink($link);
         }
