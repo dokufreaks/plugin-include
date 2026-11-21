@@ -17,6 +17,11 @@ jQuery(function() {
         .mouseout(function () {
             jQuery('.section_highlight').removeClass('section_highlight');
         });
+    
+});
+
+jQuery(document).ready(function () {
+    jQuery('.btn_incledit').closest('.plugin_include_content').after('<div style="clear:both"></div>');
 });
 
 // vim:ts=4:sw=4:et:
